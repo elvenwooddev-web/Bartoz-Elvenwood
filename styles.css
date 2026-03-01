@@ -5074,6 +5074,38 @@ body.is-loading {
     height: 1.1rem;
   }
 
+  .header-inner {
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .header-logo {
+    position: static;
+    transform: none;
+    height: auto;
+    margin-right: auto;
+    /* Pushes toggle far right */
+  }
+
+  /* Hide the "Instagram" social link on the header to save space */
+  .header-social {
+    display: none;
+  }
+
+  .header-title {
+    /* To push the language toggle to right */
+    order: 2;
+    margin-left: 1rem;
+  }
+
+  /* Keep header visible on mobile scroll */
+  .header.header--hidden {
+    transform: none;
+  }
+
   .preloader-logo--full {
     max-width: 80vw;
     height: auto;
