@@ -5185,6 +5185,10 @@ body.is-loading {
     line-height: 1.6;
   }
 
+  .about-image {
+    aspect-ratio: 4/3;
+  }
+
   .section--services {
     padding: var(--section-padding-y) var(--section-padding-x);
   }
