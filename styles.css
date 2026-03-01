@@ -409,6 +409,8 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  /* Remove Safari tap overlay */
 }
 
 html.lenis,
@@ -1449,7 +1451,7 @@ address {
   left: 0;
   right: 0;
   z-index: var(--z-sticky);
-  padding: 1.75rem 3rem;
+  padding: max(1.75rem, env(safe-area-inset-top) + 0.5rem) 3rem 1.75rem;
   background: transparent;
   backdrop-filter: blur(0px);
   -webkit-backdrop-filter: blur(0px);
@@ -1472,7 +1474,7 @@ address {
   background: rgba(245, 245, 245, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  padding: 1.25rem 3rem;
+  padding: max(1.25rem, env(safe-area-inset-top) + 0.25rem) 3rem 1.25rem;
   box-shadow: var(--shadow-xs);
 }
 
@@ -1680,8 +1682,8 @@ button:hover .arrow-icon {
 
 /* ---------- Hero Section ---------- */
 .section--hero {
-  min-height: 100vh;
   min-height: 100dvh;
+  /* Dynamic Viewport Height for iOS Safari */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2525,7 +2527,7 @@ button:hover .arrow-icon {
 /* ---------- Floating Navigation (Enhanced) ---------- */
 .floating-nav {
   position: fixed;
-  bottom: 2.5rem;
+  bottom: max(2.5rem, env(safe-area-inset-bottom) + 1.5rem);
   left: 50%;
   transform: translateX(-50%) translateY(0);
   z-index: var(--z-fixed);
@@ -2610,7 +2612,7 @@ button:hover .arrow-icon {
 /* ---------- Floating Inquiry Button ---------- */
 .floating-inquiry {
   position: fixed;
-  bottom: 2rem;
+  bottom: max(2rem, env(safe-area-inset-bottom) + 1rem);
   left: 2rem;
   z-index: var(--z-fixed);
   display: flex;
@@ -2891,6 +2893,8 @@ button:hover .arrow-icon {
   display: flex;
   gap: 1.5rem;
   will-change: transform;
+  -webkit-overflow-scrolling: touch;
+  /* Momentum scrolling for iOS */
 }
 
 .types-slide {
@@ -5181,7 +5185,7 @@ body.is-loading {
   }
 
   .floating-nav {
-    bottom: 4rem;
+    bottom: max(4rem, env(safe-area-inset-bottom) + 3rem);
     left: 50%;
     right: auto;
     transform: translateX(-50%);
@@ -5200,7 +5204,7 @@ body.is-loading {
   }
 
   .floating-inquiry {
-    bottom: 1.25rem;
+    bottom: max(1.25rem, env(safe-area-inset-bottom) + 0.5rem);
     left: 50%;
     transform: translateX(-50%);
     padding: 0.8rem 1.1rem;
