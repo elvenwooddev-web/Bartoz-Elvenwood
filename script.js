@@ -488,17 +488,47 @@ function initScrollAnimations() {
     // creating the illusion of being pushed back into a stack
     serviceCards.forEach((card, i) => {
       if (i < serviceCards.length - 1) {
-        gsap.to(card, {
-          scale: 0.92,
-          opacity: 0.5,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 100px',
-            end: 'bottom 100px',
-            scrub: 0.5,
+        // Only apply the complex stacking animation on tablet/desktop.
+        // On mobile, let them scroll naturally to prevent layout breaking.
+        if (window.innerWidth > 768) {
+          gsap.to(card, {
+            scale: 0.92,
+            opacity: 0.5,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 100px',
+              end: 'bottom 100px',
+              scrub: 0.5,
+            }
+          });
+        } else {
+          // On mobile, just a simple fade-up reveal as it enters the viewport
+          gsap.fromTo(card,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+              }
+            }
+          );
+        }
+      } else if (window.innerWidth <= 768) {
+        // Apply simple fade to the last card too if on mobile
+        gsap.fromTo(card,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
           }
-        });
+        );
       }
     });
   }
