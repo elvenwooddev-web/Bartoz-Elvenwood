@@ -1392,6 +1392,8 @@ address {
 .preloader {
   position: fixed;
   inset: 0;
+  height: 100dvh;
+  /* Mobile viewport fix */
   background-color: var(--color-off-white);
   z-index: var(--z-modal-backdrop);
   display: flex;
@@ -5070,6 +5072,11 @@ body.is-loading {
 
   .header-logo-img {
     height: 1.1rem;
+  }
+
+  .preloader-logo--full {
+    max-width: 80vw;
+    height: auto;
   }
 
   .lang-toggle {
