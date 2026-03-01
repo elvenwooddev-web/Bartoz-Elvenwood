@@ -5185,8 +5185,14 @@ body.is-loading {
     line-height: 1.6;
   }
 
+  /* Make factory image full-width on mobile to maximize prominence while keeping 4:1.5 */
   .about-image {
-    aspect-ratio: 4/3;
+    aspect-ratio: 4/1.5;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: -1.25rem;
+    /* Offsets the standard .section--about 1.25rem padding */
+    border-radius: 0;
   }
 
   .section--services {
