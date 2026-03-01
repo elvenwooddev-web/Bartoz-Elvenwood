@@ -5117,7 +5117,8 @@ body.is-loading {
   }
 
   .section--hero {
-    padding: 4.5rem 1.25rem 1.25rem;
+    /* Increased top padding from 4.5rem to 6.5rem to fix header overlap */
+    padding: 6.5rem 1.25rem 1.25rem;
   }
 
   .hero-headline {
