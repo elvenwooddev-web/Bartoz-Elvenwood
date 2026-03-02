@@ -1020,9 +1020,12 @@ function initContextAwareHeader() {
   });
 
   // Track dark sections for color switching
-  const darkSections = document.querySelectorAll('.section--dark, .section--footer, .section--testimonials');
+  const darkSections = document.querySelectorAll('.bg-dark, .section--dark, .section--footer, .section--testimonials');
+  const firstSection = document.querySelector('section');
 
   darkSections.forEach(section => {
+    const isFirstSection = section === firstSection;
+
     ScrollTrigger.create({
       trigger: section,
       start: 'top top+=100',
@@ -1030,7 +1033,12 @@ function initContextAwareHeader() {
       onEnter: () => header.classList.add('header--dark'),
       onLeave: () => header.classList.remove('header--dark'),
       onEnterBack: () => header.classList.add('header--dark'),
-      onLeaveBack: () => header.classList.remove('header--dark'),
+      onLeaveBack: () => {
+        // Prevent rubber-banding glitch at top of page removing dark mode
+        if (!isFirstSection) {
+          header.classList.remove('header--dark');
+        }
+      }
     });
   });
 }

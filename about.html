@@ -71,7 +71,13 @@
 
     <header class="header header--dark" id="header">
         <div class="header-inner">
-            <div class="header-title">
+            <a href="index.html" class="header-logo" aria-label="Elvenwood Interiors Home">
+                <img src="images/logo-full.png" alt="Elvenwood Interiors"
+                    class="header-logo-img header-logo-img--default" width="978" height="276">
+                <img src="images/logo-full-white.webp" alt="Elvenwood Interiors"
+                    class="header-logo-img header-logo-img--white" width="978" height="276">
+            </a>
+            <div class="header-right">
                 <div class="lang-toggle" role="group" aria-label="Language selection">
                     <svg class="lang-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -87,12 +93,6 @@
                         aria-pressed="false">ಕನ್ನಡ</button>
                 </div>
             </div>
-            <a href="index.html" class="header-logo" aria-label="Elvenwood Interiors Home">
-                <img src="images/logo-full.png" alt="Elvenwood Interiors"
-                    class="header-logo-img header-logo-img--default" width="978" height="276">
-                <img src="images/logo-full-white.webp" alt="Elvenwood Interiors"
-                    class="header-logo-img header-logo-img--white" width="978" height="276">
-            </a>
             <a href="https://instagram.com/elvenwoodinteriors" class="header-social" target="_blank"
                 rel="noopener noreferrer" aria-label="Follow us on Instagram (opens in new tab)">Instagram
                 <svg class="arrow-icon"
@@ -113,7 +113,7 @@
         <section class="section section--about-hero" data-section="01-about-hero">
             <img src="images/door-overlay.svg" alt="" class="door-artifact door-artifact--hero door-artifact--animated"
                 aria-hidden="true">
-            <h1 class="about-hero-headline">
+            <h1 class="about-hero-headline" data-i18n="about.hero.headline">
                 <span class="word">Our</span>
                 <span class="word word--italic">Story</span>
                 <span class="word">—</span><br>
@@ -125,9 +125,9 @@
         <!-- ========== SECTION 02: PHILOSOPHY ========== -->
         <section class="section section--about-philosophy" data-section="02-philosophy">
             <div class="about-philosophy-content">
-                <span class="label">Who We Are</span>
+                <span class="label" data-i18n="about.philosophy.label">Who We Are</span>
                 <div class="divider"></div>
-                <h2 class="about-philosophy-headline">
+                <h2 class="about-philosophy-headline" data-i18n="about.philosophy.headline">
                     <span class="word word--italic">Seven</span>
                     <span class="word">people.</span>
                     <span class="word">One</span>
@@ -135,9 +135,11 @@
                 </h2>
                 <span class="kannada-sub">ಏಳು ಜನ. ಒಂದೇ ಮಾತು.</span>
                 <div class="about-philosophy-body">
-                    <p>We're seven people who came together because we'd seen what this industry does to homeowners —
+                    <p data-i18n="about.philosophy.body1">We're seven people who came together because we'd seen what
+                        this industry does to homeowners —
                         missed timelines, vague pricing, work that doesn't match the design.</p>
-                    <p>So we built Elvenwood: one team responsible for everything from the first conversation to the
+                    <p data-i18n="about.philosophy.body2">So we built Elvenwood: one team responsible for everything
+                        from the first conversation to the
                         final walkthrough. No outsourcing, no handoffs to strangers. Every project goes through our
                         people, our factory, and our oversight.</p>
                 </div>
@@ -145,7 +147,8 @@
                     <img src="images/interior_factory.png" alt="The Elvenwood team at our Bommasandra factory"
                         loading="lazy">
                 </div>
-                <p class="about-philosophy-caption">The Elvenwood team at our Bommasandra factory</p>
+                <p class="about-philosophy-caption" data-i18n="about.philosophy.caption">The Elvenwood team at our
+                    Bommasandra factory</p>
             </div>
         </section>
 
@@ -154,7 +157,7 @@
             <img src="images/line-artifact.svg" alt=""
                 class="line-artifact line-artifact--corner line-artifact--top-right" aria-hidden="true">
             <div class="about-principles-header">
-                <span class="label">What Matters To You</span>
+                <span class="label" data-i18n="about.principles.label">What Matters To You</span>
                 <div class="divider"></div>
             </div>
 
@@ -166,10 +169,13 @@
                         <span class="about-principle-num-text about-principle-num-outline">01</span>
                     </div>
                     <div class="about-principle-content">
-                        <h3 class="about-principle-subtitle">(You'll Always Know What's Happening)</h3>
+                        <h3 class="about-principle-subtitle" data-i18n="about.principles.1.subtitle">(You'll Always Know
+                            What's Happening)</h3>
                         <span class="kannada-sub">ಏನಾಗ್ತಿದೆ ಅಂತ ನಿಮಗೆ ಗೊತ್ತಿರುತ್ತೆ</span>
-                        <p class="about-principle-tagline">One person. Direct number. Every milestone.</p>
-                        <p class="about-principle-body">One person handles your project at every stage. You get their
+                        <p class="about-principle-tagline" data-i18n="about.principles.1.tagline">One person. Direct
+                            number. Every milestone.</p>
+                        <p class="about-principle-body" data-i18n="about.principles.1.body">One person handles your
+                            project at every stage. You get their
                             direct number. Updates at every milestone. No chasing, no being passed between departments,
                             no "I'll check and get back to you."</p>
                     </div>
@@ -184,10 +190,13 @@
                         <span class="about-principle-num-text about-principle-num-outline">02</span>
                     </div>
                     <div class="about-principle-content">
-                        <h3 class="about-principle-subtitle">(What You See Is What You Get)</h3>
+                        <h3 class="about-principle-subtitle" data-i18n="about.principles.2.subtitle">(What You See Is
+                            What You Get)</h3>
                         <span class="kannada-sub">ನೋಡಿದ್ದೇ ಸಿಗುತ್ತೆ</span>
-                        <p class="about-principle-tagline">No substitutions. No diluted designs.</p>
-                        <p class="about-principle-body">The 3D render you approve is exactly what appears in your home.
+                        <p class="about-principle-tagline" data-i18n="about.principles.2.tagline">No substitutions. No
+                            diluted designs.</p>
+                        <p class="about-principle-body" data-i18n="about.principles.2.body">The 3D render you approve is
+                            exactly what appears in your home.
                             The price we quote is the price you pay. The materials we show you at the Experience Centre
                             are the materials that go into your kitchen.</p>
                     </div>
@@ -202,10 +211,13 @@
                         <span class="about-principle-num-text about-principle-num-outline">03</span>
                     </div>
                     <div class="about-principle-content">
-                        <h3 class="about-principle-subtitle">(We Finish When We Say We Will)</h3>
+                        <h3 class="about-principle-subtitle" data-i18n="about.principles.3.subtitle">(We Finish When We
+                            Say We Will)</h3>
                         <span class="kannada-sub">ಹೇಳಿದ ಟೈಮ್‌ಗೆ ಮುಗಿಸ್ತೀವಿ</span>
-                        <p class="about-principle-tagline">Date locked. Timeline controlled. No excuses.</p>
-                        <p class="about-principle-body">Your handover date is locked before production begins. Our own
+                        <p class="about-principle-tagline" data-i18n="about.principles.3.tagline">Date locked. Timeline
+                            controlled. No excuses.</p>
+                        <p class="about-principle-body" data-i18n="about.principles.3.body">Your handover date is locked
+                            before production begins. Our own
                             factory, our own machines, our own installation team — we control the entire timeline. No
                             dependency on outside vendors who may or may not show up.</p>
                     </div>
@@ -219,7 +231,7 @@
             <!-- 4A: Customer-facing team -->
             <div class="about-team-section">
                 <div class="about-team-header">
-                    <span class="label">The People You'll Work With</span>
+                    <span class="label" data-i18n="about.team.label.customer">The People You'll Work With</span>
                     <div class="divider"></div>
                 </div>
 
@@ -227,11 +239,13 @@
                     <!-- Center: YOU -->
                     <div class="about-hub-node about-hub-node--center">
                         <div class="about-hub-node-circle about-hub-node-circle--you">
-                            <span>YOU</span>
+                            <span data-i18n="about.team.you.name">YOU</span>
                         </div>
-                        <h4 class="about-hub-node-name">You</h4>
-                        <p class="about-hub-node-tagline">Your vision is our starting point.</p>
-                        <p class="about-hub-node-desc">Just tell us how you live, what frustrates you about your current
+                        <h4 class="about-hub-node-name" data-i18n="about.team.you.name">You</h4>
+                        <p class="about-hub-node-tagline" data-i18n="about.team.you.tagline">Your vision is our starting
+                            point.</p>
+                        <p class="about-hub-node-desc" data-i18n="about.team.you.desc">Just tell us how you live, what
+                            frustrates you about your current
                             space, and what matters most. We'll handle the rest.</p>
                     </div>
 
@@ -247,10 +261,12 @@
                         <div class="about-hub-node-circle">
                             <img src="images/team_kowshik.png" alt="Thyagaraj" loading="lazy">
                         </div>
-                        <h4 class="about-hub-node-name">Thyagaraj</h4>
-                        <span class="about-hub-node-role">Sales</span>
-                        <p class="about-hub-node-tagline">Your first conversation.</p>
-                        <p class="about-hub-node-desc">He listens, asks the right questions, and gives you an honest
+                        <h4 class="about-hub-node-name" data-i18n="about.team.thyagaraj.name">Thyagaraj</h4>
+                        <span class="about-hub-node-role" data-i18n="about.team.thyagaraj.role">Sales</span>
+                        <p class="about-hub-node-tagline" data-i18n="about.team.thyagaraj.tagline">Your first
+                            conversation.</p>
+                        <p class="about-hub-node-desc" data-i18n="about.team.thyagaraj.desc">He listens, asks the right
+                            questions, and gives you an honest
                             sense of what's possible. No hard sell — just a conversation.</p>
                     </div>
 
@@ -259,10 +275,12 @@
                         <div class="about-hub-node-circle">
                             <img src="images/team_kowshik.png" alt="Kowshik" loading="lazy">
                         </div>
-                        <h4 class="about-hub-node-name">Kowshik</h4>
-                        <span class="about-hub-node-role">Design</span>
-                        <p class="about-hub-node-tagline">Your dedicated designer.</p>
-                        <p class="about-hub-node-desc">From first sketch to final 3D render. He learns your family,
+                        <h4 class="about-hub-node-name" data-i18n="about.team.kowshik.name">Kowshik</h4>
+                        <span class="about-hub-node-role" data-i18n="about.team.kowshik.role">Design</span>
+                        <p class="about-hub-node-tagline" data-i18n="about.team.kowshik.tagline">Your dedicated
+                            designer.</p>
+                        <p class="about-hub-node-desc" data-i18n="about.team.kowshik.desc">From first sketch to final 3D
+                            render. He learns your family,
                             your routines, your taste. Nothing moves forward without your approval.</p>
                     </div>
 
@@ -271,10 +289,12 @@
                         <div class="about-hub-node-circle">
                             <img src="images/team_dilip.png" alt="Dilip" loading="lazy">
                         </div>
-                        <h4 class="about-hub-node-name">Dilip</h4>
-                        <span class="about-hub-node-role">Handover</span>
-                        <p class="about-hub-node-tagline">Your handover, done right.</p>
-                        <p class="about-hub-node-desc">Our team in your home — not subcontractors. Dilip stays until
+                        <h4 class="about-hub-node-name" data-i18n="about.team.dilip.name">Dilip</h4>
+                        <span class="about-hub-node-role" data-i18n="about.team.dilip.role">Handover</span>
+                        <p class="about-hub-node-tagline" data-i18n="about.team.dilip.tagline">Your handover, done
+                            right.</p>
+                        <p class="about-hub-node-desc" data-i18n="about.team.dilip.desc">Our team in your home — not
+                            subcontractors. Dilip stays until
                             you walk through every room and say you're happy.</p>
                     </div>
                 </div>
@@ -283,7 +303,8 @@
             <!-- 4B: Behind-the-scenes team -->
             <div class="about-team-section about-team-section--behind">
                 <div class="about-team-header">
-                    <span class="label">The People Making Sure Everything Works</span>
+                    <span class="label" data-i18n="about.team.label.behind">The People Making Sure Everything
+                        Works</span>
                     <div class="divider"></div>
                 </div>
 
@@ -291,11 +312,13 @@
                     <!-- Center: YOUR PROJECT -->
                     <div class="about-hub-node about-hub-node--center">
                         <div class="about-hub-node-circle about-hub-node-circle--project">
-                            <span>YOUR<br>PROJECT</span>
+                            <span data-i18n="about.team.project.circle">YOUR<br>PROJECT</span>
                         </div>
-                        <h4 class="about-hub-node-name">Your Project</h4>
-                        <p class="about-hub-node-tagline">Every detail, handled.</p>
-                        <p class="about-hub-node-desc">From technical drawings to factory production to logistics —
+                        <h4 class="about-hub-node-name" data-i18n="about.team.project.name">Your Project</h4>
+                        <p class="about-hub-node-tagline" data-i18n="about.team.project.tagline">Every detail, handled.
+                        </p>
+                        <p class="about-hub-node-desc" data-i18n="about.team.project.desc">From technical drawings to
+                            factory production to logistics —
                             these are the people working behind the scenes to make sure nothing falls through the
                             cracks.
                         </p>
@@ -314,9 +337,10 @@
                         <div class="about-hub-node-circle">
                             <img src="images/team_karthik.png" alt="Varun" loading="lazy">
                         </div>
-                        <h4 class="about-hub-node-name">Varun</h4>
-                        <span class="about-hub-node-role">Company Direction</span>
-                        <p class="about-hub-node-desc">Sets the direction for the company and coordinates across all
+                        <h4 class="about-hub-node-name" data-i18n="about.team.varun.name">Varun</h4>
+                        <span class="about-hub-node-role" data-i18n="about.team.varun.role">Company Direction</span>
+                        <p class="about-hub-node-desc" data-i18n="about.team.varun.desc">Sets the direction for the
+                            company and coordinates across all
                             departments to keep every project aligned and on track.</p>
                     </div>
 
@@ -325,9 +349,10 @@
                         <div class="about-hub-node-circle">
                             <img src="images/team_kowshik.png" alt="Keerthi" loading="lazy">
                         </div>
-                        <h4 class="about-hub-node-name">Keerthi</h4>
-                        <span class="about-hub-node-role">Technical</span>
-                        <p class="about-hub-node-desc">Every measurement verified twice. What you approve is exactly
+                        <h4 class="about-hub-node-name" data-i18n="about.team.keerthi.name">Keerthi</h4>
+                        <span class="about-hub-node-role" data-i18n="about.team.keerthi.role">Technical</span>
+                        <p class="about-hub-node-desc" data-i18n="about.team.keerthi.desc">Every measurement verified
+                            twice. What you approve is exactly
                             what gets built.</p>
                     </div>
 
@@ -336,9 +361,10 @@
                         <div class="about-hub-node-circle">
                             <img src="images/team_karthik.png" alt="Karthik" loading="lazy">
                         </div>
-                        <h4 class="about-hub-node-name">Karthik</h4>
-                        <span class="about-hub-node-role">Production</span>
-                        <p class="about-hub-node-desc">Runs our 12,000 sq ft factory. Biesse CNC machines, 0.1mm
+                        <h4 class="about-hub-node-name" data-i18n="about.team.karthik.name">Karthik</h4>
+                        <span class="about-hub-node-role" data-i18n="about.team.karthik.role">Production</span>
+                        <p class="about-hub-node-desc" data-i18n="about.team.karthik.desc">Runs our 12,000 sq ft
+                            factory. Biesse CNC machines, 0.1mm
                             precision.</p>
                     </div>
 
@@ -347,9 +373,10 @@
                         <div class="about-hub-node-circle">
                             <img src="images/team_dilip.png" alt="Balu" loading="lazy">
                         </div>
-                        <h4 class="about-hub-node-name">Balu</h4>
-                        <span class="about-hub-node-role">Finance & Operations</span>
-                        <p class="about-hub-node-desc">Manages finance, accounts, HR, and marketing — making sure the
+                        <h4 class="about-hub-node-name" data-i18n="about.team.balu.name">Balu</h4>
+                        <span class="about-hub-node-role" data-i18n="about.team.balu.role">Finance & Operations</span>
+                        <p class="about-hub-node-desc" data-i18n="about.team.balu.desc">Manages finance, accounts, HR,
+                            and marketing — making sure the
                             business runs smoothly so the team can focus on your home.</p>
                     </div>
                 </div>
@@ -365,13 +392,13 @@
 
             <div class="about-note">
                 <div class="about-note-content">
-                    <span class="label">A Note From Varun</span>
-                    <blockquote class="about-note-quote quote-door">
+                    <span class="label" data-i18n="about.note.label">A Note From Varun</span>
+                    <blockquote class="about-note-quote quote-door" data-i18n="about.note.quote">
                         "Everything we've built at Elvenwood — the factory, the processes, the team — exists for one
                         reason: to make sure every home we deliver is exactly what was promised. All seven of us are
                         here because we believe this industry can be better, and we're working every day to prove it."
                     </blockquote>
-                    <p class="about-note-signature">— Varun</p>
+                    <p class="about-note-signature" data-i18n="about.note.signature">— Varun</p>
                     <span class="kannada-sub">ನಿಮ್ಮ ಮನೆ, ನಮ್ಮ ಜವಾಬ್ದಾರಿ.</span>
                 </div>
             </div>
@@ -386,7 +413,7 @@
                     </div>
                 </div>
                 <div class="footer-cta">
-                    <h2 class="footer-headline">
+                    <h2 class="footer-headline" data-i18n="footer.headline">
                         <span class="word">Ready</span>
                         <span class="word">for</span>
                         <span class="word word--italic">your</span>
@@ -395,7 +422,7 @@
                     <span class="kannada-sub">ಶುರು ಮಾಡೋಣ್ವಾ?</span>
                     <a href="https://wa.me/917483226449" class="btn-pill btn-pill--outline magnetic-btn" target="_blank"
                         rel="noopener noreferrer">
-                        <span>WHATSAPP US</span>
+                        <span data-i18n="footer.whatsapp">WHATSAPP US</span>
                         <svg class="arrow-icon"
                             style="width: 0.68rem; height: 0.875rem; display: inline-block; margin-left: 0.2rem;"
                             viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -423,10 +450,10 @@
                     </a>
                 </div>
                 <nav class="footer-nav">
-                    <a href="index.html">Home</a>
-                    <a href="services.html">Services</a>
-                    <a href="work.html">Work</a>
-                    <a href="about.html">About</a>
+                    <a href="index.html" data-i18n="nav.home">Home</a>
+                    <a href="services.html" data-i18n="nav.services">Services</a>
+                    <a href="work.html" data-i18n="nav.work">Work</a>
+                    <a href="about.html" data-i18n="nav.about">About</a>
                 </nav>
             </div>
 
@@ -452,15 +479,16 @@
     </main><!-- End Main Content -->
 
     <nav class="floating-nav" id="floatingNav" aria-label="Main navigation">
-        <a href="index.html" class="floating-nav-link" data-section="home">HOME</a>
-        <a href="services.html" class="floating-nav-link" data-section="services">SERVICES</a>
-        <a href="work.html" class="floating-nav-link" data-section="work">WORK</a>
-        <a href="about.html" class="floating-nav-link active" data-section="about" aria-current="page">ABOUT</a>
+        <a href="index.html" class="floating-nav-link" data-section="home" data-i18n="nav.home">HOME</a>
+        <a href="services.html" class="floating-nav-link" data-section="services" data-i18n="nav.services">SERVICES</a>
+        <a href="work.html" class="floating-nav-link" data-section="work" data-i18n="nav.work">WORK</a>
+        <a href="about.html" class="floating-nav-link active" data-section="about" aria-current="page"
+            data-i18n="nav.about">ABOUT</a>
     </nav>
 
     <a href="https://wa.me/917483226449" class="floating-inquiry magnetic-btn" id="floatingInquiry" target="_blank"
         rel="noopener noreferrer" aria-label="Contact us on WhatsApp (opens in new tab)">
-        <span>WHATSAPP US</span><svg class="arrow-icon"
+        <span data-i18n="floating.whatsapp">WHATSAPP US</span><svg class="arrow-icon"
             style="width: 0.68rem; height: 0.875rem; display: inline-block; margin-left: 0.2rem;" viewBox="0 0 11 14"
             fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 12.0593L7.504 4.60687L1.00002 4.51248V2.5H11V12.5624H9L8.93581 6.04761L1.4318 13.5L0 12.0593Z"

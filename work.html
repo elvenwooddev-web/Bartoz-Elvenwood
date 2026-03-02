@@ -73,7 +73,13 @@
 
     <header class="header header--dark" id="header">
         <div class="header-inner">
-            <div class="header-title">
+            <a href="index.html" class="header-logo" aria-label="Elvenwood Interiors Home">
+                <img src="images/logo-full.png" alt="Elvenwood Interiors"
+                    class="header-logo-img header-logo-img--default" width="978" height="276">
+                <img src="images/logo-full-white.webp" alt="Elvenwood Interiors"
+                    class="header-logo-img header-logo-img--white" width="978" height="276">
+            </a>
+            <div class="header-right">
                 <div class="lang-toggle" role="group" aria-label="Language selection">
                     <svg class="lang-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -89,12 +95,6 @@
                         aria-pressed="false">ಕನ್ನಡ</button>
                 </div>
             </div>
-            <a href="index.html" class="header-logo" aria-label="Elvenwood Interiors Home">
-                <img src="images/logo-full.png" alt="Elvenwood Interiors"
-                    class="header-logo-img header-logo-img--default" width="978" height="276">
-                <img src="images/logo-full-white.webp" alt="Elvenwood Interiors"
-                    class="header-logo-img header-logo-img--white" width="978" height="276">
-            </a>
             <a href="https://instagram.com/elvenwoodinteriors" class="header-social" target="_blank"
                 rel="noopener noreferrer" aria-label="Follow us on Instagram (opens in new tab)">Instagram
                 <svg class="arrow-icon"
@@ -130,10 +130,10 @@
 
             <!-- Filter Tabs -->
             <div class="work-filters">
-                <button class="work-filter active" data-filter="all">All</button>
-                <button class="work-filter" data-filter="kitchen">Kitchens</button>
-                <button class="work-filter" data-filter="wardrobe">Wardrobes</button>
-                <button class="work-filter" data-filter="full-home">Full Home</button>
+                <button class="work-filter active" data-filter="all" data-i18n="work.filter.all">All</button>
+                <button class="work-filter" data-filter="kitchen" data-i18n="work.filter.kitchen">Kitchens</button>
+                <button class="work-filter" data-filter="wardrobe" data-i18n="work.filter.wardrobe">Wardrobes</button>
+                <button class="work-filter" data-filter="full-home" data-i18n="work.filter.fullhome">Full Home</button>
             </div>
         </section>
 
@@ -159,28 +159,28 @@
                 </div>
                 <div class="featured-project-content">
                     <div class="featured-project-tags">
-                        <span class="featured-tag">Full Home</span>
-                        <span class="featured-tag">Electronic City</span>
+                        <span class="featured-tag" data-i18n="work.featured.tag1">Full Home</span>
+                        <span class="featured-tag" data-i18n="work.featured.tag2">Electronic City</span>
                     </div>
-                    <h2 class="featured-project-title">The Krishnan Home</h2>
-                    <blockquote class="featured-project-quote">
+                    <h2 class="featured-project-title" data-i18n="work.featured.title">The Krishnan Home</h2>
+                    <blockquote class="featured-project-quote" data-i18n="work.featured.quote">
                         "Every room feels connected. The living room flows into the dining, the kitchen opens up
                         perfectly. It's exactly what we imagined — but honestly, better."
                     </blockquote>
-                    <p class="featured-project-author">— Meera & Arjun Krishnan</p>
+                    <p class="featured-project-author" data-i18n="work.featured.author">— Meera & Arjun Krishnan</p>
 
                     <div class="featured-project-stats">
                         <div class="featured-stat">
-                            <span class="featured-stat-value">45 days</span>
-                            <span class="featured-stat-label">Timeline</span>
+                            <span class="featured-stat-value" data-i18n="work.featured.stat1.val">45 days</span>
+                            <span class="featured-stat-label" data-i18n="work.featured.stat1.label">Timeline</span>
                         </div>
                         <div class="featured-stat">
-                            <span class="featured-stat-value">3 rooms</span>
-                            <span class="featured-stat-label">Scope</span>
+                            <span class="featured-stat-value" data-i18n="work.featured.stat2.val">3 rooms</span>
+                            <span class="featured-stat-label" data-i18n="work.featured.stat2.label">Scope</span>
                         </div>
                         <div class="featured-stat">
-                            <span class="featured-stat-value">₹18L</span>
-                            <span class="featured-stat-label">Budget</span>
+                            <span class="featured-stat-value" data-i18n="work.featured.stat3.val">₹18L</span>
+                            <span class="featured-stat-label" data-i18n="work.featured.stat3.label">Budget</span>
                         </div>
                     </div>
 
@@ -199,12 +199,12 @@
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type">Kitchen</span>
-                            <span class="project-grid-location">HSR Layout</span>
+                            <span class="project-grid-type" data-i18n="work.grid.1.type">Kitchen</span>
+                            <span class="project-grid-location" data-i18n="work.grid.1.loc">HSR Layout</span>
                         </div>
-                        <h3 class="project-grid-name">The Rajan Kitchen</h3>
+                        <h3 class="project-grid-name" data-i18n="work.grid.1.name">The Rajan Kitchen</h3>
                         <div class="project-grid-details">
-                            <span>28 days</span>
+                            <span data-i18n="work.grid.1.time">28 days</span>
                             <span>₹6L</span>
                         </div>
                     </div>
@@ -216,12 +216,12 @@
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type">Wardrobe</span>
-                            <span class="project-grid-location">Sarjapur</span>
+                            <span class="project-grid-type" data-i18n="work.grid.2.type">Wardrobe</span>
+                            <span class="project-grid-location" data-i18n="work.grid.2.loc">Sarjapur</span>
                         </div>
-                        <h3 class="project-grid-name">The Mehta Wardrobe</h3>
+                        <h3 class="project-grid-name" data-i18n="work.grid.2.name">The Mehta Wardrobe</h3>
                         <div class="project-grid-details">
-                            <span>18 days</span>
+                            <span data-i18n="work.grid.2.time">18 days</span>
                             <span>₹3.5L</span>
                         </div>
                     </div>
@@ -233,12 +233,12 @@
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type">Kitchen</span>
-                            <span class="project-grid-location">Marathahalli</span>
+                            <span class="project-grid-type" data-i18n="work.grid.3.type">Kitchen</span>
+                            <span class="project-grid-location" data-i18n="work.grid.3.loc">Marathahalli</span>
                         </div>
-                        <h3 class="project-grid-name">The Rao Kitchen</h3>
+                        <h3 class="project-grid-name" data-i18n="work.grid.3.name">The Rao Kitchen</h3>
                         <div class="project-grid-details">
-                            <span>30 days</span>
+                            <span data-i18n="work.grid.3.time">30 days</span>
                             <span>₹8L</span>
                         </div>
                     </div>
@@ -250,12 +250,12 @@
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type">Full Home</span>
-                            <span class="project-grid-location">Whitefield</span>
+                            <span class="project-grid-type" data-i18n="work.grid.4.type">Full Home</span>
+                            <span class="project-grid-location" data-i18n="work.grid.4.loc">Whitefield</span>
                         </div>
-                        <h3 class="project-grid-name">The Sharma Home</h3>
+                        <h3 class="project-grid-name" data-i18n="work.grid.4.name">The Sharma Home</h3>
                         <div class="project-grid-details">
-                            <span>32 days</span>
+                            <span data-i18n="work.grid.4.time">32 days</span>
                             <span>₹12L</span>
                         </div>
                     </div>
@@ -267,12 +267,12 @@
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type">Wardrobe</span>
-                            <span class="project-grid-location">Koramangala</span>
+                            <span class="project-grid-type" data-i18n="work.grid.5.type">Wardrobe</span>
+                            <span class="project-grid-location" data-i18n="work.grid.5.loc">Koramangala</span>
                         </div>
-                        <h3 class="project-grid-name">The Patel Bedroom</h3>
+                        <h3 class="project-grid-name" data-i18n="work.grid.5.name">The Patel Bedroom</h3>
                         <div class="project-grid-details">
-                            <span>21 days</span>
+                            <span data-i18n="work.grid.5.time">21 days</span>
                             <span>₹4L</span>
                         </div>
                     </div>
@@ -284,12 +284,12 @@
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type">Kitchen</span>
-                            <span class="project-grid-location">Indiranagar</span>
+                            <span class="project-grid-type" data-i18n="work.grid.6.type">Kitchen</span>
+                            <span class="project-grid-location" data-i18n="work.grid.6.loc">Indiranagar</span>
                         </div>
-                        <h3 class="project-grid-name">The Reddy Kitchen</h3>
+                        <h3 class="project-grid-name" data-i18n="work.grid.6.name">The Reddy Kitchen</h3>
                         <div class="project-grid-details">
-                            <span>25 days</span>
+                            <span data-i18n="work.grid.6.time">25 days</span>
                             <span>₹7L</span>
                         </div>
                     </div>
@@ -301,12 +301,12 @@
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type">Full Home</span>
-                            <span class="project-grid-location">JP Nagar</span>
+                            <span class="project-grid-type" data-i18n="work.grid.7.type">Full Home</span>
+                            <span class="project-grid-location" data-i18n="work.grid.7.loc">JP Nagar</span>
                         </div>
-                        <h3 class="project-grid-name">The Kumar Home</h3>
+                        <h3 class="project-grid-name" data-i18n="work.grid.7.name">The Kumar Home</h3>
                         <div class="project-grid-details">
-                            <span>40 days</span>
+                            <span data-i18n="work.grid.7.time">40 days</span>
                             <span>₹15L</span>
                         </div>
                     </div>
@@ -318,12 +318,12 @@
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type">Wardrobe</span>
-                            <span class="project-grid-location">Bellandur</span>
+                            <span class="project-grid-type" data-i18n="work.grid.8.type">Wardrobe</span>
+                            <span class="project-grid-location" data-i18n="work.grid.8.loc">Bellandur</span>
                         </div>
-                        <h3 class="project-grid-name">The Gupta Wardrobe</h3>
+                        <h3 class="project-grid-name" data-i18n="work.grid.8.name">The Gupta Wardrobe</h3>
                         <div class="project-grid-details">
-                            <span>15 days</span>
+                            <span data-i18n="work.grid.8.time">15 days</span>
                             <span>₹2.5L</span>
                         </div>
                     </div>
@@ -377,10 +377,10 @@
                     </a>
                 </div>
                 <nav class="footer-nav">
-                    <a href="index.html">Home</a>
-                    <a href="services.html">Services</a>
-                    <a href="work.html">Work</a>
-                    <a href="about.html">About</a>
+                    <a href="index.html" data-i18n="nav.home">Home</a>
+                    <a href="services.html" data-i18n="nav.services">Services</a>
+                    <a href="work.html" data-i18n="nav.work">Work</a>
+                    <a href="about.html" data-i18n="nav.about">About</a>
                 </nav>
             </div>
 
@@ -406,15 +406,16 @@
     </main><!-- End Main Content -->
 
     <nav class="floating-nav" id="floatingNav" aria-label="Main navigation">
-        <a href="index.html" class="floating-nav-link" data-section="home">HOME</a>
-        <a href="services.html" class="floating-nav-link" data-section="services">SERVICES</a>
-        <a href="work.html" class="floating-nav-link active" data-section="work" aria-current="page">WORK</a>
-        <a href="about.html" class="floating-nav-link" data-section="about">ABOUT</a>
+        <a href="index.html" class="floating-nav-link" data-section="home" data-i18n="nav.home">HOME</a>
+        <a href="services.html" class="floating-nav-link" data-section="services" data-i18n="nav.services">SERVICES</a>
+        <a href="work.html" class="floating-nav-link active" data-section="work" aria-current="page"
+            data-i18n="nav.work">WORK</a>
+        <a href="about.html" class="floating-nav-link" data-section="about" data-i18n="nav.about">ABOUT</a>
     </nav>
 
     <a href="https://wa.me/917483226449" class="floating-inquiry magnetic-btn" id="floatingInquiry" target="_blank"
         rel="noopener noreferrer" aria-label="Contact us on WhatsApp (opens in new tab)">
-        <span>WHATSAPP US</span><svg class="arrow-icon"
+        <span data-i18n="floating.whatsapp">WHATSAPP US</span><svg class="arrow-icon"
             style="width: 0.68rem; height: 0.875rem; display: inline-block; margin-left: 0.2rem;" viewBox="0 0 11 14"
             fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 12.0593L7.504 4.60687L1.00002 4.51248V2.5H11V12.5624H9L8.93581 6.04761L1.4318 13.5L0 12.0593Z"
