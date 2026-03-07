@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test_puppeteer.js",
     "dev": "npx -y live-server ."
   },
   "keywords": [],

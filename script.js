@@ -4,10 +4,55 @@
    Multi-page support
    ============================================ */
 
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
-if (typeof Draggable !== 'undefined') {
-  gsap.registerPlugin(Draggable);
+function createNoopTween() {
+  return {
+    to: () => createNoopTween(),
+    fromTo: () => createNoopTween(),
+    set: () => createNoopTween(),
+    add: () => createNoopTween(),
+  };
+}
+
+function createGsapFallback() {
+  return {
+    registerPlugin: () => { },
+    timeline: () => createNoopTween(),
+    to: () => createNoopTween(),
+    fromTo: () => createNoopTween(),
+    set: () => createNoopTween(),
+    ticker: {
+      add: () => { },
+      lagSmoothing: () => { },
+    },
+    globalTimeline: {
+      timeScale: () => { },
+    },
+  };
+}
+
+const hasRealGsap = typeof window.gsap !== 'undefined';
+const hasRealScrollTrigger = typeof window.ScrollTrigger !== 'undefined';
+const hasRealLenis = typeof window.Lenis !== 'undefined';
+
+const gsap = window.gsap || createGsapFallback();
+const ScrollTrigger = window.ScrollTrigger || {
+  create: () => ({ kill: () => { } }),
+  update: () => { },
+  refresh: () => { },
+};
+const Draggable = window.Draggable;
+const LenisCtor = window.Lenis;
+
+if (!hasRealGsap || !hasRealScrollTrigger || !hasRealLenis) {
+  console.warn('[animations] One or more animation libraries failed to load. Falling back to safe no-op mode.');
+}
+
+// Register GSAP plugins when available
+if (hasRealGsap && hasRealScrollTrigger) {
+  gsap.registerPlugin(ScrollTrigger);
+  if (typeof Draggable !== 'undefined') {
+    gsap.registerPlugin(Draggable);
+  }
 }
 
 // Detect current page
@@ -24,8 +69,8 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 // ============================================
 let lenis;
 
-if (!prefersReducedMotion) {
-  lenis = new Lenis({
+if (!prefersReducedMotion && hasRealLenis) {
+  lenis = new LenisCtor({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: 'vertical',
@@ -57,7 +102,9 @@ if (!prefersReducedMotion) {
     raf: () => { },
   };
   // Speed up all GSAP animations for reduced motion users
-  gsap.globalTimeline.timeScale(10);
+  if (hasRealGsap) {
+    gsap.globalTimeline.timeScale(10);
+  }
 }
 
 // ============================================
@@ -568,20 +615,6 @@ function initScrollAnimations() {
   });
 
   // --- Footer sections ---
-  if (document.querySelector('.footer-top')) {
-    gsap.to('.footer-top', {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.footer-top',
-        start: 'top 80%',
-        toggleActions: 'play none none none',
-      }
-    });
-  }
-
   if (document.querySelector('.footer-bottom')) {
     gsap.to('.footer-bottom', {
       opacity: 1,
@@ -957,8 +990,10 @@ function setActiveNav(activeId, navLinks) {
 
   navLinks.forEach(link => {
     link.classList.remove('active');
+    link.removeAttribute('aria-current');
     if (link.dataset.section === navSection) {
       link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
     }
   });
 }
@@ -971,6 +1006,12 @@ function initContextAwareHeader() {
   const floatingNav = document.getElementById('floatingNav');
   if (!header) return;
 
+  const shouldLockLightHeader = !isHome;
+  if (shouldLockLightHeader) {
+    header.classList.add('header--light');
+    header.classList.remove('header--dark');
+  }
+
   let lastScrollY = 0;
   let scrollThreshold = 150; // Min scroll before hide/show triggers
   let isNavHidden = false;
@@ -982,6 +1023,7 @@ function initContextAwareHeader() {
     onUpdate: (self) => {
       const currentScrollY = window.scrollY;
       const scrollingDown = self.direction === 1;
+      const isMobileViewport = window.innerWidth <= 768;
 
       // Scrolled state for header
       if (scrollingDown && currentScrollY > 80) {
@@ -992,6 +1034,14 @@ function initContextAwareHeader() {
 
       // Hide/show navigation based on scroll direction
       // Only trigger after scrolling past threshold and with significant movement
+      if (isMobileViewport) {
+        header.classList.remove('header--hidden');
+        if (floatingNav) floatingNav.classList.remove('nav--hidden');
+        isNavHidden = false;
+        lastScrollY = currentScrollY;
+        return;
+      }
+
       if (currentScrollY > scrollThreshold) {
         const scrollDelta = Math.abs(currentScrollY - lastScrollY);
 
@@ -1020,6 +1070,10 @@ function initContextAwareHeader() {
   });
 
   // Track dark sections for color switching
+  if (shouldLockLightHeader) {
+    return;
+  }
+
   const darkSections = document.querySelectorAll('.bg-dark, .section--dark, .section--footer, .section--testimonials');
   const firstSection = document.querySelector('section');
 
@@ -1829,7 +1883,7 @@ function initScrubbedParallax() {
   }
 
   // ===== ALL IMAGES - SCALE INTO VIEW =====
-  document.querySelectorAll('.image-reveal img, .project-card img, .project-grid-card img, .featured-project-main img, .client-story-main-image img').forEach(img => {
+  document.querySelectorAll('.featured-project-main img, .client-story-main-image img').forEach(img => {
     gsap.fromTo(img,
       { scale: 0.85 },
       {
@@ -1897,26 +1951,8 @@ function initScrubbedParallax() {
     );
   });
 
-  // ===== CARDS - STAGGERED VERTICAL MOVEMENT =====
-  document.querySelectorAll('.project-grid').forEach(grid => {
-    const cards = grid.querySelectorAll('.project-grid-card');
-    cards.forEach((card, index) => {
-      const direction = index % 2 === 0 ? 1 : -1;
-      gsap.fromTo(card,
-        { y: 80 * direction },
-        {
-          y: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: grid,
-            start: 'top 90%',
-            end: 'center center',
-            scrub: 1 + (index * 0.1),
-          }
-        }
-      );
-    });
-  });
+  // Project-grid card position animation is intentionally handled in initScrollAnimations()
+  // to avoid conflicting y transforms from two animation systems.
 
   // ===== TESTIMONIALS - SIMPLE FADE IN =====
   const testimonialsList = document.querySelector('.testimonials-list');
@@ -2157,6 +2193,18 @@ function initBlurUpImages() {
 
   if (!blurUpContainers.length) return;
 
+  const scheduleScrollTriggerRefresh = (() => {
+    let rafId = null;
+    return () => {
+      if (typeof ScrollTrigger === 'undefined' || typeof ScrollTrigger.refresh !== 'function') return;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        ScrollTrigger.refresh();
+      });
+    };
+  })();
+
   const observerOptions = {
     root: null,
     rootMargin: '50px',
@@ -2178,9 +2226,11 @@ function initBlurUpImages() {
           // Handle load event
           if (img.complete) {
             container.classList.add('loaded');
+            scheduleScrollTriggerRefresh();
           } else {
             img.addEventListener('load', () => {
               container.classList.add('loaded');
+              scheduleScrollTriggerRefresh();
             }, { once: true });
           }
         }
@@ -2208,6 +2258,7 @@ function initBlurUpImages() {
 
         img.addEventListener('load', () => {
           img.classList.add('loaded');
+          scheduleScrollTriggerRefresh();
         }, { once: true });
 
         observer.unobserve(img);
