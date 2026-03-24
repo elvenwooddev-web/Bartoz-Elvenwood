@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us — Our Factory, Team & Story | Elvenwood Interiors</title>
     <meta name="description"
-        content="Meet the Elvenwood team in Bommasandra, Bangalore — our 12,000 sq ft factory with Italian CNC machines. Serving Electronic City, HSR Layout, Sarjapur & South Bangalore. Visit our Experience Centre.">
+        content="Meet the Elvenwood team in Bommasandra, Bangalore — our 17,400 sq ft factory with Italian CNC machines. Serving Electronic City, HSR Layout, Sarjapur & South Bangalore. Visit our Experience Centre.">
 
     <!-- Favicons & App Icons -->
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
@@ -40,7 +40,7 @@
       "@context": "https://schema.org",
       "@type": "HomeAndConstructionBusiness",
       "name": "Elvenwood Interiors",
-      "description": "Our 12,000 sq ft factory in Bommasandra with Italian CNC machines. Premium modular kitchens and home interiors.",
+      "description": "Our 17,400 sq ft factory in Bommasandra with Italian CNC machines. Premium modular kitchens and home interiors.",
       "url": "https://elvenwoodinteriors.com/about",
       "telephone": "+91-7483226449",
       "address": {
@@ -363,7 +363,7 @@
                         </div>
                         <h4 class="about-hub-node-name" data-i18n="about.team.karthik.name">Karthik</h4>
                         <span class="about-hub-node-role" data-i18n="about.team.karthik.role">Production</span>
-                        <p class="about-hub-node-desc" data-i18n="about.team.karthik.desc">Runs our 12,000 sq ft
+                        <p class="about-hub-node-desc" data-i18n="about.team.karthik.desc">Runs our 17,400 sq ft
                             factory. Biesse CNC machines, 0.1mm
                             precision.</p>
                     </div>
@@ -380,6 +380,42 @@
                             business runs smoothly so the team can focus on your home.</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION: FACTORY VIDEO TOUR ========== -->
+        <section class="section section--factory-tour" data-section="factory-tour">
+            <div class="factory-tour-header">
+                <span class="label">Our Factory</span>
+                <div class="divider"></div>
+            </div>
+            <h2 class="factory-tour-statement">
+                <span class="word">See</span>
+                <span class="word">where</span>
+                <span class="word word--italic">your</span>
+                <span class="word word--italic">home</span>
+                <span class="word">is</span>
+                <span class="word">built.</span>
+            </h2>
+            <div class="factory-video-wrap" id="factoryVideo">
+                <video
+                    id="factoryVideoPlayer"
+                    poster="images/factory1.jpg"
+                    preload="none"
+                    playsinline
+                    controls
+                    controlsList="nodownload"
+                >
+                    <source src="videos/factory_tour.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+                <button class="factory-video-play" id="factoryPlayBtn" aria-label="Play factory tour video">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 5.14v13.72a1 1 0 001.5.86l11.04-6.86a1 1 0 000-1.72L9.5 4.28a1 1 0 00-1.5.86z" fill="currentColor"/>
+                    </svg>
+                    <span class="factory-video-play-title">17,400 sq ft. Our Machines. Our People.</span>
+                    <span class="factory-video-play-sub">Watch the full factory tour · 2:19</span>
+                </button>
             </div>
         </section>
 
@@ -406,34 +442,6 @@
 
         <!-- ========== SECTION: FOOTER ========== -->
         <section class="section section--footer" id="contact" data-section="footer">
-            <div class="footer-top">
-                <div class="footer-image">
-                    <div class="image-reveal">
-                        <img src="images/bangalore-team-footer.webp" alt="Meet the Elvenwood team" loading="lazy">
-                    </div>
-                </div>
-                <div class="footer-cta">
-                    <h2 class="footer-headline" data-i18n="footer.headline">
-                        <span class="word">Ready</span>
-                        <span class="word">for</span>
-                        <span class="word word--italic">your</span>
-                        <span class="word word--italic">project?</span>
-                    </h2>
-                    <span class="kannada-sub">ಶುರು ಮಾಡೋಣ್ವಾ?</span>
-                    <a href="https://wa.me/917483226449" class="btn-pill btn-pill--outline magnetic-btn" target="_blank"
-                        rel="noopener noreferrer">
-                        <span data-i18n="footer.whatsapp">WHATSAPP US</span>
-                        <svg class="arrow-icon"
-                            style="width: 0.68rem; height: 0.875rem; display: inline-block; margin-left: 0.2rem;"
-                            viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M0 12.0593L7.504 4.60687L1.00002 4.51248V2.5H11V12.5624H9L8.93581 6.04761L1.4318 13.5L0 12.0593Z"
-                                fill="currentColor"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
             <div class="divider"></div>
 
             <div class="footer-bottom">
@@ -486,7 +494,7 @@
             data-i18n="nav.about">ABOUT</a>
     </nav>
 
-    <a href="https://wa.me/917483226449" class="floating-inquiry magnetic-btn" id="floatingInquiry" target="_blank"
+    <a href="https://wa.me/917483226449?text=Hi%20Elvenwood!%20%F0%9F%91%8B%20I'm%20interested%20in%20a%20consultation%20for%20my%20home%20interiors.%20Could%20we%20schedule%20a%20time%20to%20discuss%20my%20project%3F" class="floating-inquiry magnetic-btn" id="floatingInquiry" target="_blank"
         rel="noopener noreferrer" aria-label="Contact us on WhatsApp (opens in new tab)">
         <span data-i18n="floating.whatsapp">WHATSAPP US</span><svg class="arrow-icon"
             style="width: 0.68rem; height: 0.875rem; display: inline-block; margin-left: 0.2rem;" viewBox="0 0 11 14"

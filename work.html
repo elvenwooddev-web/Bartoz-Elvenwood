@@ -137,50 +137,62 @@
             </div>
         </section>
 
-        <!-- ========== SECTION 02: FEATURED PROJECT - Krishnan Home showcase with testimonial ========== -->
+        <!-- ========== SECTION 02: FEATURED PROJECT - Parvathamma & Lingareddy Home ========== -->
         <section class="section section--featured-project bg-dark" data-section="02-featured-project">
             <div class="featured-project-inner">
                 <div class="featured-project-images">
-                    <div class="featured-project-main image-reveal image-door-frame image-arch-frame">
-                        <img src="images/interior_living.png" alt="The Krishnan Home" loading="lazy">
-                        <img src="images/line-artifact.svg" alt="" class="line-artifact line-artifact--image-overlay"
-                            aria-hidden="true">
+                    <div class="featured-project-main image-reveal image-door-frame image-arch-frame" data-gallery-index="3" data-gallery="varun-home" style="cursor:pointer">
+                        <img src="images/varun_home_04.webp" alt="Parvathamma & Lingareddy Home — Living Area" loading="lazy">
                     </div>
-                    <div class="featured-project-thumbs">
-                        <div class="featured-thumb"><img src="images/interior_kitchen.png" alt="Kitchen" loading="lazy">
+                    <div class="featured-project-thumbs" data-gallery="varun-home">
+                        <div class="featured-thumb" data-gallery-index="3"><img src="images/varun_home_04.webp" alt="Kitchen" loading="lazy"></div>
+                        <div class="featured-thumb" data-gallery-index="6"><img src="images/varun_home_07.webp" alt="Pooja Room" loading="lazy"></div>
+                        <div class="featured-thumb" data-gallery-index="8"><img src="images/varun_home_09.webp" alt="Wardrobe" loading="lazy"></div>
+                        <div class="featured-thumb featured-thumb--more" data-gallery-index="0">
+                            <img src="images/varun_home_01.webp" alt="Interior" loading="lazy">
+                            <span class="featured-thumb-count">+12 Photos</span>
                         </div>
-                        <div class="featured-thumb"><img src="images/interior_bedroom.png" alt="Bedroom" loading="lazy">
-                        </div>
-                        <div class="featured-thumb"><img src="images/interior_dining.png" alt="Dining" loading="lazy">
-                        </div>
-                        <div class="featured-thumb"><img src="images/interior_bathroom.png" alt="Bathroom"
-                                loading="lazy"></div>
+                    </div>
+
+                    <!-- Hidden gallery data for lightbox -->
+                    <div class="gallery-data" id="galleryVarunHome" hidden>
+                        <img data-src="images/varun_home_01.webp" alt="Interior View 1">
+                        <img data-src="images/varun_home_02.webp" alt="Interior View 2">
+                        <img data-src="images/varun_home_03.webp" alt="Interior View 3">
+                        <img data-src="images/varun_home_04.webp" alt="Kitchen">
+                        <img data-src="images/varun_home_05.webp" alt="Interior View 5">
+                        <img data-src="images/varun_home_06.webp" alt="Interior View 6">
+                        <img data-src="images/varun_home_07.webp" alt="Pooja Room">
+                        <img data-src="images/varun_home_08.webp" alt="Interior View 8">
+                        <img data-src="images/varun_home_09.webp" alt="Wardrobe">
+                        <img data-src="images/varun_home_10.webp" alt="Living Room">
+                        <img data-src="images/varun_home_11.webp" alt="TV Unit">
+                        <img data-src="images/varun_home_12.webp" alt="Interior View 12">
                     </div>
                 </div>
                 <div class="featured-project-content">
                     <div class="featured-project-tags">
-                        <span class="featured-tag" data-i18n="work.featured.tag1">Full Home</span>
-                        <span class="featured-tag" data-i18n="work.featured.tag2">Electronic City</span>
+                        <span class="featured-tag">Full Home</span>
+                        <span class="featured-tag">SVS's Silver Oaks, Heelalige</span>
                     </div>
-                    <h2 class="featured-project-title" data-i18n="work.featured.title">The Krishnan Home</h2>
-                    <blockquote class="featured-project-quote" data-i18n="work.featured.quote">
-                        "Every room feels connected. The living room flows into the dining, the kitchen opens up
-                        perfectly. It's exactly what we imagined — but honestly, better."
+                    <h2 class="featured-project-title">The Parvathamma &amp; Lingareddy Home</h2>
+                    <blockquote class="featured-project-quote">
+                        "From kitchen to pooja room, every detail was exactly as promised. The team delivered our entire villa interiors on time and on budget."
                     </blockquote>
-                    <p class="featured-project-author" data-i18n="work.featured.author">— Meera & Arjun Krishnan</p>
+                    <p class="featured-project-author">— Parvathamma &amp; Linga Reddy</p>
 
                     <div class="featured-project-stats">
                         <div class="featured-stat">
-                            <span class="featured-stat-value" data-i18n="work.featured.stat1.val">45 days</span>
-                            <span class="featured-stat-label" data-i18n="work.featured.stat1.label">Timeline</span>
+                            <span class="featured-stat-value">60 days</span>
+                            <span class="featured-stat-label">Timeline</span>
                         </div>
                         <div class="featured-stat">
-                            <span class="featured-stat-value" data-i18n="work.featured.stat2.val">3 rooms</span>
-                            <span class="featured-stat-label" data-i18n="work.featured.stat2.label">Scope</span>
+                            <span class="featured-stat-value">Full Villa</span>
+                            <span class="featured-stat-label">Scope</span>
                         </div>
                         <div class="featured-stat">
-                            <span class="featured-stat-value" data-i18n="work.featured.stat3.val">₹18L</span>
-                            <span class="featured-stat-label" data-i18n="work.featured.stat3.label">Budget</span>
+                            <span class="featured-stat-value">On Budget</span>
+                            <span class="featured-stat-label">Delivery</span>
                         </div>
                     </div>
 
@@ -193,174 +205,46 @@
             <img src="images/line-artifact-terracotta.svg" alt=""
                 class="line-artifact line-artifact--corner line-artifact--bottom-left" aria-hidden="true">
             <div class="project-grid project-grid--editorial">
-                <div class="project-grid-card project-grid-card--large" data-type="kitchen" data-cursor="view">
+                <div class="project-grid-card project-grid-card--large" data-type="tv-unit" data-cursor="view">
                     <div class="project-grid-image image-door-frame">
-                        <img src="images/interior_kitchen.png" alt="Rajan Kitchen" loading="lazy">
+                        <img src="images/Model Villa TV unit.webp" alt="Sreenivas Reddy Home — TV Unit" loading="lazy">
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type" data-i18n="work.grid.1.type">Kitchen</span>
-                            <span class="project-grid-location" data-i18n="work.grid.1.loc">HSR Layout</span>
+                            <span class="project-grid-type">TV Unit</span>
+                            <span class="project-grid-location">SVS's Silver Oaks, Heelalige</span>
                         </div>
-                        <h3 class="project-grid-name" data-i18n="work.grid.1.name">The Rajan Kitchen</h3>
+                        <h3 class="project-grid-name">Mr. Sreenivas Reddy Home</h3>
                         <div class="project-grid-details">
-                            <span data-i18n="work.grid.1.time">28 days</span>
-                            <span>₹6L</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-grid-card project-grid-card--large" data-type="wardrobe" data-cursor="view">
-                    <div class="project-grid-image image-door-frame">
-                        <img src="images/service_wardrobe.png" alt="Mehta Wardrobe" loading="lazy">
-                    </div>
-                    <div class="project-grid-info">
-                        <div class="project-grid-meta">
-                            <span class="project-grid-type" data-i18n="work.grid.2.type">Wardrobe</span>
-                            <span class="project-grid-location" data-i18n="work.grid.2.loc">Sarjapur</span>
-                        </div>
-                        <h3 class="project-grid-name" data-i18n="work.grid.2.name">The Mehta Wardrobe</h3>
-                        <div class="project-grid-details">
-                            <span data-i18n="work.grid.2.time">18 days</span>
-                            <span>₹3.5L</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-grid-card" data-type="kitchen" data-cursor="view">
-                    <div class="project-grid-image image-door-frame">
-                        <img src="images/service_kitchen.png" alt="Rao Kitchen" loading="lazy">
-                    </div>
-                    <div class="project-grid-info">
-                        <div class="project-grid-meta">
-                            <span class="project-grid-type" data-i18n="work.grid.3.type">Kitchen</span>
-                            <span class="project-grid-location" data-i18n="work.grid.3.loc">Marathahalli</span>
-                        </div>
-                        <h3 class="project-grid-name" data-i18n="work.grid.3.name">The Rao Kitchen</h3>
-                        <div class="project-grid-details">
-                            <span data-i18n="work.grid.3.time">30 days</span>
-                            <span>₹8L</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-grid-card" data-type="full-home" data-cursor="view">
-                    <div class="project-grid-image image-door-frame">
-                        <img src="images/interior_hero.png" alt="Sharma Home" loading="lazy">
-                    </div>
-                    <div class="project-grid-info">
-                        <div class="project-grid-meta">
-                            <span class="project-grid-type" data-i18n="work.grid.4.type">Full Home</span>
-                            <span class="project-grid-location" data-i18n="work.grid.4.loc">Whitefield</span>
-                        </div>
-                        <h3 class="project-grid-name" data-i18n="work.grid.4.name">The Sharma Home</h3>
-                        <div class="project-grid-details">
-                            <span data-i18n="work.grid.4.time">32 days</span>
+                            <span>45 days</span>
                             <span>₹12L</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="project-grid-card" data-type="wardrobe" data-cursor="view">
+                <div class="project-grid-card project-grid-card--large" data-type="kitchen" data-cursor="view">
                     <div class="project-grid-image image-door-frame">
-                        <img src="images/service_wardrobe.png" alt="Patel Wardrobe" loading="lazy">
+                        <img src="images/Vishwanath Villa.webp" alt="Vishwanath Reddy Kitchen — Abode 99" loading="lazy">
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
-                            <span class="project-grid-type" data-i18n="work.grid.5.type">Wardrobe</span>
-                            <span class="project-grid-location" data-i18n="work.grid.5.loc">Koramangala</span>
+                            <span class="project-grid-type">Kitchen</span>
+                            <span class="project-grid-location">Abode 99, Ramasagara</span>
                         </div>
-                        <h3 class="project-grid-name" data-i18n="work.grid.5.name">The Patel Bedroom</h3>
+                        <h3 class="project-grid-name">Mr. Vishwanath Reddy Kitchen</h3>
                         <div class="project-grid-details">
-                            <span data-i18n="work.grid.5.time">21 days</span>
-                            <span>₹4L</span>
+                            <span>30 days</span>
+                            <span>₹13L</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="project-grid-card" data-type="kitchen" data-cursor="view">
-                    <div class="project-grid-image image-door-frame">
-                        <img src="images/interior_kitchen.png" alt="Reddy Kitchen" loading="lazy">
-                    </div>
-                    <div class="project-grid-info">
-                        <div class="project-grid-meta">
-                            <span class="project-grid-type" data-i18n="work.grid.6.type">Kitchen</span>
-                            <span class="project-grid-location" data-i18n="work.grid.6.loc">Indiranagar</span>
-                        </div>
-                        <h3 class="project-grid-name" data-i18n="work.grid.6.name">The Reddy Kitchen</h3>
-                        <div class="project-grid-details">
-                            <span data-i18n="work.grid.6.time">25 days</span>
-                            <span>₹7L</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-grid-card" data-type="full-home" data-cursor="view">
-                    <div class="project-grid-image image-door-frame">
-                        <img src="images/interior_living.png" alt="Kumar Home" loading="lazy">
-                    </div>
-                    <div class="project-grid-info">
-                        <div class="project-grid-meta">
-                            <span class="project-grid-type" data-i18n="work.grid.7.type">Full Home</span>
-                            <span class="project-grid-location" data-i18n="work.grid.7.loc">JP Nagar</span>
-                        </div>
-                        <h3 class="project-grid-name" data-i18n="work.grid.7.name">The Kumar Home</h3>
-                        <div class="project-grid-details">
-                            <span data-i18n="work.grid.7.time">40 days</span>
-                            <span>₹15L</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-grid-card" data-type="wardrobe" data-cursor="view">
-                    <div class="project-grid-image image-door-frame">
-                        <img src="images/service_wardrobe.png" alt="Gupta Wardrobe" loading="lazy">
-                    </div>
-                    <div class="project-grid-info">
-                        <div class="project-grid-meta">
-                            <span class="project-grid-type" data-i18n="work.grid.8.type">Wardrobe</span>
-                            <span class="project-grid-location" data-i18n="work.grid.8.loc">Bellandur</span>
-                        </div>
-                        <h3 class="project-grid-name" data-i18n="work.grid.8.name">The Gupta Wardrobe</h3>
-                        <div class="project-grid-details">
-                            <span data-i18n="work.grid.8.time">15 days</span>
-                            <span>₹2.5L</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- More projects to be added -->
             </div>
         </section>
 
         <!-- ========== SECTION: FOOTER ========== -->
         <section class="section section--footer" id="contact" data-section="footer">
-            <div class="footer-top">
-                <div class="footer-image">
-                    <div class="image-reveal">
-                        <img src="images/bangalore-team-footer.webp" alt="Meet the Elvenwood team" loading="lazy">
-                    </div>
-                </div>
-                <div class="footer-cta">
-                    <h2 class="footer-headline">
-                        <span class="word">Ready</span>
-                        <span class="word">for</span>
-                        <span class="word word--italic">your</span>
-                        <span class="word word--italic">project?</span>
-                    </h2>
-                    <span class="kannada-sub">ಶುರು ಮಾಡೋಣ್ವಾ?</span>
-                    <a href="https://wa.me/917483226449" class="btn-pill btn-pill--outline magnetic-btn" target="_blank"
-                        rel="noopener noreferrer">
-                        <span>WHATSAPP US</span>
-                        <svg class="arrow-icon"
-                            style="width: 0.68rem; height: 0.875rem; display: inline-block; margin-left: 0.2rem;"
-                            viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M0 12.0593L7.504 4.60687L1.00002 4.51248V2.5H11V12.5624H9L8.93581 6.04761L1.4318 13.5L0 12.0593Z"
-                                fill="currentColor"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
             <div class="divider"></div>
 
             <div class="footer-bottom">
@@ -413,7 +297,7 @@
         <a href="about.html" class="floating-nav-link" data-section="about" data-i18n="nav.about">ABOUT</a>
     </nav>
 
-    <a href="https://wa.me/917483226449" class="floating-inquiry magnetic-btn" id="floatingInquiry" target="_blank"
+    <a href="https://wa.me/917483226449?text=Hi%20Elvenwood!%20%F0%9F%91%8B%20I'm%20interested%20in%20a%20consultation%20for%20my%20home%20interiors.%20Could%20we%20schedule%20a%20time%20to%20discuss%20my%20project%3F" class="floating-inquiry magnetic-btn" id="floatingInquiry" target="_blank"
         rel="noopener noreferrer" aria-label="Contact us on WhatsApp (opens in new tab)">
         <span data-i18n="floating.whatsapp">WHATSAPP US</span><svg class="arrow-icon"
             style="width: 0.68rem; height: 0.875rem; display: inline-block; margin-left: 0.2rem;" viewBox="0 0 11 14"
@@ -433,6 +317,22 @@
     <script defer src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <script defer src="i18n.js"></script>
     <script defer src="script.js"></script>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" hidden>
+        <div class="lightbox-backdrop"></div>
+        <button class="lightbox-close" aria-label="Close gallery">&times;</button>
+        <button class="lightbox-prev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="lightbox-next" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div class="lightbox-content">
+            <img class="lightbox-img" src="" alt="">
+        </div>
+        <div class="lightbox-counter"></div>
+    </div>
 </body>
 
 </html>

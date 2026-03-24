@@ -363,7 +363,7 @@ function initScrollAnimations() {
   // Skip complex animations if reduced motion is preferred
   if (prefersReducedMotion) {
     // Just show everything immediately
-    document.querySelectorAll('.word, .project-card, .service-item, .service-card, .testimonial, .about-bio, .footer-top, .footer-bottom, .see-more, .image-reveal img').forEach(el => {
+    document.querySelectorAll('.word, .project-card, .service-item, .service-card, .about-bio, .footer-top, .footer-bottom, .see-more, .image-reveal img').forEach(el => {
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
@@ -444,23 +444,7 @@ function initScrollAnimations() {
     );
   }
 
-  // --- Project image parallax ---
-  document.querySelectorAll('.project-image-wrap img, .see-more-image img').forEach(img => {
-    gsap.fromTo(img,
-      { yPercent: -8, scale: 1.15 },
-      {
-        yPercent: 8,
-        scale: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: img.closest('.project-card') || img.closest('.see-more-image'),
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        }
-      }
-    );
-  });
+  // --- Project images: no parallax scrub (removed for performance) ---
 
   // --- See More section fade in ---
   if (document.querySelector('.see-more')) {
@@ -532,25 +516,26 @@ function initScrollAnimations() {
 
     // Animate each card except the last one:
     // As you scroll past it, it scales down and dims slightly,
-    // creating the illusion of being pushed back into a stack
+    // creating the illusion of being pushed back into a stack.
+    // Use the NEXT card as the trigger so the animation only begins
+    // when the next card starts entering, not while reading this card.
     serviceCards.forEach((card, i) => {
       if (i < serviceCards.length - 1) {
-        // Only apply the complex stacking animation on tablet/desktop.
-        // On mobile, let them scroll naturally to prevent layout breaking.
         if (window.innerWidth > 768) {
+          const nextCard = serviceCards[i + 1];
           gsap.to(card, {
-            scale: 0.92,
-            opacity: 0.5,
-            ease: 'none',
+            scale: 0.95,
+            opacity: 0.6,
+            ease: 'power1.in',
             scrollTrigger: {
-              trigger: card,
-              start: 'top 100px',
-              end: 'bottom 100px',
-              scrub: 0.5,
+              trigger: nextCard,
+              start: 'top bottom',
+              end: 'top 120px',
+              scrub: 0.3,
             }
           });
         } else {
-          // On mobile, just a simple fade-up reveal as it enters the viewport
+          // On mobile, simple fade-up reveal
           gsap.fromTo(card,
             { opacity: 0, y: 30 },
             {
@@ -564,7 +549,6 @@ function initScrollAnimations() {
           );
         }
       } else if (window.innerWidth <= 768) {
-        // Apply simple fade to the last card too if on mobile
         gsap.fromTo(card,
           { opacity: 0, y: 30 },
           {
@@ -597,22 +581,7 @@ function initScrollAnimations() {
     });
   });
 
-  // --- Image reveals (simple scale animation) ---
-  document.querySelectorAll('.image-reveal img').forEach(img => {
-    gsap.fromTo(img,
-      { scale: 1.08 },
-      {
-        scale: 1,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: img.closest('.image-reveal'),
-          start: 'top 92%',
-          toggleActions: 'play none none none',
-        }
-      }
-    );
-  });
+  // Image reveals handled by initClipPathReveals() — no duplicate here
 
   // --- Footer sections ---
   if (document.querySelector('.footer-bottom')) {
@@ -831,15 +800,14 @@ function initBackgroundTransitions() {
       el.style.borderBottomColor = 'var(--color-border-light)';
     });
     if (floatingNav) {
-      floatingNav.style.background = 'rgba(245, 245, 245, 0.85)';
-      floatingNav.style.borderColor = 'rgba(45, 43, 44, 0.1)';
+      floatingNav.classList.add('nav--light');
+      floatingNav.classList.remove('nav--dark');
+      floatingNav.style.background = '';
+      floatingNav.style.borderColor = '';
+      document.querySelectorAll('.floating-nav-link').forEach(link => {
+        link.style.color = '';
+      });
     }
-    document.querySelectorAll('.floating-nav-link').forEach(link => {
-      link.style.color = 'var(--color-text-dark)';
-    });
-    document.querySelectorAll('.floating-nav-link.active').forEach(link => {
-      link.style.color = 'var(--color-dark)';
-    });
     if (scrollBtn) {
       scrollBtn.style.borderColor = 'var(--color-border-light)';
       scrollBtn.style.color = 'var(--color-text-dark)';
@@ -855,15 +823,14 @@ function initBackgroundTransitions() {
       el.style.borderBottomColor = 'var(--color-border-dark)';
     });
     if (floatingNav) {
-      floatingNav.style.background = 'rgba(132, 62, 64, 0.85)';
-      floatingNav.style.borderColor = 'rgba(255, 221, 215, 0.1)';
+      floatingNav.classList.add('nav--dark');
+      floatingNav.classList.remove('nav--light');
+      floatingNav.style.background = '';
+      floatingNav.style.borderColor = '';
+      document.querySelectorAll('.floating-nav-link').forEach(link => {
+        link.style.color = '';
+      });
     }
-    document.querySelectorAll('.floating-nav-link').forEach(link => {
-      link.style.color = 'var(--color-lime)';
-    });
-    document.querySelectorAll('.floating-nav-link.active').forEach(link => {
-      link.style.color = 'var(--color-dark)';
-    });
     if (scrollBtn) {
       scrollBtn.style.borderColor = 'var(--color-border-dark)';
       scrollBtn.style.color = 'var(--color-lime)';
@@ -943,24 +910,8 @@ function initFloatingNav() {
   // Nav links already point to separate pages (index.html, services.html, etc.)
   // No click override needed — they navigate naturally
 
-  // For home page: track scroll sections for active state
-  if (isHome) {
-    const navLinks = document.querySelectorAll('.floating-nav-link');
-    const sectionIds = ['home', 'work', 'about', 'services', 'types', 'testimonials', 'process', 'contact'];
-
-    sectionIds.forEach(sectionId => {
-      const section = document.getElementById(sectionId);
-      if (!section) return;
-
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top center',
-        end: 'bottom center',
-        onEnter: () => setActiveNav(sectionId, navLinks),
-        onEnterBack: () => setActiveNav(sectionId, navLinks),
-      });
-    });
-  }
+  // Nav active state is set by the HTML based on current page
+  // No scroll-based switching needed — these are page links, not section anchors
 
   // Header logo goes to home page
   document.querySelector('.header-logo')?.addEventListener('click', (e) => {
@@ -1084,13 +1035,22 @@ function initContextAwareHeader() {
       trigger: section,
       start: 'top top+=100',
       end: 'bottom top+=100',
-      onEnter: () => header.classList.add('header--dark'),
-      onLeave: () => header.classList.remove('header--dark'),
-      onEnterBack: () => header.classList.add('header--dark'),
+      onEnter: () => {
+        header.classList.add('header--dark');
+        if (floatingNav) { floatingNav.classList.add('nav--dark'); floatingNav.classList.remove('nav--light'); }
+      },
+      onLeave: () => {
+        header.classList.remove('header--dark');
+        if (floatingNav) { floatingNav.classList.remove('nav--dark'); floatingNav.classList.add('nav--light'); }
+      },
+      onEnterBack: () => {
+        header.classList.add('header--dark');
+        if (floatingNav) { floatingNav.classList.add('nav--dark'); floatingNav.classList.remove('nav--light'); }
+      },
       onLeaveBack: () => {
-        // Prevent rubber-banding glitch at top of page removing dark mode
         if (!isFirstSection) {
           header.classList.remove('header--dark');
+          if (floatingNav) { floatingNav.classList.remove('nav--dark'); floatingNav.classList.add('nav--light'); }
         }
       }
     });
@@ -1798,16 +1758,13 @@ function initClipPathReveals() {
     const img = container.querySelector('img');
     if (!img) return;
 
+    // Simple fade — no clip-path or scale to avoid scroll jank
     gsap.fromTo(img,
+      { opacity: 0 },
       {
-        clipPath: 'inset(100% 0 0 0)',
-        scale: 1.1,
-      },
-      {
-        clipPath: 'inset(0% 0 0 0)',
-        scale: 1,
-        duration: 1.2,
-        ease: 'power3.out',
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: container,
           start: 'top 85%',
@@ -1829,123 +1786,22 @@ function initClipPathReveals() {
 function initScrubbedParallax() {
   if (prefersReducedMotion) return;
 
-  // ===== HERO PARALLAX LAYERS =====
-  const heroSection = document.querySelector('.section--hero');
-  if (heroSection) {
-    // Hero image - moves up slowly, scales slightly
-    const heroImg = heroSection.querySelector('.hero-image-preview img, .hero-image-container img');
-    if (heroImg) {
-      gsap.to(heroImg, {
-        yPercent: -25,
-        scale: 1.1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroSection,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.5,
-        }
-      });
-    }
+  // ===== HERO PARALLAX - REMOVED FOR PERFORMANCE =====
+  // Scrub animations on hero images/artifacts/content removed to eliminate scroll jank
 
-    // Door artifact - moves opposite direction, rotates
-    const doorArtifact = heroSection.querySelector('.door-artifact');
-    if (doorArtifact) {
-      gsap.to(doorArtifact, {
-        yPercent: 40,
-        rotation: 8,
-        scale: 1.1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroSection,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 2,
-        }
-      });
-    }
-
-    // Hero content - fades and moves up faster
-    const heroContent = heroSection.querySelector('.hero-content');
-    if (heroContent) {
-      gsap.to(heroContent, {
-        yPercent: -30,
-        opacity: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroSection,
-          start: 'top top',
-          end: '60% top',
-          scrub: 1,
-        }
-      });
-    }
-  }
-
-  // ===== ALL IMAGES - SCALE INTO VIEW =====
-  document.querySelectorAll('.featured-project-main img, .client-story-main-image img').forEach(img => {
-    gsap.fromTo(img,
-      { scale: 0.85 },
-      {
-        scale: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: img,
-          start: 'top 95%',
-          end: 'top 30%',
-          scrub: 1,
-        }
-      }
-    );
-  });
-
-  // ===== SECTION CONTENT PARALLAX =====
-  document.querySelectorAll('.section:not(.section--hero):not(.section--footer)').forEach(section => {
-    const content = section.querySelector('.section-inner, .client-story-content, .offer-content, .types-content');
-    if (content) {
-      gsap.fromTo(content,
-        { y: 60 },
-        {
-          y: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 90%',
-            end: 'top 30%',
-            scrub: 1.2,
-          }
-        }
-      );
-    }
-  });
-
-  // ===== LINE ARTIFACTS - SUBTLE MOVEMENT =====
-  document.querySelectorAll('.line-artifact').forEach((artifact, index) => {
-    gsap.to(artifact, {
-      yPercent: 15 + (index * 5),
-      rotation: 3,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: artifact,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 2,
-      }
-    });
-  });
-
-  // ===== FEATURED SECTIONS - SCALE EFFECT =====
+  // ===== FEATURED SECTIONS - SIMPLE FADE IN (no scrub) =====
   document.querySelectorAll('.featured-project-inner, .client-story-images').forEach(el => {
     gsap.fromTo(el,
-      { scale: 0.92 },
+      { opacity: 0, y: 30 },
       {
-        scale: 1,
-        ease: 'none',
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 90%',
-          end: 'top 20%',
-          scrub: 1.5,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
         }
       }
     );
@@ -1955,62 +1811,26 @@ function initScrubbedParallax() {
   // to avoid conflicting y transforms from two animation systems.
 
   // ===== TESTIMONIALS - SIMPLE FADE IN =====
-  const testimonialsList = document.querySelector('.testimonials-list');
-  if (testimonialsList) {
-    gsap.fromTo('.testimonial',
-      { opacity: 0, y: 30 },
+  // Testimonials: no GSAP animation — clean static display
+
+  // ===== STAT COUNTERS & FOOTER - REMOVED SCRUB FOR PERFORMANCE =====
+  // Simple triggered fade instead
+  document.querySelectorAll('.featured-stat, .stat').forEach(stat => {
+    gsap.fromTo(stat,
+      { opacity: 0, y: 15 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.8,
-        stagger: 0.2,
+        duration: 0.5,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: testimonialsList,
-          start: 'top 80%',
+          trigger: stat,
+          start: 'top 85%',
           toggleActions: 'play none none none',
         }
       }
     );
-  }
-
-  // ===== STAT COUNTERS - SCALE POP =====
-  // Note: .stat-item is handled by initClientStoryAnimation() to avoid conflicts
-  document.querySelectorAll('.featured-stat, .stat').forEach(stat => {
-    gsap.fromTo(stat,
-      { scale: 0.8, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: stat,
-          start: 'top 85%',
-          end: 'top 60%',
-          scrub: 0.8,
-        }
-      }
-    );
   });
-
-  // ===== FOOTER - REVEAL FROM BOTTOM =====
-  const footer = document.querySelector('.section--footer');
-  if (footer) {
-    gsap.fromTo(footer.querySelector('.footer-top'),
-      { y: 80, opacity: 0.3 },
-      {
-        y: 0,
-        opacity: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: footer,
-          start: 'top 95%',
-          end: 'top 40%',
-          scrub: 1.2,
-        }
-      }
-    );
-  }
 }
 
 // ============================================
@@ -2379,7 +2199,33 @@ function initEnhancedCursor() {
 }
 
 // ============================================
-// FACTORY SLIDER LOGIC
+// FACTORY VIDEO LOGIC
+// ============================================
+function initFactoryVideo() {
+  const wrap = document.getElementById('factoryVideo');
+  const video = document.getElementById('factoryVideoPlayer');
+  const playBtn = document.getElementById('factoryPlayBtn');
+
+  if (!wrap || !video || !playBtn) return;
+
+  playBtn.addEventListener('click', () => {
+    wrap.classList.add('is-playing');
+    video.play();
+  });
+
+  video.addEventListener('pause', () => {
+    if (video.ended) {
+      wrap.classList.remove('is-playing');
+    }
+  });
+
+  video.addEventListener('ended', () => {
+    wrap.classList.remove('is-playing');
+  });
+}
+
+// ============================================
+// FACTORY SLIDER LOGIC (legacy)
 // ============================================
 function initFactorySlider() {
   const track = document.getElementById('factorySliderTrack');
@@ -2422,6 +2268,91 @@ function initFactorySlider() {
 }
 
 // ============================================
+// LIGHTBOX GALLERY
+// ============================================
+function initLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+
+  const img = lightbox.querySelector('.lightbox-img');
+  const counter = lightbox.querySelector('.lightbox-counter');
+  const closeBtn = lightbox.querySelector('.lightbox-close');
+  const prevBtn = lightbox.querySelector('.lightbox-prev');
+  const nextBtn = lightbox.querySelector('.lightbox-next');
+  const backdrop = lightbox.querySelector('.lightbox-backdrop');
+
+  let images = [];
+  let currentIndex = 0;
+
+  function open(galleryId, startIndex) {
+    const dataEl = document.getElementById(galleryId);
+    if (!dataEl) return;
+
+    images = Array.from(dataEl.querySelectorAll('img')).map(i => ({
+      src: i.dataset.src,
+      alt: i.alt
+    }));
+
+    currentIndex = startIndex || 0;
+    show();
+    lightbox.hidden = false;
+    requestAnimationFrame(() => lightbox.classList.add('is-open'));
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('is-open');
+    setTimeout(() => {
+      lightbox.hidden = true;
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  function show() {
+    if (!images[currentIndex]) return;
+    img.style.opacity = '0';
+    img.src = images[currentIndex].src;
+    img.alt = images[currentIndex].alt;
+    img.onload = () => { img.style.opacity = '1'; };
+    counter.textContent = `${currentIndex + 1} / ${images.length}`;
+  }
+
+  function next() {
+    currentIndex = (currentIndex + 1) % images.length;
+    show();
+  }
+
+  function prev() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    show();
+  }
+
+  closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  nextBtn.addEventListener('click', next);
+  prevBtn.addEventListener('click', prev);
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+
+  // Click handlers on gallery items
+  document.querySelectorAll('[data-gallery]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const galleryName = el.dataset.gallery;
+      const index = parseInt(el.dataset.galleryIndex || '0');
+      // Map gallery name to element ID
+      const idMap = { 'varun-home': 'galleryVarunHome' };
+      const galleryId = idMap[galleryName];
+      if (galleryId) open(galleryId, index);
+    });
+  });
+}
+
+// ============================================
 // INITIALIZE EVERYTHING
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -2432,6 +2363,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initContextAwareHeader();
   initScrollButton();
   initFactorySlider();
+  initFactoryVideo();
+  initLightbox();
   // initServicesImageSwap(); // Disabled: using single static image for How We Work section
   initDraggableCarousels();
   initScrollProgress();
