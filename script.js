@@ -169,7 +169,7 @@ function initPreloader() {
 // ============================================
 function initCursor() {
   const cursor = document.getElementById('cursor');
-  if (!cursor || window.innerWidth < 768 || prefersReducedMotion) return;
+  if (!cursor || window.innerWidth < 768 || prefersReducedMotion || 'ontouchstart' in window) return;
 
   let mouseX = 0, mouseY = 0;
   let cursorX = 0, cursorY = 0;
@@ -374,9 +374,10 @@ function initScrollAnimations() {
     '.see-more-headline', '.about-statement', '.footer-headline',
     '.offer-statement', '.types-statement',
     '.about-hero-headline', '.about-philosophy-headline',
-    '.services-hero-headline', '.work-gallery-headline',
+    '.services-hero-headline', '.work-hero-headline',
     '.promises-statement', '.render-reality-statement', '.education-statement',
-    '.ec-invitation-headline', '.faq-statement', '.team-journey-statement', '.leadership-statement'
+    '.ec-invitation-headline', '.faq-statement', '.team-journey-statement', '.leadership-statement',
+    '.ec-hero-headline', '.ec-visit-headline', '.work-cta-headline'
   ];
 
   staggers.forEach(selector => {
@@ -1268,8 +1269,16 @@ function initDraggableTrack(trackSelector, prevBtnSelector, nextBtnSelector, cou
     document.removeEventListener('mouseup', handleMouseUp);
   }
 
+  // Prevent native image drag from stealing events
+  track.querySelectorAll('img').forEach(img => {
+    img.setAttribute('draggable', 'false');
+  });
+  track.parentElement.style.userSelect = 'none';
+  track.parentElement.style.cursor = 'grab';
+
   // Mouse drag
   track.parentElement.addEventListener('mousedown', (e) => {
+    e.preventDefault(); // prevent native drag
     stopMomentum();
     isDragging = true;
     startX = e.clientX;
@@ -1357,6 +1366,35 @@ function initDraggableTrack(trackSelector, prevBtnSelector, nextBtnSelector, cou
       updateCounter();
     });
   }
+
+  // Wheel-to-horizontal-scroll: intercept vertical scroll over carousel
+  track.parentElement.addEventListener('wheel', (e) => {
+    // Only intercept if there's room to scroll in the wheel direction
+    const atStart = currentOffset >= 0;
+    const atEnd = currentOffset <= maxScroll;
+    const scrollingRight = e.deltaY > 0;
+    const scrollingLeft = e.deltaY < 0;
+
+    // Let page scroll if we've hit the carousel boundary
+    if ((atEnd && scrollingRight) || (atStart && scrollingLeft)) return;
+
+    e.preventDefault();
+    stopMomentum();
+
+    const scrollAmount = e.deltaY * 1.5;
+    currentOffset -= scrollAmount;
+    currentOffset = Math.max(maxScroll, Math.min(0, currentOffset));
+
+    gsap.to(track, {
+      x: currentOffset,
+      duration: 0.4,
+      ease: 'power2.out',
+      onComplete: () => {
+        currentIndex = Math.round(Math.abs(currentOffset) / slideWidth);
+        updateCounter();
+      }
+    });
+  }, { passive: false });
 
   function updateCounter() {
     if (!counterSelector) return;
@@ -2096,7 +2134,7 @@ function initBlurUpImages() {
 // ============================================
 function initEnhancedCursor() {
   const cursor = document.getElementById('cursor');
-  if (!cursor || window.innerWidth < 768 || prefersReducedMotion) return;
+  if (!cursor || window.innerWidth < 768 || prefersReducedMotion || 'ontouchstart' in window) return;
 
   const cursorLabel = cursor.querySelector('.cursor-label');
   let rotation = 0;
@@ -2210,6 +2248,7 @@ function initFactoryVideo() {
 
   playBtn.addEventListener('click', () => {
     wrap.classList.add('is-playing');
+    video.controls = true;
     video.play();
   });
 
@@ -2221,6 +2260,7 @@ function initFactoryVideo() {
 
   video.addEventListener('ended', () => {
     wrap.classList.remove('is-playing');
+    video.controls = false;
   });
 }
 
@@ -2350,6 +2390,22 @@ function initLightbox() {
       if (galleryId) open(galleryId, index);
     });
   });
+
+  // Click handlers for data-lightbox cards (JSON array of image URLs)
+  document.querySelectorAll('[data-lightbox]').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+      try {
+        const srcs = JSON.parse(card.dataset.lightbox);
+        images = srcs.map(src => ({ src, alt: card.querySelector('h3')?.textContent || '' }));
+        currentIndex = 0;
+        show();
+        lightbox.hidden = false;
+        requestAnimationFrame(() => lightbox.classList.add('is-open'));
+        document.body.style.overflow = 'hidden';
+      } catch (e) { /* invalid JSON */ }
+    });
+  });
 }
 
 // ============================================
@@ -2477,3 +2533,168 @@ function generatePlaceholders() {
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
   document.addEventListener('DOMContentLoaded', generatePlaceholders);
 }
+
+// ============================================
+// Mobile Nav Toggle (Hamburger)
+// ============================================
+(function () {
+  const navToggle = document.getElementById('navToggle');
+  const floatingNav = document.getElementById('floatingNav');
+  if (!navToggle || !floatingNav) return;
+
+  // Create backdrop
+  const backdrop = document.createElement('div');
+  backdrop.className = 'nav-backdrop';
+  document.body.appendChild(backdrop);
+
+  const HAMBURGER = '<line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line>';
+  const CLOSE = '<line x1="6" y1="6" x2="18" y2="18"></line><line x1="6" y1="18" x2="18" y2="6"></line>';
+
+  function openNav() {
+    floatingNav.classList.add('nav--open');
+    backdrop.classList.add('nav-backdrop--visible');
+    navToggle.setAttribute('aria-label', 'Close navigation menu');
+    navToggle.querySelector('svg').innerHTML = CLOSE;
+  }
+
+  function closeNav() {
+    floatingNav.classList.remove('nav--open');
+    backdrop.classList.remove('nav-backdrop--visible');
+    navToggle.setAttribute('aria-label', 'Open navigation menu');
+    navToggle.querySelector('svg').innerHTML = HAMBURGER;
+  }
+
+  navToggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    floatingNav.classList.contains('nav--open') ? closeNav() : openNav();
+  });
+
+  floatingNav.querySelectorAll('.floating-nav-link').forEach(function (link) {
+    link.addEventListener('click', closeNav);
+  });
+
+  backdrop.addEventListener('click', closeNav);
+})();
+
+// ============================================
+// Experience Centre — Callback Form → WhatsApp + Supabase
+// ============================================
+(function () {
+  const form = document.getElementById('ecVisitForm');
+  if (!form) return;
+
+  const EDGE_FN_URL = 'https://rtymxwthwwmbxkzgqqrc.supabase.co/functions/v1/send-callback-email';
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('ec-name').value.trim();
+    const email = document.getElementById('ec-email').value.trim();
+    const phone = document.getElementById('ec-phone').value.trim();
+    const looking = document.getElementById('ec-looking').value.trim();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+
+    // 1. Send to Supabase edge function (fire & forget — don't block WhatsApp)
+    fetch(EDGE_FN_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, phone: phone || null, looking_for: looking || null })
+    }).catch(() => {}); // silent fail — WhatsApp is primary channel
+
+    // 2. Open WhatsApp with pre-filled message
+    let msg = `Hi Elvenwood! 👋\n\nI'd like a callback.\n\nName: ${name}\nEmail: ${email}`;
+    if (phone) msg += `\nPhone: ${phone}`;
+    if (looking) msg += `\nLooking for: ${looking}`;
+
+    window.open(`https://wa.me/917483226449?text=${encodeURIComponent(msg)}`, '_blank');
+
+    // 3. Show success feedback
+    submitBtn.innerHTML = '<span>✓ WE\'LL CALL YOU BACK</span>';
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.7';
+    form.reset();
+
+    // Reset button after 5 seconds
+    setTimeout(() => {
+      submitBtn.innerHTML = originalHTML;
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '';
+    }, 5000);
+  });
+})();
+
+// ============================================
+// EC Video Hover-Play
+// ============================================
+// ============================================
+// Project Video Card: hover-play + click lightbox
+// ============================================
+document.querySelectorAll('.project-video-card').forEach(card => {
+  const hoverVideo = card.querySelector('.project-hover-video');
+  const videoSrc = card.dataset.videoLightbox;
+  if (!hoverVideo) return;
+
+  // Hover play
+  card.addEventListener('mouseenter', () => { hoverVideo.play().catch(() => {}); });
+  card.addEventListener('mouseleave', () => { hoverVideo.pause(); hoverVideo.currentTime = 0; });
+
+  // Touch toggle
+  let touchPlaying = false;
+  card.addEventListener('touchstart', () => {
+    if (!touchPlaying) { hoverVideo.play().catch(() => {}); touchPlaying = true; }
+    else { hoverVideo.pause(); hoverVideo.currentTime = 0; touchPlaying = false; }
+  }, { passive: true });
+
+  // Click: open video lightbox
+  if (videoSrc) {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return; // don't intercept links
+      const vl = document.getElementById('videoLightbox');
+      if (!vl) return;
+      const player = vl.querySelector('.video-lightbox-player');
+      player.src = videoSrc;
+      vl.hidden = false;
+      requestAnimationFrame(() => vl.classList.add('is-open'));
+      player.play().catch(() => {});
+      document.body.style.overflow = 'hidden';
+
+      // Close handlers
+      const closeBtn = vl.querySelector('.lightbox-close');
+      const backdrop = vl.querySelector('.lightbox-backdrop');
+      function closeVL() {
+        vl.classList.remove('is-open');
+        player.pause();
+        setTimeout(() => { vl.hidden = true; player.src = ''; document.body.style.overflow = ''; }, 300);
+      }
+      closeBtn.onclick = closeVL;
+      backdrop.onclick = closeVL;
+      const escHandler = (ev) => { if (ev.key === 'Escape') { closeVL(); document.removeEventListener('keydown', escHandler); } };
+      document.addEventListener('keydown', escHandler);
+    });
+  }
+});
+
+// ============================================
+// EC Video Hover-Play
+// ============================================
+document.querySelectorAll('.ec-video-item video').forEach(video => {
+  const item = video.closest('.ec-video-item, .project-video-card');
+  item.addEventListener('mouseenter', () => {
+    video.play().catch(() => {});
+  });
+  item.addEventListener('mouseleave', () => {
+    video.pause();
+    video.currentTime = 0;
+  });
+  // Touch: tap to toggle
+  item.addEventListener('touchstart', () => {
+    if (video.paused) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }, { passive: true });
+});
