@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "/Users/balun/.nvm/versions/node/v25.2.1/bin/node",
+      "runtimeArgs": ["/Users/balun/.nvm/versions/node/v25.2.1/bin/npx", "-y", "live-server", "."],
+      "port": 8080
+    }
+  ]
+}
