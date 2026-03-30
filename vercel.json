@@ -1,4 +1,11 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/b2b", "destination": "/services", "permanent": true },
+    { "source": "/services/modular-kitchens", "destination": "/modular-kitchen-cost-bangalore", "permanent": true },
+    { "source": "/services/wardrobes", "destination": "/services", "permanent": true },
+    { "source": "/blog/modern-kitchen-design-trends", "destination": "/modular-kitchen-cost-bangalore", "permanent": true },
+    { "source": "/quote", "destination": "/experience-centre", "permanent": false }
+  ]
 }
