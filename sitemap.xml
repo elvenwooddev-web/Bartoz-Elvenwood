@@ -70,4 +70,83 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Area Landing Pages -->
+  <url>
+    <loc>https://www.elvenwood.in/interior-designers-electronic-city</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/service_kitchen.webp</image:loc>
+      <image:title>Interior Designers in Electronic City - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.elvenwood.in/interior-designers-chandapura</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/service_kitchen.webp</image:loc>
+      <image:title>Interior Designers in Chandapura - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.elvenwood.in/interior-designers-bommasandra</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/factory1.webp</image:loc>
+      <image:title>Interior Designers in Bommasandra - Elvenwood Factory</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.elvenwood.in/interior-designers-sarjapur-road</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/service_wardrobe.webp</image:loc>
+      <image:title>Interior Designers on Sarjapur Road - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.elvenwood.in/interior-designers-hsr-layout</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/complete_interiors.webp</image:loc>
+      <image:title>Interior Designers in HSR Layout - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
+  <!-- Pricing Guide Pages -->
+  <url>
+    <loc>https://www.elvenwood.in/modular-kitchen-cost-bangalore</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/interior_kitchen.webp</image:loc>
+      <image:title>Modular Kitchen Cost in Bangalore - Elvenwood Price Guide</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.elvenwood.in/interior-design-cost-bangalore</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/service_home.webp</image:loc>
+      <image:title>Interior Design Cost in Bangalore - Elvenwood Price Guide</image:title>
+    </image:image>
+  </url>
+
 </urlset>
