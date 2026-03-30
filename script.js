@@ -2698,3 +2698,266 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
     }
   }, { passive: true });
 });
+
+// ============================================
+// STICKY CTA BAR (Area + Pricing Pages)
+// Shows after scrolling past hero section
+// ============================================
+(function() {
+  var stickyBar = document.getElementById('stickyCta');
+  if (!stickyBar) return;
+
+  var showThreshold = 600; // pixels scrolled before showing
+  var isVisible = false;
+  var footer = document.querySelector('.section--footer');
+
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY;
+    var shouldShow = scrollY > showThreshold;
+
+    // Hide when near footer to avoid overlap
+    if (footer) {
+      var footerTop = footer.getBoundingClientRect().top;
+      if (footerTop < window.innerHeight + 100) shouldShow = false;
+    }
+
+    if (shouldShow && !isVisible) {
+      stickyBar.classList.add('is-visible');
+      isVisible = true;
+    } else if (!shouldShow && isVisible) {
+      stickyBar.classList.remove('is-visible');
+      isVisible = false;
+    }
+  }, { passive: true });
+})();
+
+// ============================================
+// ANALYTICS EVENT TRACKING
+// Pushes events to dataLayer for GTM → GA4
+// ============================================
+(function() {
+  'use strict';
+
+  // Helper: push event to dataLayer
+  function trackEvent(eventName, params) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: eventName,
+      ...params
+    });
+  }
+
+  // Helper: get current page name from URL
+  function getPageName() {
+    const path = window.location.pathname.replace(/\/$/, '') || '/';
+    const names = {
+      '/': 'homepage',
+      '/services': 'services',
+      '/work': 'portfolio',
+      '/about': 'about',
+      '/experience-centre': 'experience_centre',
+      '/our-story': 'our_story',
+      '/interior-designers-electronic-city': 'area_electronic_city',
+      '/interior-designers-chandapura': 'area_chandapura',
+      '/interior-designers-bommasandra': 'area_bommasandra',
+      '/interior-designers-sarjapur-road': 'area_sarjapur_road',
+      '/interior-designers-hsr-layout': 'area_hsr_layout',
+      '/modular-kitchen-cost-bangalore': 'pricing_kitchen',
+      '/interior-design-cost-bangalore': 'pricing_interior'
+    };
+    return names[path] || path;
+  }
+
+  // ---- 1. WHATSAPP CLICK TRACKING ----
+  // Track all WhatsApp link clicks (wa.me links)
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href*="wa.me"]');
+    if (!link) return;
+
+    // Determine click location
+    let location = 'unknown';
+    if (link.classList.contains('floating-inquiry')) location = 'floating_button';
+    else if (link.closest('.hero-ctas')) location = 'hero_cta';
+    else if (link.closest('.see-more-text')) location = 'talk_to_designer';
+    else if (link.closest('.ec-invitation-buttons')) location = 'experience_centre_section';
+    else if (link.closest('.service-detail-content')) location = 'service_detail';
+    else if (link.closest('.service-card-center')) location = 'service_card';
+    else if (link.closest('.brand-cta-content')) location = 'brand_cta';
+    else if (link.closest('.ec-visit-form')) location = 'callback_form_redirect';
+    else if (link.closest('.section--footer')) location = 'footer';
+    else location = 'page_body';
+
+    trackEvent('whatsapp_click', {
+      event_category: 'lead_generation',
+      event_label: location,
+      page_name: getPageName(),
+      link_url: link.href
+    });
+  });
+
+  // ---- 2. PHONE CALL TRACKING ----
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href^="tel:"]');
+    if (!link) return;
+
+    trackEvent('phone_call_click', {
+      event_category: 'lead_generation',
+      event_label: link.href.replace('tel:', ''),
+      page_name: getPageName()
+    });
+  });
+
+  // ---- 3. EMAIL CLICK TRACKING ----
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href^="mailto:"]');
+    if (!link) return;
+
+    trackEvent('email_click', {
+      event_category: 'lead_generation',
+      event_label: link.href.replace('mailto:', ''),
+      page_name: getPageName()
+    });
+  });
+
+  // ---- 4. CALLBACK FORM SUBMISSION TRACKING ----
+  var ecForm = document.getElementById('ecVisitForm');
+  if (ecForm) {
+    ecForm.addEventListener('submit', function() {
+      var looking = document.getElementById('ec-looking');
+      trackEvent('callback_form_submit', {
+        event_category: 'lead_generation',
+        event_label: looking ? looking.value : 'not_specified',
+        page_name: getPageName()
+      });
+    });
+  }
+
+  // ---- 5. CTA BUTTON CLICK TRACKING ----
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.btn-pill');
+    if (!btn) return;
+    // Skip WhatsApp/tel/mailto (already tracked above)
+    var href = btn.getAttribute('href') || '';
+    if (href.indexOf('wa.me') !== -1 || href.indexOf('tel:') === 0 || href.indexOf('mailto:') === 0) return;
+
+    var btnText = (btn.querySelector('span') || btn).textContent.trim();
+    trackEvent('cta_click', {
+      event_category: 'engagement',
+      event_label: btnText,
+      page_name: getPageName(),
+      link_url: href
+    });
+  });
+
+  // ---- 6. GOOGLE MAPS / DIRECTIONS CLICK TRACKING ----
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href*="maps.app.goo.gl"], a[href*="google.com/maps"]');
+    if (!link) return;
+
+    trackEvent('directions_click', {
+      event_category: 'lead_generation',
+      event_label: 'google_maps',
+      page_name: getPageName()
+    });
+  });
+
+  // ---- 7. SCROLL DEPTH TRACKING ----
+  var scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
+  var scrollThrottled = false;
+  window.addEventListener('scroll', function() {
+    if (scrollThrottled) return;
+    scrollThrottled = true;
+    setTimeout(function() { scrollThrottled = false; }, 500);
+
+    var scrollPct = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+    for (var milestone in scrollMilestones) {
+      if (!scrollMilestones[milestone] && scrollPct >= parseInt(milestone)) {
+        scrollMilestones[milestone] = true;
+        trackEvent('scroll_depth', {
+          event_category: 'engagement',
+          event_label: milestone + '_percent',
+          page_name: getPageName(),
+          scroll_percentage: parseInt(milestone)
+        });
+      }
+    }
+  }, { passive: true });
+
+  // ---- 8. TIME ON PAGE TRACKING ----
+  var timeIntervals = [30, 60, 120, 300]; // seconds
+  timeIntervals.forEach(function(seconds) {
+    setTimeout(function() {
+      trackEvent('time_on_page', {
+        event_category: 'engagement',
+        event_label: seconds + '_seconds',
+        page_name: getPageName(),
+        time_seconds: seconds
+      });
+    }, seconds * 1000);
+  });
+
+  // ---- 9. FAQ INTERACTION TRACKING ----
+  document.addEventListener('click', function(e) {
+    var faqItem = e.target.closest('.faq-item');
+    if (!faqItem) return;
+    var question = faqItem.querySelector('.faq-question');
+    if (!question) return;
+
+    trackEvent('faq_click', {
+      event_category: 'engagement',
+      event_label: question.textContent.trim().substring(0, 80),
+      page_name: getPageName()
+    });
+  });
+
+  // ---- 10. AREA PAGE / PRICING PAGE NAVIGATION TRACKING ----
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href*="interior-designers-"], a[href*="-cost-bangalore"]');
+    if (!link) return;
+
+    var href = link.getAttribute('href') || '';
+    trackEvent('area_page_click', {
+      event_category: 'navigation',
+      event_label: href.replace('.html', '').replace('interior-designers-', '').replace('-cost-bangalore', '_cost'),
+      page_name: getPageName(),
+      link_url: href
+    });
+  });
+
+  // ---- 11. INSTAGRAM LINK TRACKING ----
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href*="instagram.com"]');
+    if (!link) return;
+
+    trackEvent('social_click', {
+      event_category: 'engagement',
+      event_label: 'instagram',
+      page_name: getPageName()
+    });
+  });
+
+  // ---- 12. PROJECT/PORTFOLIO IMAGE CLICK TRACKING ----
+  document.addEventListener('click', function(e) {
+    var card = e.target.closest('.project-card, .project-grid-card');
+    if (!card) return;
+
+    var name = card.querySelector('.project-grid-name');
+    trackEvent('project_view', {
+      event_category: 'engagement',
+      event_label: name ? name.textContent.trim() : 'project_image',
+      page_name: getPageName()
+    });
+  });
+
+  // ---- 13. PAGE VIEW ENHANCED (with page type) ----
+  trackEvent('enhanced_page_view', {
+    event_category: 'pageview',
+    page_name: getPageName(),
+    page_type: getPageName().startsWith('area_') ? 'area_landing' :
+               getPageName().startsWith('pricing_') ? 'pricing_guide' :
+               'core_page',
+    page_url: window.location.href,
+    referrer: document.referrer || 'direct'
+  });
+
+})();
