@@ -2625,6 +2625,64 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 })();
 
 // ============================================
+// Website Lead Form → Supabase + WhatsApp Redirect
+// ============================================
+(function () {
+  const form = document.getElementById('leadForm');
+  if (!form) return;
+
+  const SUPABASE_URL = 'https://rtymxwthwwmbxkzgqqrc.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0eW14d3Rod3dtYnhremdxcXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMDAxNDEsImV4cCI6MjA4OTU3NjE0MX0.2oVVPhnO12aqQK62aDS3kdeX_-y77DftR6GWr0Lvo_4';
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var name = form.querySelector('[name="lead-name"]').value.trim();
+    var phone = form.querySelector('[name="lead-phone"]').value.trim();
+    var requirement = form.querySelector('[name="lead-requirement"]').value.trim();
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var originalHTML = submitBtn.innerHTML;
+
+    if (!name || !phone) return;
+
+    // 1. Save to Supabase (fire & forget — don't block WhatsApp)
+    fetch(SUPABASE_URL + '/rest/v1/website_leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        requirement: requirement || null,
+        page_source: document.title
+      })
+    }).catch(function () {}); // silent fail — WhatsApp is primary
+
+    // 2. Open WhatsApp with pre-filled message
+    var msg = 'Hi Elvenwood! 👋\n\nI\'d like a free estimate.\n\nName: ' + name + '\nPhone: ' + phone;
+    if (requirement) msg += '\nLooking for: ' + requirement;
+
+    window.open('https://wa.me/917483226449?text=' + encodeURIComponent(msg), '_blank');
+
+    // 3. Show success feedback
+    submitBtn.innerHTML = '<span>✓ SENT — CHECK WHATSAPP</span>';
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.7';
+    form.reset();
+
+    setTimeout(function () {
+      submitBtn.innerHTML = originalHTML;
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '';
+    }, 5000);
+  });
+})();
+
+// ============================================
 // EC Video Hover-Play
 // ============================================
 // ============================================
