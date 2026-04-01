@@ -8,11 +8,10 @@ Allow: /
 Sitemap: https://www.elvenwood.in/sitemap.xml
 
 # Disallow development/test files
-Disallow: /debug_*.html
-Disallow: /hitoba_*.html
+Disallow: /debug_*
+Disallow: /hitoba_*
 Disallow: /test_*.js
 Disallow: /compare_*.js
-Disallow: /*.png$
 Disallow: /node_modules/
 Disallow: /lang/
 
@@ -20,6 +19,3 @@ Disallow: /lang/
 Allow: /images/
 Allow: /styles.css
 Allow: /script.js
-
-# Crawl-delay (optional, be kind to server)
-Crawl-delay: 1
