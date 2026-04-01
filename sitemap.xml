@@ -126,6 +126,29 @@
     </image:image>
   </url>
 
+  <!-- Apartment Landing Pages -->
+  <url>
+    <loc>https://www.elvenwood.in/interiors-mahendra-aarya</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/service_kitchen.webp</image:loc>
+      <image:title>Home Interiors for Mahendra Aarya - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.elvenwood.in/interiors-brigade-valencia</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.elvenwood.in/images/complete_interiors.webp</image:loc>
+      <image:title>Home Interiors for Brigade Valencia - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
   <!-- Pricing Guide Pages -->
   <url>
     <loc>https://www.elvenwood.in/modular-kitchen-cost-bangalore</loc>
