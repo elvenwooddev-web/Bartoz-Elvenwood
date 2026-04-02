@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Elvenwood has a powerful competitive advantage that none of the major competitors can match: **an in-house 15,000 sq ft factory with complete control over design, manufacturing, and installation**. While Livspace, HomeLane, and Design Cafe operate as tech-enabled platforms that outsource manufacturing, Elvenwood owns the entire value chain. This document outlines how to transform this operational advantage into market dominance.
+Elvenwood has a powerful competitive advantage that none of the major competitors can match: **an in-house 17,400 sq ft factory with complete control over design, manufacturing, and installation**. While Livspace, HomeLane, and Design Cafe operate as tech-enabled platforms that outsource manufacturing, Elvenwood owns the entire value chain. This document outlines how to transform this operational advantage into market dominance.
 
 ---
 
@@ -20,7 +20,7 @@ Elvenwood has a powerful competitive advantage that none of the major competitor
 | Dimension | Livspace | HomeLane | Design Cafe | **Elvenwood Advantage** |
 |-----------|----------|----------|-------------|------------------------|
 | **Model** | Franchise/Platform | Platform + Factories | Design-led + Manufacturing | Owner-operated, single factory |
-| **Manufacturing** | Outsourced to vendors | Own factories (distant) | Own facilities | **15,000 sq ft in Bangalore** |
+| **Manufacturing** | Outsourced to vendors | Own factories (distant) | Own facilities | **17,400 sq ft in Bangalore** |
 | **Price Segment** | Mid-Premium | Budget-Mid | Mid-Premium | Mid-Premium |
 | **Typical 2BHK Cost** | Rs 8-15 lakhs | Rs 5-12 lakhs | Rs 10-20 lakhs | Competitive (factory-direct) |
 | **Kitchen Range** | Rs 1.5-6 lakhs | Rs 1-4 lakhs | Rs 2.5-8 lakhs | Match quality, beat markup |
@@ -89,7 +89,7 @@ Position Elvenwood as the **manufacturer-first** interior company - in direct co
               "Your Home, Our Hands"
                         |
                   DIFFERENTIATOR
-        "15,000 sq ft factory, one team,
+        "17,400 sq ft factory, one team,
              complete accountability"
                         |
                    PROOF POINTS
@@ -153,7 +153,7 @@ Reinforces Bangalore-native positioning and full-lifecycle ownership.
 
 ### Headline Messages
 
-- "The only Bangalore interior company with its own 15,000 sq ft factory"
+- "The only Bangalore interior company with its own 17,400 sq ft factory"
 - "We don't outsource your kitchen. We build it ourselves."
 - "Meet the craftsmen who'll build your home"
 - "One team from first sketch to final screw"
@@ -225,7 +225,7 @@ Reinforces Bangalore-native positioning and full-lifecycle ownership.
 
 | Proof Point | Messaging Use |
 |-------------|---------------|
-| 15,000 sq ft factory | Scale and commitment |
+| 17,400 sq ft factory | Scale and commitment |
 | In-house craftsmen team | Faces behind furniture |
 | Factory visit invitation | "Come see where your kitchen is made" |
 | Same-day site visit capability | Proximity advantage |
@@ -278,7 +278,7 @@ Reinforces Bangalore-native positioning and full-lifecycle ownership.
 "Bangalore's only modular interior company with its own factory - we design, build, and install your home, all under one roof."
 
 ### Elevator Pitch (30 seconds)
-"Elvenwood is a modular kitchen and wardrobe company in Bangalore, but we're different from the big names you've heard of. While they outsource manufacturing to vendors across the country, we have our own 15,000 square foot factory right here in the city. The same team that designs your kitchen builds it. That means better quality control, faster problem-solving, and one company to call for everything. We're not the cheapest, but we're the most accountable interior company in Bangalore."
+"Elvenwood is a modular kitchen and wardrobe company in Bangalore, but we're different from the big names you've heard of. While they outsource manufacturing to vendors across the country, we have our own 17,400 square foot factory right here in the city. The same team that designs your kitchen builds it. That means better quality control, faster problem-solving, and one company to call for everything. We're not the cheapest, but we're the most accountable interior company in Bangalore."
 
 ### Brand Promise
 "Every piece of furniture we deliver is designed, manufactured, and installed by one team - our team. That's accountability you can actually hold us to."
