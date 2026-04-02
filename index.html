@@ -53,6 +53,7 @@
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     "additionalType": "https://schema.org/InteriorDecorationBusiness",
+    "@id": "https://www.elvenwood.in/#business",
     "name": "Elvenwood Interiors",
     "description": "Premium modular kitchens, wardrobes and complete home interiors in Bangalore. Factory-direct pricing from our 17,400 sq ft facility in Bommasandra. Serving Electronic City, HSR Layout, Sarjapur, Whitefield & South Bangalore.",
     "url": "https://www.elvenwood.in",
@@ -72,7 +73,12 @@
       "longitude": "77.6589"
     },
     "hasMap": "https://maps.app.goo.gl/wQ54EVWc7VLsgLZs9",
-    "openingHours": "Mo-Sa 09:00-21:00",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "21:00"
+    },
     "priceRange": "₹₹₹",
     "paymentAccepted": "Cash, Credit Card, Debit Card, UPI, Bank Transfer",
     "currenciesAccepted": "INR",
@@ -166,18 +172,21 @@
       {
         "@type": "Review",
         "author": {"@type": "Person", "name": "Parvathamma & Lingareddy"},
+        "datePublished": "2025-12-15",
         "reviewBody": "The day they said they'd finish was the day they finished. I didn't think that was possible anymore in this industry.",
         "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}
       },
       {
         "@type": "Review",
         "author": {"@type": "Person", "name": "Ridhi & Yathin"},
+        "datePublished": "2026-01-20",
         "reviewBody": "They really listened to what we wanted and made our home feel exactly how we had imagined. The quality of work is amazing — you can see the care in every detail.",
         "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}
       },
       {
         "@type": "Review",
         "author": {"@type": "Person", "name": "Akshatha & Shashikiran"},
+        "datePublished": "2026-02-10",
         "reviewBody": "It turned out amazing! They understood our requirements well, came up with stylish yet practical designs, and made the whole process smooth.",
         "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"}
       }

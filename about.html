@@ -50,6 +50,7 @@
       "@context": "https://schema.org",
       "@type": "HomeAndConstructionBusiness",
       "additionalType": "https://schema.org/InteriorDecorationBusiness",
+      "@id": "https://www.elvenwood.in/#business",
       "name": "Elvenwood Interiors",
       "description": "Our 17,400 sq ft factory in Bommasandra with Italian Biesse CNC machines. Premium modular kitchens, wardrobes & home interiors serving South Bangalore.",
       "url": "https://www.elvenwood.in/about",
@@ -69,7 +70,12 @@
         "longitude": "77.6589"
       },
       "hasMap": "https://maps.app.goo.gl/wQ54EVWc7VLsgLZs9",
-      "openingHours": "Mo-Sa 09:00-21:00",
+      "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "21:00"
+    },
       "image": "https://www.elvenwood.in/images/factory1.webp",
       "logo": "https://www.elvenwood.in/images/logo-full.png",
       "areaServed": [
