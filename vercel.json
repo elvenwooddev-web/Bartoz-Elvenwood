@@ -2,6 +2,12 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "elvenwood.in" }],
+      "destination": "https://www.elvenwood.in/:path*",
+      "permanent": true
+    },
     { "source": "/b2b", "destination": "/services", "permanent": true },
     { "source": "/services/modular-kitchens", "destination": "/modular-kitchen-cost-bangalore", "permanent": true },
     { "source": "/services/wardrobes", "destination": "/services", "permanent": true },
