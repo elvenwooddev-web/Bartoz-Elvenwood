@@ -53,6 +53,7 @@
       "@context": "https://schema.org",
       "@type": "HomeAndConstructionBusiness",
       "additionalType": "https://schema.org/InteriorDecorationBusiness",
+      "@id": "https://www.elvenwood.in/interior-designers-bommasandra#business",
       "name": "Elvenwood Interiors — Bommasandra Factory & Experience Centre",
       "description": "Bommasandra's own interior design factory. 17,400 sq ft facility with Italian Biesse CNC machines. Modular kitchens from ₹1.08L, wardrobes from ₹784/sq ft, complete home interiors from ₹2.35L. Zero delivery distance — the factory IS in Bommasandra.",
       "url": "https://www.elvenwood.in/interior-designers-bommasandra",
@@ -72,7 +73,12 @@
         "longitude": "77.6589"
       },
       "hasMap": "https://maps.app.goo.gl/wQ54EVWc7VLsgLZs9",
-      "openingHours": "Mo-Sa 09:00-21:00",
+      "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "21:00"
+    },
       "priceRange": "₹₹₹",
       "paymentAccepted": "Cash, Credit Card, Debit Card, UPI, Bank Transfer",
       "currenciesAccepted": "INR",

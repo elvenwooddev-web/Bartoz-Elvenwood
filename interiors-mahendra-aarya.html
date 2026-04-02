@@ -52,6 +52,7 @@
       "@context": "https://schema.org",
       "@type": "HomeAndConstructionBusiness",
       "additionalType": "https://schema.org/InteriorDecorationBusiness",
+      "@id": "https://www.elvenwood.in/interiors-mahendra-aarya#business",
       "name": "Elvenwood Interiors",
       "description": "Home interiors for Mahendra Aarya residents — 2BHK (1078 sq ft) & 3BHK (1530 sq ft). Modular kitchens from ₹1.08L, full home from ₹3.33L. Our 17,400 sq ft factory in Bommasandra is just 5 minutes from Mahendra Aarya. 45-day delivery, 10-year warranty.",
       "url": "https://www.elvenwood.in/interiors-mahendra-aarya",
@@ -71,7 +72,12 @@
         "longitude": "77.6589"
       },
       "hasMap": "https://maps.app.goo.gl/wQ54EVWc7VLsgLZs9",
-      "openingHours": "Mo-Sa 09:00-21:00",
+      "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "21:00"
+    },
       "priceRange": "₹₹₹",
       "paymentAccepted": "Cash, Credit Card, Debit Card, UPI, Bank Transfer",
       "currenciesAccepted": "INR",
