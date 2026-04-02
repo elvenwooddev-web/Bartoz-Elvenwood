@@ -1,11 +1,11 @@
 # Robots.txt for Elvenwood Interiors
-# https://www.elvenwood.in
+# https://elvenwood.in
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://www.elvenwood.in/sitemap.xml
+Sitemap: https://elvenwood.in/sitemap.xml
 
 # Disallow development/test files
 Disallow: /debug_*
