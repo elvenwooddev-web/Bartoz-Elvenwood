@@ -222,6 +222,12 @@
   --z-cursor: 10000;
 }
 
+/* Scroll lock when mobile nav is open */
+body.nav-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
 /* ---------- Reset ---------- */
 *,
 *::before,
@@ -2936,6 +2942,10 @@ button:hover .arrow-icon {
   stroke: var(--color-white);
   stroke-width: 2;
   fill: none;
+}
+
+.nav-toggle svg line {
+  transform-origin: 12px 12px;
 }
 
 .nav-toggle:hover {
@@ -6125,26 +6135,48 @@ body.is-loading {
     display: block;
   }
 
-  /* Mobile nav drawer */
+  /* Mobile nav drawer — bottom sheet */
   .floating-nav.nav--open {
+    position: fixed;
+    top: auto;
     bottom: 0;
     right: 0;
     left: 0;
-    padding: 3.75rem 1.5rem calc(env(safe-area-inset-bottom) + 2rem);
+    padding: 1.5rem 1.5rem calc(env(safe-area-inset-bottom) + 1.5rem);
     background: rgba(45, 43, 44, 0.97);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border-radius: 1.5rem 1.5rem 0 0;
+    border-radius: 1.25rem 1.25rem 0 0;
     border: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: none;
     box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.3);
     gap: 0;
     align-items: stretch;
+    justify-content: flex-end;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    z-index: var(--z-modal);
+  }
+
+  /* Drag handle indicator */
+  .floating-nav.nav--open::before {
+    content: '';
+    display: block;
+    width: 2.5rem;
+    height: 0.25rem;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 2px;
+    margin: 0 auto 1.25rem;
+    flex-shrink: 0;
   }
 
   .floating-nav.nav--open .floating-nav-link {
     color: rgba(255, 255, 255, 0.7);
-    opacity: 1;
+    opacity: 0;
+    transform: translateY(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1.1rem 1.5rem;
   }
 
   .floating-nav.nav--open .floating-nav-link.active {
@@ -6165,22 +6197,13 @@ body.is-loading {
     border-bottom: none;
   }
 
-  /* Hamburger toggle */
+  /* Hamburger toggle — hidden in bottom sheet (use drag handle or backdrop to close) */
   .nav-toggle {
     display: flex;
   }
 
   .floating-nav.nav--open .nav-toggle {
-    position: absolute;
-    top: 0.75rem;
-    right: 1.25rem;
-    background: var(--color-off-white);
-    color: var(--color-dark);
-    border-radius: 50%;
-    width: 2.75rem;
-    height: 2.75rem;
-    border: none;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    display: none;
   }
 
   /* Light nav overrides for mobile */
@@ -6211,18 +6234,19 @@ body.is-loading {
   /* Hide WhatsApp button when nav drawer is open */
   /* Nav backdrop */
   .nav-backdrop {
-    display: none;
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.45);
-    z-index: 98;
+    z-index: var(--z-modal-backdrop);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: opacity 0.4s var(--ease-smooth), visibility 0.4s;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .nav-backdrop--visible {
-    display: block;
     opacity: 1;
+    visibility: visible;
   }
 
   .floating-nav.nav--open ~ .floating-inquiry {
