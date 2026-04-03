@@ -2547,33 +2547,146 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
   backdrop.className = 'nav-backdrop';
   document.body.appendChild(backdrop);
 
-  const HAMBURGER = '<line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line>';
-  const CLOSE = '<line x1="6" y1="6" x2="18" y2="18"></line><line x1="6" y1="18" x2="18" y2="6"></line>';
+  // SVG line references (keep in DOM, morph with GSAP)
+  const svgLines = navToggle.querySelectorAll('svg line');
+  const links = floatingNav.querySelectorAll('.floating-nav-link');
+
+  // Hamburger line positions (original)
+  const HAMBURGER_ATTRS = [
+    { x1: 4, y1: 7, x2: 20, y2: 7 },   // top
+    { x1: 4, y1: 12, x2: 20, y2: 12 },  // middle
+    { x1: 4, y1: 17, x2: 20, y2: 17 },  // bottom
+  ];
+  // X (close) line positions
+  const CLOSE_ATTRS = [
+    { x1: 6, y1: 6, x2: 18, y2: 18 },   // top → diagonal
+    { x1: 12, y1: 12, x2: 12, y2: 12 },  // middle → collapsed (invisible)
+    { x1: 6, y1: 18, x2: 18, y2: 6 },    // bottom → diagonal
+  ];
+
+  let isAnimating = false;
+  let isOpen = false;
+
+  // Scroll lock — class-based to avoid conflicts with lightbox/video overlays
+  function lockScroll() {
+    document.body.classList.add('nav-open');
+    if (lenis && typeof lenis.stop === 'function') lenis.stop();
+  }
+
+  function unlockScroll() {
+    document.body.classList.remove('nav-open');
+    if (lenis && typeof lenis.start === 'function') lenis.start();
+  }
 
   function openNav() {
+    if (isAnimating || isOpen) return;
+    isAnimating = true;
+    isOpen = true;
+
     floatingNav.classList.add('nav--open');
     backdrop.classList.add('nav-backdrop--visible');
     navToggle.setAttribute('aria-label', 'Close navigation menu');
-    navToggle.querySelector('svg').innerHTML = CLOSE;
+    lockScroll();
+
+    if (prefersReducedMotion) {
+      // Instant open — no animation
+      svgLines.forEach(function (line, i) { gsap.set(line, { attr: CLOSE_ATTRS[i] }); });
+      gsap.set(links, { opacity: 1, y: 0 });
+      isAnimating = false;
+      return;
+    }
+
+    var tl = gsap.timeline({ onComplete: function () { isAnimating = false; } });
+
+    // Morph hamburger → X
+    svgLines.forEach(function (line, i) {
+      tl.to(line, { attr: CLOSE_ATTRS[i], duration: 0.3, ease: 'power2.inOut' }, 0);
+    });
+
+    // Stagger links in
+    tl.fromTo(links,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power2.out' },
+      0.1
+    );
   }
 
   function closeNav() {
-    floatingNav.classList.remove('nav--open');
-    backdrop.classList.remove('nav-backdrop--visible');
-    navToggle.setAttribute('aria-label', 'Open navigation menu');
-    navToggle.querySelector('svg').innerHTML = HAMBURGER;
+    if (isAnimating || !isOpen) return;
+    isAnimating = true;
+
+    if (prefersReducedMotion) {
+      // Instant close
+      svgLines.forEach(function (line, i) { gsap.set(line, { attr: HAMBURGER_ATTRS[i] }); });
+      gsap.set(links, { clearProps: 'all' });
+      floatingNav.classList.remove('nav--open');
+      backdrop.classList.remove('nav-backdrop--visible');
+      navToggle.setAttribute('aria-label', 'Open navigation menu');
+      unlockScroll();
+      isOpen = false;
+      isAnimating = false;
+      return;
+    }
+
+    var tl = gsap.timeline({
+      onComplete: function () {
+        floatingNav.classList.remove('nav--open');
+        backdrop.classList.remove('nav-backdrop--visible');
+        navToggle.setAttribute('aria-label', 'Open navigation menu');
+        unlockScroll();
+        gsap.set(links, { clearProps: 'all' });
+        isOpen = false;
+        isAnimating = false;
+      }
+    });
+
+    // Fade out links (reverse stagger, faster)
+    tl.to(links, {
+      opacity: 0, y: -15, duration: 0.25, stagger: 0.03, ease: 'power2.in'
+    }, 0);
+
+    // Morph X → hamburger
+    svgLines.forEach(function (line, i) {
+      tl.to(line, { attr: HAMBURGER_ATTRS[i], duration: 0.3, ease: 'power2.inOut' }, 0.1);
+    });
   }
 
+  // Toggle on click
   navToggle.addEventListener('click', function (e) {
     e.stopPropagation();
-    floatingNav.classList.contains('nav--open') ? closeNav() : openNav();
+    isOpen ? closeNav() : openNav();
   });
 
-  floatingNav.querySelectorAll('.floating-nav-link').forEach(function (link) {
+  // Close on link click
+  links.forEach(function (link) {
     link.addEventListener('click', closeNav);
   });
 
+  // Close on backdrop tap
   backdrop.addEventListener('click', closeNav);
+
+  // Close on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isOpen) closeNav();
+  });
+
+  // Swipe-down to close
+  var touchStartY = 0;
+  var touchStartX = 0;
+
+  floatingNav.addEventListener('touchstart', function (e) {
+    if (!isOpen) return;
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  floatingNav.addEventListener('touchend', function (e) {
+    if (!isOpen) return;
+    var deltaY = e.changedTouches[0].clientY - touchStartY;
+    var deltaX = Math.abs(e.changedTouches[0].clientX - touchStartX);
+    // Swipe down >80px and more vertical than horizontal
+    if (deltaY > 80 && deltaY > deltaX) closeNav();
+  }, { passive: true });
 })();
 
 // ============================================

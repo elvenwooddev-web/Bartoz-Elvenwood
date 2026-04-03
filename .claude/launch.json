@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "dev",
-      "runtimeExecutable": "/Users/balun/.nvm/versions/node/v25.2.1/bin/node",
-      "runtimeArgs": ["/Users/balun/.nvm/versions/node/v25.2.1/bin/npx", "-y", "live-server", "."],
+      "runtimeExecutable": "/bin/bash",
+      "runtimeArgs": ["-c", "export PATH=/Users/balun/.nvm/versions/node/v25.2.1/bin:$PATH && npx -y serve . -l 8080"],
       "port": 8080
     }
   ]
