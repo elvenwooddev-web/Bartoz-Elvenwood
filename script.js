@@ -2588,8 +2588,8 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
     navToggle.setAttribute('aria-label', 'Close navigation menu');
     lockScroll();
 
-    if (prefersReducedMotion) {
-      // Instant open — no animation
+    if (prefersReducedMotion || !hasRealGsap) {
+      // Instant open — no animation (reduced motion or GSAP unavailable)
       svgLines.forEach(function (line, i) { gsap.set(line, { attr: CLOSE_ATTRS[i] }); });
       gsap.set(links, { opacity: 1, y: 0 });
       isAnimating = false;
@@ -2615,8 +2615,8 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
     if (isAnimating || !isOpen) return;
     isAnimating = true;
 
-    if (prefersReducedMotion) {
-      // Instant close
+    if (prefersReducedMotion || !hasRealGsap) {
+      // Instant close (reduced motion or GSAP unavailable)
       svgLines.forEach(function (line, i) { gsap.set(line, { attr: HAMBURGER_ATTRS[i] }); });
       gsap.set(links, { clearProps: 'all' });
       floatingNav.classList.remove('nav--open');
