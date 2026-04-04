@@ -69,7 +69,10 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 // ============================================
 let lenis;
 
-if (!prefersReducedMotion && hasRealLenis) {
+// Disable Lenis on small screens (mobile phones) but keep it on touch-capable desktops/hybrids
+const isMobilePhone = window.innerWidth < 768 && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+if (!prefersReducedMotion && hasRealLenis && !isMobilePhone) {
   lenis = new LenisCtor({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -77,7 +80,6 @@ if (!prefersReducedMotion && hasRealLenis) {
     gestureOrientation: 'vertical',
     smoothWheel: true,
     wheelMultiplier: 1,
-    touchMultiplier: 2,
   });
 
   // Connect Lenis to GSAP ScrollTrigger
@@ -865,7 +867,9 @@ function initMagneticButtons() {
     // Add magnetic range detection
     const magneticRange = 100; // pixels around button that activates effect
 
+    let cachedRect = null;
     btn.addEventListener('mouseenter', () => {
+      cachedRect = btn.getBoundingClientRect(); // Cache rect once on enter
       gsap.to(btn, {
         scale: 1.05,
         duration: 0.3,
@@ -874,13 +878,13 @@ function initMagneticButtons() {
     });
 
     btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+      if (!cachedRect) return;
+      const x = e.clientX - cachedRect.left - cachedRect.width / 2;
+      const y = e.clientY - cachedRect.top - cachedRect.height / 2;
 
       // Calculate distance from center for scale effect
       const distance = Math.sqrt(x * x + y * y);
-      const maxDistance = Math.max(rect.width, rect.height) / 2;
+      const maxDistance = Math.max(cachedRect.width, cachedRect.height) / 2;
       const scaleBoost = 1.05 + (0.03 * (1 - Math.min(distance / maxDistance, 1)));
 
       gsap.to(btn, {
@@ -2141,22 +2145,21 @@ function initEnhancedCursor() {
   let lastX = 0;
   let lastY = 0;
 
-  // Track mouse velocity for rotation
+  // Track mouse velocity for rotation (throttled via rAF)
+  let cursorRafPending = false;
+  let pendingDeltaX = 0;
   document.addEventListener('mousemove', (e) => {
-    const deltaX = e.clientX - lastX;
-    const deltaY = e.clientY - lastY;
-
-    // Calculate rotation based on movement direction
-    const velocity = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    const targetRotation = deltaX * 0.3;
-
-    rotation += (targetRotation - rotation) * 0.1;
-
-    // Apply subtle rotation
-    cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
-
+    pendingDeltaX = e.clientX - lastX;
     lastX = e.clientX;
     lastY = e.clientY;
+    if (cursorRafPending) return;
+    cursorRafPending = true;
+    requestAnimationFrame(() => {
+      const targetRotation = pendingDeltaX * 0.3;
+      rotation += (targetRotation - rotation) * 0.1;
+      cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+      cursorRafPending = false;
+    });
   });
 
   // Different cursor states based on element type
@@ -2412,35 +2415,40 @@ function initLightbox() {
 // INITIALIZE EVERYTHING
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Critical: above-fold + navigation (run immediately)
   initPreloader();
-  initCursor();
-  initMagneticButtons();
   initFloatingNav();
   initContextAwareHeader();
   initScrollButton();
-  initFactorySlider();
-  initFactoryVideo();
-  initLightbox();
-  // initServicesImageSwap(); // Disabled: using single static image for How We Work section
-  initDraggableCarousels();
   initScrollProgress();
-  initCounterAnimations();
-  initPromiseCards();
-  initComparisonAnimations();
-  initEducationAnimations();
-  initFAQAnimations();
-  initTeamJourneyAnimations();
-  initLeadershipAnimations();
-  initTrustStripAnimation();
-  initClientStoryAnimation();
-  initFeaturedProjectAnimation();
-  initLineArtifactAnimations();
-  initClipPathReveals();
   initBlurUpImages();
-  initDataDrivenAnimations();
   initResponsiveImages();
-  initScrubbedParallax();
-  initEnhancedCursor();
+
+  // Deferred: below-fold animations + interactions (yield to main thread first)
+  const deferInit = typeof requestIdleCallback === 'function' ? requestIdleCallback : (fn) => setTimeout(fn, 1);
+  deferInit(() => {
+    initCursor();
+    initMagneticButtons();
+    initFactorySlider();
+    initFactoryVideo();
+    initLightbox();
+    initDraggableCarousels();
+    initCounterAnimations();
+    initPromiseCards();
+    initComparisonAnimations();
+    initEducationAnimations();
+    initFAQAnimations();
+    initTeamJourneyAnimations();
+    initLeadershipAnimations();
+    initTrustStripAnimation();
+    initClientStoryAnimation();
+    initFeaturedProjectAnimation();
+    initLineArtifactAnimations();
+    initClipPathReveals();
+    initDataDrivenAnimations();
+    initScrubbedParallax();
+    initEnhancedCursor();
+  });
 });
 
 // ============================================
