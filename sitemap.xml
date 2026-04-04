@@ -5,7 +5,7 @@
   <!-- Homepage - Highest priority -->
   <url>
     <loc>https://elvenwood.in/</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -17,7 +17,7 @@
   <!-- Services Page -->
   <url>
     <loc>https://elvenwood.in/services</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -29,7 +29,7 @@
   <!-- Work/Portfolio Page -->
   <url>
     <loc>https://elvenwood.in/work</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -41,7 +41,7 @@
   <!-- About Page -->
   <url>
     <loc>https://elvenwood.in/about</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -53,7 +53,7 @@
   <!-- Experience Centre Page -->
   <url>
     <loc>https://elvenwood.in/experience-centre</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -65,7 +65,7 @@
   <!-- Our Story Page -->
   <url>
     <loc>https://elvenwood.in/our-story</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -73,7 +73,7 @@
   <!-- Area Landing Pages -->
   <url>
     <loc>https://elvenwood.in/interior-designers-electronic-city</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -84,7 +84,7 @@
 
   <url>
     <loc>https://elvenwood.in/interior-designers-chandapura</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -95,7 +95,7 @@
 
   <url>
     <loc>https://elvenwood.in/interior-designers-bommasandra</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -106,7 +106,7 @@
 
   <url>
     <loc>https://elvenwood.in/interior-designers-sarjapur-road</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -117,7 +117,7 @@
 
   <url>
     <loc>https://elvenwood.in/interior-designers-hsr-layout</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -128,7 +128,7 @@
 
   <url>
     <loc>https://elvenwood.in/interior-designers-anekal</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -137,10 +137,21 @@
     </image:image>
   </url>
 
+  <url>
+    <loc>https://elvenwood.in/interior-designers-anantnagar</loc>
+    <lastmod>2026-04-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://elvenwood.in/images/service_kitchen.webp</image:loc>
+      <image:title>Interior Designers in Anantnagar - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
   <!-- Apartment Landing Pages -->
   <url>
     <loc>https://elvenwood.in/interiors-mahendra-aarya</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -151,7 +162,7 @@
 
   <url>
     <loc>https://elvenwood.in/interiors-brigade-valencia</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -160,10 +171,21 @@
     </image:image>
   </url>
 
+  <url>
+    <loc>https://elvenwood.in/interiors-abode-99</loc>
+    <lastmod>2026-04-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://elvenwood.in/images/service_kitchen.webp</image:loc>
+      <image:title>Home Interiors for Abode 99 - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
   <!-- Pricing Guide Pages -->
   <url>
     <loc>https://elvenwood.in/modular-kitchen-cost-bangalore</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -174,7 +196,7 @@
 
   <url>
     <loc>https://elvenwood.in/interior-design-cost-bangalore</loc>
-    <lastmod>2026-04-03</lastmod>
+    <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
