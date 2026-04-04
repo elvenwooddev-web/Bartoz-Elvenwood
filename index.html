@@ -4,7 +4,7 @@
 <head>
   <script>document.documentElement.classList.remove('no-js');</script>
   <!-- Normalize page path for GA4 (strip .html, redirect to clean URL) -->
-  <script>if(location.pathname.endsWith('.html')){history.replaceState(null,'',location.pathname.slice(0,-5)+location.search+location.hash)}</script>
+  <script>if(location.pathname.endsWith('.html')){var p=location.pathname.slice(0,-5);if(p==='/index')p='/';history.replaceState(null,'',p+location.search+location.hash)}</script>
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
