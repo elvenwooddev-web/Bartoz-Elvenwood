@@ -69,9 +69,10 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 // ============================================
 let lenis;
 
-const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+// Disable Lenis on small screens (mobile phones) but keep it on touch-capable desktops/hybrids
+const isMobilePhone = window.innerWidth < 768 && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
 
-if (!prefersReducedMotion && hasRealLenis && !isTouchDevice) {
+if (!prefersReducedMotion && hasRealLenis && !isMobilePhone) {
   lenis = new LenisCtor({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -2146,14 +2147,15 @@ function initEnhancedCursor() {
 
   // Track mouse velocity for rotation (throttled via rAF)
   let cursorRafPending = false;
+  let pendingDeltaX = 0;
   document.addEventListener('mousemove', (e) => {
+    pendingDeltaX = e.clientX - lastX;
     lastX = e.clientX;
     lastY = e.clientY;
     if (cursorRafPending) return;
     cursorRafPending = true;
     requestAnimationFrame(() => {
-      const deltaX = e.clientX - lastX;
-      const targetRotation = deltaX * 0.3;
+      const targetRotation = pendingDeltaX * 0.3;
       rotation += (targetRotation - rotation) * 0.1;
       cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
       cursorRafPending = false;
