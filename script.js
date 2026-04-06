@@ -131,7 +131,7 @@ function initPreloader() {
     onComplete: () => {
       gsap.to(preloader, {
         opacity: 0,
-        duration: 0.8,
+        duration: 0.3,
         ease: 'power2.inOut',
         onComplete: () => {
           preloader.style.display = 'none';
@@ -142,30 +142,24 @@ function initPreloader() {
     }
   });
 
-  // Simple, elegant logo animation
+  // Quick logo flash — keep preloader under 1s total to avoid hurting LCP
   if (preloaderLogo) {
-    // Fade in and scale up
     tl.to(preloaderLogo, {
       opacity: 1,
       scale: 1,
-      duration: 1,
+      duration: 0.4,
       ease: 'power2.out',
-      delay: 0.3,
+      delay: 0.1,
     });
 
-    // Hold for a moment
-    tl.to({}, { duration: 0.8 });
-
-    // Fade out with slight scale
     tl.to(preloaderLogo, {
       opacity: 0,
       scale: 1.05,
-      duration: 0.5,
+      duration: 0.3,
       ease: 'power2.in',
     });
   } else {
-    // Fallback if no logo - just wait and fade
-    tl.to({}, { duration: 1.5 });
+    tl.to({}, { duration: 0.5 });
   }
 }
 
