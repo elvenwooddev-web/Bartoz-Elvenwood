@@ -17,8 +17,10 @@ Disallow: /lang/
 
 # Allow important resources
 Allow: /images/
-Allow: /styles.css
-Allow: /script.js
+Allow: /fonts/
+Allow: /styles.min.css
+Allow: /script.min.js
+Allow: /vendor.bundle.js
 
 # AI content files
 Allow: /llms.txt
