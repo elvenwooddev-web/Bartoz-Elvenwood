@@ -96,14 +96,32 @@ if (!prefersReducedMotion && hasRealLenis && !isMobilePhone) {
     wheelMultiplier: 1,
   });
 
-  // Connect Lenis to GSAP ScrollTrigger
-  lenis.on('scroll', ScrollTrigger.update);
+  // If Lenis isn't smooth (e.g. pointer:fine check failed), destroy it
+  // entirely — otherwise it still intercepts wheel events with preventDefault()
+  // while not providing smooth scrolling, completely blocking native scroll
+  if (!lenis.isSmooth) {
+    lenis.destroy();
+    document.documentElement.classList.remove('lenis', 'lenis-smooth', 'lenis-scrolling');
+    lenis = {
+      on: () => {},
+      scrollTo: (target) => {
+        if (typeof target === 'number') window.scrollTo({ top: target, behavior: 'auto' });
+        else if (target instanceof Element) target.scrollIntoView({ behavior: 'auto' });
+      },
+      raf: () => {},
+    };
+    // ScrollTrigger still needs scroll events — use native scroll listener
+    window.addEventListener('scroll', () => ScrollTrigger.update(), { passive: true });
+  } else {
+    // Connect Lenis to GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
 
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
 
-  gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(0);
+  }
 } else {
   // Create a mock lenis object for reduced motion
   lenis = {
@@ -2233,7 +2251,7 @@ function initEnhancedCursor() {
   }, { passive: true });
 
   // Dark section detection - use light cursor on dark backgrounds
-  const darkSections = document.querySelectorAll('.section--testimonials, .section--brand-cta, [data-theme="dark"]');
+  const darkSections = document.querySelectorAll('.bg-dark, .section--testimonials, .section--brand-cta, .terracotta-block, .section--featured-project, [data-theme="dark"]');
   darkSections.forEach(section => {
     section.addEventListener('mouseenter', () => {
       cursor.classList.add('cursor--light');

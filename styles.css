@@ -245,8 +245,10 @@ html {
   /* Remove Safari tap overlay */
 }
 
-html.lenis,
-html.lenis body {
+/* Only apply Lenis height:auto when smooth scrolling is active.
+   Without lenis-smooth, native scroll needs html/body at default height. */
+html.lenis.lenis-smooth,
+html.lenis.lenis-smooth body {
   height: auto;
 }
 
@@ -263,6 +265,7 @@ body {
   background-color: var(--color-off-white);
   color: var(--color-charcoal);
   overflow-x: hidden;
+  cursor: none;
   font-weight: 400;
   /* Editorial legibility */
   letter-spacing: -0.01em;
@@ -291,6 +294,10 @@ body::before {
   opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   mix-blend-mode: soft-light;
+}
+
+a, button, input, select, textarea {
+  cursor: none;
 }
 
 a {
@@ -890,10 +897,11 @@ address {
   object-fit: cover;
 }
 
-/* Full-width section images */
+/* Full-width section images — absolute positioning so img fills
+   the aspect-ratio container without forcing its height */
 .featured-project-main img {
-  /* ~60% viewport width */
-  /* sizes="(max-width: 768px) 100vw, 60vw" */
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -5262,9 +5270,12 @@ body.is-loading {
 }
 
 .featured-project-main {
+  position: relative;
   aspect-ratio: 4/3;
+  height: auto; /* override .image-reveal height:100% so aspect-ratio works */
   overflow: hidden;
   border-radius: 4px;
+  contain: layout paint;
 }
 
 /* .featured-project-main img handled by .image-reveal img */

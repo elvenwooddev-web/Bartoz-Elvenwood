@@ -5,12 +5,13 @@
     <script>document.documentElement.classList.remove('no-js');</script>
     <!-- Normalize page path for GA4 (strip .html, redirect to clean URL) -->
     <script>if(location.pathname.endsWith('.html')){var p=location.pathname.slice(0,-5);if(p==='/index')p='/';history.replaceState(null,'',p+location.search+location.hash)}</script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <!-- Google Tag Manager (deferred) -->
+    <script>window.dataLayer=window.dataLayer||[];
+    window.addEventListener('load',function(){setTimeout(function(){(function(w,d,s,l,i){w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WP27LKHN');</script>
+    })(window,document,'script','dataLayer','GTM-WP27LKHN')},100)});</script>
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +35,7 @@
     <meta property="og:title" content="Our Work — Elvenwood Interiors Portfolio">
     <meta property="og:description"
         content="Real homes we've built across Bangalore. Kitchens, wardrobes, full home interiors.">
-    <meta property="og:image" content="https://elvenwood.in/images/og-preview.jpg">
+    <meta property="og:image" content="https://elvenwood.in/images/og-work.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://elvenwood.in/work">
@@ -44,7 +45,7 @@
     <meta name="twitter:title" content="Our Work — Elvenwood Interiors Portfolio">
     <meta name="twitter:description"
         content="Real homes we've built across Bangalore. Kitchens, wardrobes, full home interiors.">
-    <meta name="twitter:image" content="https://elvenwood.in/images/og-preview.jpg">
+    <meta name="twitter:image" content="https://elvenwood.in/images/og-work.jpg">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://elvenwood.in/work">
@@ -134,10 +135,66 @@
     }
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-<style>:root{--color-burgundy:#930632;--color-terracotta:#EF462E;--color-white:#FFFFFF;--color-off-white:#F5F5F5;--color-charcoal:#2D2B2C;--color-blush:#FFDDD7;--color-text-on-dark:#FFFFFF;--color-lime:var(--color-text-on-dark);--color-slate:#565656;--font-sans:'Inter',sans-serif;--font-display:'Pacaembu',sans-serif;--font-serif:'Playfair Display',Georgia,serif;--text-display:clamp(3rem,1.5rem + 8vw,9rem);--section-padding-y:clamp(4rem,2rem + 5vw,8rem);--section-padding-x:clamp(1.5rem,1rem + 2vw,4rem);--gap-standard:clamp(1.5rem,1rem + 1vw,2.5rem);--gap-large:clamp(2.5rem,1.5rem + 2vw,4.5rem);--duration-normal:0.3s;--ease-out:cubic-bezier(0.4,0,0.2,1);--radius-lg:12px;--z-fixed:500;--z-cursor:10000}*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{font-size:16px;-webkit-font-smoothing:antialiased}body{font-family:var(--font-sans);background-color:var(--color-off-white);color:var(--color-charcoal);overflow-x:hidden;cursor:none;font-weight:300}img{max-width:100%;height:auto;display:block}.preloader{position:fixed;inset:0;background:var(--color-off-white);z-index:9999;display:flex;align-items:center;justify-content:center}.preloader-logo{max-width:280px;opacity:0;transform:scale(0.95)}.header{position:fixed;top:0;left:0;right:0;z-index:var(--z-fixed);padding:1.5rem var(--section-padding-x);transition:background-color var(--duration-normal) var(--ease-out)}.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto}.header-logo-img{height:40px;width:auto}.header-logo-img--white{display:none}.header-title,.header-social{font-size:0.85rem;letter-spacing:0.05em;text-transform:uppercase}.section--hero{min-height:100vh;padding:var(--section-padding-y) var(--section-padding-x);display:flex;flex-direction:column;justify-content:space-between;position:relative}.hero-content{padding-top:6rem;max-width:900px}.hero-headline{font-family:var(--font-display);font-size:var(--text-display);font-weight:300;line-height:0.95;letter-spacing:-0.04em}.word{display:inline-block;opacity:0;transform:translateY(30px)}.word--italic{font-family:var(--font-serif);font-style:italic;font-weight:400}.hero-services{font-size:1rem;margin-top:var(--gap-standard);color:var(--color-slate)}.hero-description{font-size:1.1rem;max-width:500px;margin-top:1rem;line-height:1.6}.hero-bottom{display:flex;gap:var(--gap-large);align-items:flex-end;padding-top:var(--gap-standard)}.hero-image-preview{width:55%}.hero-image-container{border-radius:var(--radius-lg);overflow:hidden}.hero-image-container img{width:100%;height:auto;object-fit:cover}.cursor{position:fixed;width:80px;height:80px;border-radius:50%;border:1px solid rgba(45,43,44,0.3);pointer-events:none;z-index:var(--z-cursor);transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s ease}.cursor-label{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0}.skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);padding:1rem 2rem;background:var(--color-terracotta);color:var(--color-burgundy);z-index:var(--z-fixed)}.skip-link:focus{top:1rem}@media(max-width:768px){.hero-headline{font-size:clamp(2rem,10vw,3.5rem)}.hero-bottom{flex-direction:column}.hero-image-preview{width:100%}.cursor{display:none}}</style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Elvenwood Interior Design Portfolio",
+      "description": "Completed modular kitchen, wardrobe and home interior projects by Elvenwood Interiors in Bangalore",
+      "numberOfItems": 4,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Parvathamma & Lingareddy Home — Full Villa Interiors",
+            "description": "Complete villa interiors including kitchen, wardrobes, TV unit, pooja room and living area at SVS's Silver Oaks, Heelalige. Delivered on time and on budget.",
+            "image": "https://elvenwood.in/images/varun_home_01.webp",
+            "creator": {"@id": "https://elvenwood.in/#business"}
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Mr. Sreenivas Reddy Home — Full Home Interiors",
+            "description": "Full home interiors at SVS's Silver Oaks, Heelalige. Modular kitchen, wardrobes, TV unit and complete furnishing.",
+            "image": "https://elvenwood.in/images/mv_tvunit_cover.webp",
+            "creator": {"@id": "https://elvenwood.in/#business"}
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Mr. Vishwanath Reddy Kitchen — Abode 99",
+            "description": "Full home interiors at Abode 99, Ramasagara. Kitchen, wardrobes and living area designed and delivered from our factory.",
+            "image": "https://elvenwood.in/images/Vishwanath Villa.webp",
+            "creator": {"@id": "https://elvenwood.in/#business"}
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Hotel Lemon Green — Commercial Interiors",
+            "description": "Hotel interior project in Bangalore. Custom furniture, wardrobes and modular units built in our factory.",
+            "image": "https://elvenwood.in/images/ivy_lemon_green_cover.webp",
+            "creator": {"@id": "https://elvenwood.in/#business"}
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Self-hosted fonts -->
+    <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:'Inter';font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/inter-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 500;font-display:swap;src:url(fonts/playfair-display-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Playfair Display';font-style:italic;font-weight:400 500;font-display:swap;src:url(fonts/playfair-display-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}:root{--color-burgundy:#930632;--color-terracotta:#EF462E;--color-white:#FFFFFF;--color-off-white:#F5F5F5;--color-charcoal:#2D2B2C;--color-blush:#FFDDD7;--color-text-on-dark:#FFFFFF;--color-lime:var(--color-text-on-dark);--color-slate:#565656;--font-sans:'Inter',sans-serif;--font-display:'Pacaembu',sans-serif;--font-serif:'Playfair Display',Georgia,serif;--text-display:clamp(3rem,1.5rem + 8vw,9rem);--section-padding-y:clamp(4rem,2rem + 5vw,8rem);--section-padding-x:clamp(1.5rem,1rem + 2vw,4rem);--gap-standard:clamp(1.5rem,1rem + 1vw,2.5rem);--gap-large:clamp(2.5rem,1.5rem + 2vw,4.5rem);--duration-normal:0.3s;--ease-out:cubic-bezier(0.4,0,0.2,1);--radius-lg:12px;--z-fixed:500;--z-cursor:10000}*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{font-size:16px;-webkit-font-smoothing:antialiased}body{font-family:var(--font-sans);background-color:var(--color-off-white);color:var(--color-charcoal);overflow-x:hidden;cursor:none;font-weight:300}img{max-width:100%;height:auto;display:block}.preloader{position:fixed;inset:0;background:var(--color-off-white);z-index:9999;display:flex;align-items:center;justify-content:center}.preloader-logo{max-width:280px;opacity:0;transform:scale(0.95)}.header{position:fixed;top:0;left:0;right:0;z-index:var(--z-fixed);padding:1.5rem var(--section-padding-x);transition:background-color var(--duration-normal) var(--ease-out)}.header-inner{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto}.header-logo-img{height:40px;width:auto}.header-logo-img--white{display:none}.header-title,.header-social{font-size:0.85rem;letter-spacing:0.05em;text-transform:uppercase}.section--hero{min-height:100vh;padding:var(--section-padding-y) var(--section-padding-x);display:flex;flex-direction:column;justify-content:space-between;position:relative}.hero-content{padding-top:6rem;max-width:900px}.hero-headline{font-family:var(--font-display);font-size:var(--text-display);font-weight:300;line-height:0.95;letter-spacing:-0.04em}.word{display:inline-block;opacity:0;transform:translateY(30px)}.word--italic{font-family:var(--font-serif);font-style:italic;font-weight:400}.hero-services{font-size:1rem;margin-top:var(--gap-standard);color:var(--color-slate)}.hero-description{font-size:1.1rem;max-width:500px;margin-top:1rem;line-height:1.6}.hero-bottom{display:flex;gap:var(--gap-large);align-items:flex-end;padding-top:var(--gap-standard)}.hero-image-preview{width:55%}.hero-image-container{border-radius:var(--radius-lg);overflow:hidden}.hero-image-container img{width:100%;height:auto;object-fit:cover}.cursor{position:fixed;width:80px;height:80px;border-radius:50%;border:1px solid rgba(45,43,44,0.3);pointer-events:none;z-index:var(--z-cursor);transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s ease}.cursor-label{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0}.skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);padding:1rem 2rem;background:var(--color-terracotta);color:var(--color-burgundy);z-index:var(--z-fixed)}.skip-link:focus{top:1rem}@media(max-width:768px){.hero-headline{font-size:clamp(2rem,10vw,3.5rem)}.hero-bottom{flex-direction:column}.hero-image-preview{width:100%}.cursor{display:none}}</style>
     <link rel="preload" href="styles.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="styles.min.css"></noscript>
 </head>
@@ -195,7 +252,7 @@
         <section class="section section--featured-project bg-dark" data-section="02-featured-project">
             <div class="featured-project-inner">
                 <div class="featured-project-images">
-                    <div class="featured-project-main image-reveal image-door-frame image-arch-frame" data-gallery-index="3" data-gallery="varun-home" style="cursor:pointer">
+                    <div class="featured-project-main image-reveal" data-gallery-index="3" data-gallery="varun-home" style="cursor:pointer">
                         <img src="images/varun_home_04.webp" alt="Parvathamma & Lingareddy Home — Living Area" loading="lazy">
                     </div>
                     <div class="featured-project-thumbs" data-gallery="varun-home">
@@ -235,6 +292,12 @@
                     </blockquote>
                     <p class="featured-project-author">— Parvathamma &amp; Linga Reddy</p>
 
+                    <div class="featured-project-description" style="margin-top: 1.5rem; font-size: 0.9rem; line-height: 1.7; color: rgba(255,255,255,0.7);">
+                        <p><strong style="color: rgba(255,255,255,0.9);">The brief:</strong> A family building their dream villa at SVS's Silver Oaks wanted complete interiors — every room, every detail. The challenge: a large home with distinct spaces (kitchen, pooja room, bedrooms, living area) that still felt like one cohesive design, not a patchwork of different styles.</p>
+                        <p style="margin-top: 0.75rem;"><strong style="color: rgba(255,255,255,0.9);">What we did:</strong> Kowshik designed the entire villa as a single project — unified material palette, consistent hardware (Hettich soft-close throughout), and a colour story that flows from the kitchen through the living room to the bedrooms. BWP marine plywood in all wet areas, acrylic finish kitchen with integrated appliance housing, custom pooja room with brass-finish detailing. Every panel CNC-cut at our Bommasandra factory and installed by our own team in one cycle.</p>
+                        <p style="margin-top: 0.75rem;"><strong style="color: rgba(255,255,255,0.9);">Scope:</strong> Modular kitchen, pooja room, 6 wardrobes, 6 beds with cushioning, TV unit, shoe cabinet, crockery unit, study table, vanity units, home theatre, home office</p>
+                    </div>
+
                     <div class="featured-project-stats">
                         <div class="featured-stat">
                             <span class="featured-stat-value">Full Villa</span>
@@ -252,8 +315,6 @@
 
         <!-- ========== SECTION 03: PROJECT GRID - 8 filterable project cards ========== -->
         <section class="section section--project-grid" data-section="03-project-grid">
-            <img src="images/line-artifact-terracotta.svg" alt=""
-                class="line-artifact line-artifact--corner line-artifact--bottom-left" aria-hidden="true">
             <div class="project-grid project-grid--editorial">
                 <div class="project-grid-card project-grid-card--large project-video-card" data-type="full-home" data-cursor="view" data-video-lightbox="videos/model_villa.webm">
                     <div class="project-grid-image image-door-frame">
@@ -266,6 +327,14 @@
                             <span class="project-grid-location">SVS's Silver Oaks, Heelalige</span>
                         </div>
                         <h3 class="project-grid-name">Mr. Sreenivas Reddy Home</h3>
+                        <div class="project-grid-details">
+                            <span>45 days</span>
+                        </div>
+                    </div>
+                    <div class="project-grid-description" style="padding: 0 1.25rem 1.25rem; font-size: 0.9rem; line-height: 1.6; color: var(--color-slate);">
+                        <p><strong>The brief:</strong> A newly built villa at SVS's Silver Oaks needed complete interiors — kitchen, wardrobes for 3 bedrooms, TV unit, shoe cabinet, and crockery unit. The family wanted a modern-contemporary look that felt warm, not clinical.</p>
+                        <p style="margin-top: 0.5rem;"><strong>What we did:</strong> Kowshik designed the entire home as one cohesive space. BWP plywood for all wet areas, soft-close Hettich hardware throughout. The modular kitchen features an acrylic finish with integrated appliance housing. Every piece was CNC-cut in our Bommasandra factory and installed by our own team — no subcontractors.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Scope:</strong> Kitchen, 3 wardrobes, TV unit, shoe cabinet, crockery unit, pooja unit</p>
                     </div>
                 </div>
 
@@ -280,20 +349,33 @@
                             <span class="project-grid-location">Abode 99, Ramasagara</span>
                         </div>
                         <h3 class="project-grid-name">Mr. Vishwanath Reddy Kitchen</h3>
+                        <div class="project-grid-details">
+                            <span>40 days</span>
+                        </div>
+                    </div>
+                    <div class="project-grid-description" style="padding: 0 1.25rem 1.25rem; font-size: 0.9rem; line-height: 1.6; color: var(--color-slate);">
+                        <p><strong>The brief:</strong> A family moving into their new villa at Abode 99 needed a kitchen that could handle serious Indian cooking — heavy-duty ventilation, deep drawers for masala storage, and stone countertops that wouldn't stain. They also needed wardrobes for 3 bedrooms and a TV unit for the living area.</p>
+                        <p style="margin-top: 0.5rem;"><strong>What we did:</strong> Full modular kitchen with BWP marine plywood, granite countertop, and chimney-integrated hood. Wardrobes designed with adjustable shelving for a growing family. All panels CNC-cut at our factory and delivered in a single installation cycle — no return visits.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Scope:</strong> Modular kitchen, 3 wardrobes, TV unit, utility cabinet</p>
                     </div>
                 </div>
 
                 <div class="project-grid-card project-grid-card--large project-video-card" data-type="hotel" data-cursor="view" data-video-lightbox="videos/ivy_lemon_green.webm">
                     <div class="project-grid-image image-door-frame">
-                        <img src="images/ivy_lemon_green_cover.webp" alt="Ivy Lemon Green Hotel" class="project-cover" loading="lazy">
+                        <img src="images/ivy_lemon_green_cover.webp" alt="Hotel Lemon Green" class="project-cover" loading="lazy">
                         <video src="videos/ivy_lemon_green.webm" muted loop playsinline preload="none" class="project-hover-video"></video>
                     </div>
                     <div class="project-grid-info">
                         <div class="project-grid-meta">
                             <span class="project-grid-type">Hotel</span>
-                            <span class="project-grid-location">Bangalore</span>
+                            <span class="project-grid-location">Deekshith Layout, Narayana Health City Road, Kithiganahalli, Bommasandra</span>
                         </div>
-                        <h3 class="project-grid-name">Ivy Lemon Green Hotel</h3>
+                        <h3 class="project-grid-name">Hotel Lemon Green</h3>
+                    </div>
+                    <div class="project-grid-description" style="padding: 0 1.25rem 1.25rem; font-size: 0.9rem; line-height: 1.6; color: var(--color-slate);">
+                        <p><strong>The brief:</strong> A boutique hotel in Bangalore needed custom furniture for multiple rooms — wardrobes, desks, TV units, and bathroom vanities. The design had to be consistent across rooms while meeting commercial-grade durability standards.</p>
+                        <p style="margin-top: 0.5rem;"><strong>What we did:</strong> Designed a modular system where each room's furniture shared the same design language but adapted to individual room layouts. Commercial-grade laminates, heavy-duty hinges, and moisture-resistant build for bathroom-adjacent furniture. Entire production batch-manufactured in our factory for consistency.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Scope:</strong> Wardrobes, desks, TV units, bathroom vanities across multiple rooms</p>
                     </div>
                 </div>
 
@@ -349,7 +431,6 @@
                     <a href="/services">Services</a>
                     <a href="/work">Work</a>
                     <a href="/about">About</a>
-          <a href="/our-story">Our Story</a>
                     <a href="/experience-centre">Visit</a>
                 </nav>
             </div>
@@ -425,10 +506,7 @@
         <span class="scroll-btn-icon">↓</span>
     </button>
 
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
-    <script defer src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script defer src="vendor.bundle.js"></script>
     <script defer src="script.min.js"></script>
 
     <!-- Lightbox -->
