@@ -5267,6 +5267,8 @@ body.is-loading {
   aspect-ratio: 4/3;
   overflow: hidden;
   border-radius: 4px;
+  contain: layout paint; /* override contain:size from .image-door-frame which breaks aspect-ratio */
+  max-height: 70vh;
 }
 
 /* .featured-project-main img handled by .image-reveal img */
