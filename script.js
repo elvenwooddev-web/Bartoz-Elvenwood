@@ -50,6 +50,9 @@ if (!hasRealGsap || !hasRealScrollTrigger || !hasRealLenis) {
 // Register GSAP plugins when available
 if (hasRealGsap && hasRealScrollTrigger) {
   gsap.registerPlugin(ScrollTrigger);
+  // Prevent ScrollTrigger from auto-refreshing on every new trigger creation
+  // We'll call refresh() once after all triggers are set up (reduces forced reflows)
+  ScrollTrigger.config({ autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load' });
   if (typeof Draggable !== 'undefined') {
     gsap.registerPlugin(Draggable);
   }
@@ -1317,13 +1320,21 @@ function initDraggableTrack(trackSelector, prevBtnSelector, nextBtnSelector, cou
     velocityHistory = [];
   }, { passive: true });
 
+  let touchMoveRafPending = false;
   track.parentElement.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     const touchX = e.touches[0].clientX;
     trackVelocity(touchX);
     const delta = touchX - startX;
     currentOffset = Math.max(maxScroll, Math.min(0, dragStartOffset + delta));
-    gsap.set(track, { x: currentOffset });
+    // Throttle DOM updates to one per animation frame (reduces INP)
+    if (!touchMoveRafPending) {
+      touchMoveRafPending = true;
+      requestAnimationFrame(() => {
+        gsap.set(track, { x: currentOffset });
+        touchMoveRafPending = false;
+      });
+    }
   }, { passive: true });
 
   track.parentElement.addEventListener('touchend', () => {
@@ -2448,6 +2459,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initDataDrivenAnimations();
     initScrubbedParallax();
     initEnhancedCursor();
+
+    // Single ScrollTrigger refresh after all triggers are created (prevents forced reflows)
+    if (hasRealScrollTrigger) {
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }
   });
 });
 
@@ -2591,32 +2607,35 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
     isAnimating = true;
     isOpen = true;
 
+    // Apply visual state immediately (allows browser to paint the overlay fast)
     floatingNav.classList.add('nav--open');
     backdrop.classList.add('nav-backdrop--visible');
     navToggle.setAttribute('aria-label', 'Close navigation menu');
     lockScroll();
 
     if (prefersReducedMotion || !hasRealGsap) {
-      // Instant open — no animation (reduced motion or GSAP unavailable)
       svgLines.forEach(function (line, i) { gsap.set(line, { attr: CLOSE_ATTRS[i] }); });
       gsap.set(links, { opacity: 1, y: 0 });
       isAnimating = false;
       return;
     }
 
-    var tl = gsap.timeline({ onComplete: function () { isAnimating = false; } });
+    // Defer heavy GSAP timeline to next frame so the browser can paint first (reduces INP)
+    requestAnimationFrame(function () {
+      var tl = gsap.timeline({ onComplete: function () { isAnimating = false; } });
 
-    // Morph hamburger → X
-    svgLines.forEach(function (line, i) {
-      tl.to(line, { attr: CLOSE_ATTRS[i], duration: 0.3, ease: 'power2.inOut' }, 0);
+      // Morph hamburger → X
+      svgLines.forEach(function (line, i) {
+        tl.to(line, { attr: CLOSE_ATTRS[i], duration: 0.3, ease: 'power2.inOut' }, 0);
+      });
+
+      // Stagger links in
+      tl.fromTo(links,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power2.out' },
+        0.1
+      );
     });
-
-    // Stagger links in
-    tl.fromTo(links,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power2.out' },
-      0.1
-    );
   }
 
   function closeNav() {
@@ -2624,7 +2643,6 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
     isAnimating = true;
 
     if (prefersReducedMotion || !hasRealGsap) {
-      // Instant close (reduced motion or GSAP unavailable)
       svgLines.forEach(function (line, i) { gsap.set(line, { attr: HAMBURGER_ATTRS[i] }); });
       gsap.set(links, { clearProps: 'all' });
       floatingNav.classList.remove('nav--open');
@@ -2636,26 +2654,27 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
       return;
     }
 
-    var tl = gsap.timeline({
-      onComplete: function () {
-        floatingNav.classList.remove('nav--open');
-        backdrop.classList.remove('nav-backdrop--visible');
-        navToggle.setAttribute('aria-label', 'Open navigation menu');
-        unlockScroll();
-        gsap.set(links, { clearProps: 'all' });
-        isOpen = false;
-        isAnimating = false;
-      }
-    });
+    // Defer heavy GSAP timeline to next frame (reduces INP)
+    requestAnimationFrame(function () {
+      var tl = gsap.timeline({
+        onComplete: function () {
+          floatingNav.classList.remove('nav--open');
+          backdrop.classList.remove('nav-backdrop--visible');
+          navToggle.setAttribute('aria-label', 'Open navigation menu');
+          unlockScroll();
+          gsap.set(links, { clearProps: 'all' });
+          isOpen = false;
+          isAnimating = false;
+        }
+      });
 
-    // Fade out links (reverse stagger, faster)
-    tl.to(links, {
-      opacity: 0, y: -15, duration: 0.25, stagger: 0.03, ease: 'power2.in'
-    }, 0);
+      tl.to(links, {
+        opacity: 0, y: -15, duration: 0.25, stagger: 0.03, ease: 'power2.in'
+      }, 0);
 
-    // Morph X → hamburger
-    svgLines.forEach(function (line, i) {
-      tl.to(line, { attr: HAMBURGER_ATTRS[i], duration: 0.3, ease: 'power2.inOut' }, 0.1);
+      svgLines.forEach(function (line, i) {
+        tl.to(line, { attr: HAMBURGER_ATTRS[i], duration: 0.3, ease: 'power2.inOut' }, 0.1);
+      });
     });
   }
 
@@ -2832,25 +2851,30 @@ document.querySelectorAll('.project-video-card').forEach(card => {
       if (e.target.closest('a')) return; // don't intercept links
       const vl = document.getElementById('videoLightbox');
       if (!vl) return;
-      const player = vl.querySelector('.video-lightbox-player');
-      player.src = videoSrc;
+
+      // Show lightbox shell immediately (fast paint), defer heavy video setup
       vl.hidden = false;
-      requestAnimationFrame(() => vl.classList.add('is-open'));
-      player.play().catch(() => {});
       document.body.style.overflow = 'hidden';
 
-      // Close handlers
-      const closeBtn = vl.querySelector('.lightbox-close');
-      const backdrop = vl.querySelector('.lightbox-backdrop');
-      function closeVL() {
-        vl.classList.remove('is-open');
-        player.pause();
-        setTimeout(() => { vl.hidden = true; player.src = ''; document.body.style.overflow = ''; }, 300);
-      }
-      closeBtn.onclick = closeVL;
-      backdrop.onclick = closeVL;
-      const escHandler = (ev) => { if (ev.key === 'Escape') { closeVL(); document.removeEventListener('keydown', escHandler); } };
-      document.addEventListener('keydown', escHandler);
+      requestAnimationFrame(() => {
+        vl.classList.add('is-open');
+        const player = vl.querySelector('.video-lightbox-player');
+        player.src = videoSrc;
+        player.play().catch(() => {});
+
+        // Close handlers
+        const closeBtn = vl.querySelector('.lightbox-close');
+        const backdrop = vl.querySelector('.lightbox-backdrop');
+        function closeVL() {
+          vl.classList.remove('is-open');
+          player.pause();
+          setTimeout(() => { vl.hidden = true; player.src = ''; document.body.style.overflow = ''; }, 300);
+        }
+        closeBtn.onclick = closeVL;
+        backdrop.onclick = closeVL;
+        const escHandler = (ev) => { if (ev.key === 'Escape') { closeVL(); document.removeEventListener('keydown', escHandler); } };
+        document.addEventListener('keydown', escHandler);
+      });
     });
   }
 });
@@ -2947,54 +2971,93 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
     return names[path] || path;
   }
 
-  // ---- 1. WHATSAPP CLICK TRACKING ----
-  // Track all WhatsApp link clicks (wa.me links)
+  // ---- UNIFIED CLICK TRACKING (single listener for all analytics) ----
+  // Consolidates 8 separate click listeners into one to reduce INP
   document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href*="wa.me"]');
-    if (!link) return;
+    // Defer all analytics to a microtask so the click handler returns fast
+    // This prevents analytics work from blocking INP measurement
+    Promise.resolve().then(function() {
+      var target = e.target;
+      var pageName = getPageName();
 
-    // Determine click location
-    let location = 'unknown';
-    if (link.classList.contains('floating-inquiry')) location = 'floating_button';
-    else if (link.closest('.hero-ctas')) location = 'hero_cta';
-    else if (link.closest('.see-more-text')) location = 'talk_to_designer';
-    else if (link.closest('.ec-invitation-buttons')) location = 'experience_centre_section';
-    else if (link.closest('.service-detail-content')) location = 'service_detail';
-    else if (link.closest('.service-card-center')) location = 'service_card';
-    else if (link.closest('.brand-cta-content')) location = 'brand_cta';
-    else if (link.closest('.ec-visit-form')) location = 'callback_form_redirect';
-    else if (link.closest('.section--footer')) location = 'footer';
-    else location = 'page_body';
+      // 1. WhatsApp click
+      var waLink = target.closest && target.closest('a[href*="wa.me"]');
+      if (waLink) {
+        var location = 'page_body';
+        if (waLink.classList.contains('floating-inquiry')) location = 'floating_button';
+        else if (waLink.closest('.hero-ctas')) location = 'hero_cta';
+        else if (waLink.closest('.see-more-text')) location = 'talk_to_designer';
+        else if (waLink.closest('.ec-invitation-buttons')) location = 'experience_centre_section';
+        else if (waLink.closest('.service-detail-content')) location = 'service_detail';
+        else if (waLink.closest('.service-card-center')) location = 'service_card';
+        else if (waLink.closest('.brand-cta-content')) location = 'brand_cta';
+        else if (waLink.closest('.ec-visit-form')) location = 'callback_form_redirect';
+        else if (waLink.closest('.section--footer')) location = 'footer';
+        trackEvent('whatsapp_click', { event_category: 'lead_generation', event_label: location, page_name: pageName, link_url: waLink.href });
+        return;
+      }
 
-    trackEvent('whatsapp_click', {
-      event_category: 'lead_generation',
-      event_label: location,
-      page_name: getPageName(),
-      link_url: link.href
-    });
-  });
+      // 2. Phone call
+      var telLink = target.closest && target.closest('a[href^="tel:"]');
+      if (telLink) {
+        trackEvent('phone_call_click', { event_category: 'lead_generation', event_label: telLink.href.replace('tel:', ''), page_name: pageName });
+        return;
+      }
 
-  // ---- 2. PHONE CALL TRACKING ----
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href^="tel:"]');
-    if (!link) return;
+      // 3. Email
+      var mailLink = target.closest && target.closest('a[href^="mailto:"]');
+      if (mailLink) {
+        trackEvent('email_click', { event_category: 'lead_generation', event_label: mailLink.href.replace('mailto:', ''), page_name: pageName });
+        return;
+      }
 
-    trackEvent('phone_call_click', {
-      event_category: 'lead_generation',
-      event_label: link.href.replace('tel:', ''),
-      page_name: getPageName()
-    });
-  });
+      // 5. CTA button
+      var btn = target.closest && target.closest('.btn-pill');
+      if (btn) {
+        var href = btn.getAttribute('href') || '';
+        if (href.indexOf('wa.me') === -1 && href.indexOf('tel:') !== 0 && href.indexOf('mailto:') !== 0) {
+          var btnText = (btn.querySelector('span') || btn).textContent.trim();
+          trackEvent('cta_click', { event_category: 'engagement', event_label: btnText, page_name: pageName, link_url: href });
+        }
+        return;
+      }
 
-  // ---- 3. EMAIL CLICK TRACKING ----
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href^="mailto:"]');
-    if (!link) return;
+      // 6. Google Maps / Directions
+      var mapsLink = target.closest && target.closest('a[href*="maps.app.goo.gl"], a[href*="google.com/maps"]');
+      if (mapsLink) {
+        trackEvent('directions_click', { event_category: 'lead_generation', event_label: 'google_maps', page_name: pageName });
+        return;
+      }
 
-    trackEvent('email_click', {
-      event_category: 'lead_generation',
-      event_label: link.href.replace('mailto:', ''),
-      page_name: getPageName()
+      // 9. FAQ interaction
+      var faqItem = target.closest && target.closest('.faq-item');
+      if (faqItem) {
+        var question = faqItem.querySelector('.faq-question');
+        if (question) trackEvent('faq_click', { event_category: 'engagement', event_label: question.textContent.trim().substring(0, 80), page_name: pageName });
+        return;
+      }
+
+      // 10. Area page / pricing page
+      var areaLink = target.closest && target.closest('a[href*="interior-designers-"], a[href*="-cost-bangalore"]');
+      if (areaLink) {
+        var areaHref = areaLink.getAttribute('href') || '';
+        trackEvent('area_page_click', { event_category: 'navigation', event_label: areaHref.replace('.html', '').replace('interior-designers-', '').replace('-cost-bangalore', '_cost'), page_name: pageName, link_url: areaHref });
+        return;
+      }
+
+      // 11. Instagram
+      var igLink = target.closest && target.closest('a[href*="instagram.com"]');
+      if (igLink) {
+        trackEvent('social_click', { event_category: 'engagement', event_label: 'instagram', page_name: pageName });
+        return;
+      }
+
+      // 12. Project/portfolio card
+      var card = target.closest && target.closest('.project-card, .project-grid-card');
+      if (card) {
+        var name = card.querySelector('.project-grid-name');
+        trackEvent('project_view', { event_category: 'engagement', event_label: name ? name.textContent.trim() : 'project_image', page_name: pageName });
+      }
     });
   });
 
@@ -3010,35 +3073,6 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
       });
     });
   }
-
-  // ---- 5. CTA BUTTON CLICK TRACKING ----
-  document.addEventListener('click', function(e) {
-    var btn = e.target.closest('.btn-pill');
-    if (!btn) return;
-    // Skip WhatsApp/tel/mailto (already tracked above)
-    var href = btn.getAttribute('href') || '';
-    if (href.indexOf('wa.me') !== -1 || href.indexOf('tel:') === 0 || href.indexOf('mailto:') === 0) return;
-
-    var btnText = (btn.querySelector('span') || btn).textContent.trim();
-    trackEvent('cta_click', {
-      event_category: 'engagement',
-      event_label: btnText,
-      page_name: getPageName(),
-      link_url: href
-    });
-  });
-
-  // ---- 6. GOOGLE MAPS / DIRECTIONS CLICK TRACKING ----
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest('a[href*="maps.app.goo.gl"], a[href*="google.com/maps"]');
-    if (!link) return;
-
-    trackEvent('directions_click', {
-      event_category: 'lead_generation',
-      event_label: 'google_maps',
-      page_name: getPageName()
-    });
-  });
 
   // ---- 7. SCROLL DEPTH TRACKING ----
   var scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
@@ -3073,59 +3107,6 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
         time_seconds: seconds
       });
     }, seconds * 1000);
-  });
-
-  // ---- 9. FAQ INTERACTION TRACKING ----
-  document.addEventListener('click', function(e) {
-    var faqItem = e.target.closest('.faq-item');
-    if (!faqItem) return;
-    var question = faqItem.querySelector('.faq-question');
-    if (!question) return;
-
-    trackEvent('faq_click', {
-      event_category: 'engagement',
-      event_label: question.textContent.trim().substring(0, 80),
-      page_name: getPageName()
-    });
-  });
-
-  // ---- 10. AREA PAGE / PRICING PAGE NAVIGATION TRACKING ----
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest('a[href*="interior-designers-"], a[href*="-cost-bangalore"]');
-    if (!link) return;
-
-    var href = link.getAttribute('href') || '';
-    trackEvent('area_page_click', {
-      event_category: 'navigation',
-      event_label: href.replace('.html', '').replace('interior-designers-', '').replace('-cost-bangalore', '_cost'),
-      page_name: getPageName(),
-      link_url: href
-    });
-  });
-
-  // ---- 11. INSTAGRAM LINK TRACKING ----
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest('a[href*="instagram.com"]');
-    if (!link) return;
-
-    trackEvent('social_click', {
-      event_category: 'engagement',
-      event_label: 'instagram',
-      page_name: getPageName()
-    });
-  });
-
-  // ---- 12. PROJECT/PORTFOLIO IMAGE CLICK TRACKING ----
-  document.addEventListener('click', function(e) {
-    var card = e.target.closest('.project-card, .project-grid-card');
-    if (!card) return;
-
-    var name = card.querySelector('.project-grid-name');
-    trackEvent('project_view', {
-      event_category: 'engagement',
-      event_label: name ? name.textContent.trim() : 'project_image',
-      page_name: getPageName()
-    });
   });
 
   // ---- 13. PAGE VIEW ENHANCED (with page type) ----
