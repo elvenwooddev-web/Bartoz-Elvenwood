@@ -3029,19 +3029,19 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
         return;
       }
 
+      // 10. Area page / pricing page (before FAQ so area links inside FAQ answers still track)
+      var areaLink = target.closest && target.closest('a[href*="interior-designers-"], a[href*="-cost-bangalore"]');
+      if (areaLink) {
+        var areaHref = areaLink.getAttribute('href') || '';
+        trackEvent('area_page_click', { event_category: 'navigation', event_label: areaHref.replace('.html', '').replace('interior-designers-', '').replace('-cost-bangalore', '_cost'), page_name: pageName, link_url: areaHref });
+        return;
+      }
+
       // 9. FAQ interaction
       var faqItem = target.closest && target.closest('.faq-item');
       if (faqItem) {
         var question = faqItem.querySelector('.faq-question');
         if (question) trackEvent('faq_click', { event_category: 'engagement', event_label: question.textContent.trim().substring(0, 80), page_name: pageName });
-        return;
-      }
-
-      // 10. Area page / pricing page
-      var areaLink = target.closest && target.closest('a[href*="interior-designers-"], a[href*="-cost-bangalore"]');
-      if (areaLink) {
-        var areaHref = areaLink.getAttribute('href') || '';
-        trackEvent('area_page_click', { event_category: 'navigation', event_label: areaHref.replace('.html', '').replace('interior-designers-', '').replace('-cost-bangalore', '_cost'), page_name: pageName, link_url: areaHref });
         return;
       }
 
