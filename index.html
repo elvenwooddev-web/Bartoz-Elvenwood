@@ -331,10 +331,22 @@
     <span class="cursor-label">VIEW</span>
   </div>
 
-  <!-- Preloader -->
+  <!-- Preloader (CSS-only animation — no GSAP dependency, so it doesn't block LCP) -->
   <div class="preloader" id="preloader">
     <img src="images/logo-full.png" alt="Elvenwood Interiors" class="preloader-logo preloader-logo--full" width="978" height="276">
   </div>
+  <style>
+    .preloader-logo{animation:preloaderIn .4s ease-out .1s forwards}
+    @keyframes preloaderIn{to{opacity:1;transform:scale(1)}}
+    .preloader.fade-out{opacity:0;transition:opacity .3s ease-in-out}
+  </style>
+  <script>
+    // Remove preloader after 800ms using inline JS (doesn't wait for GSAP)
+    setTimeout(function(){
+      var p=document.getElementById('preloader');
+      if(p){p.classList.add('fade-out');setTimeout(function(){p.style.display='none';document.body.classList.remove('is-loading')},300)}
+    },800);
+  </script>
 
   <!-- Header -->
   <header class="header" id="header">

@@ -123,44 +123,33 @@ function initPreloader() {
     return;
   }
 
-  document.body.classList.add('is-loading');
+  // Preloader is now handled by inline CSS animation + inline JS timeout
+  // (doesn't wait for GSAP, so it doesn't block LCP)
+  // Just hook into when it finishes to start page animations
+  if (preloader.style.display === 'none') {
+    // Already hidden by inline JS
+    initPageAnimations();
+    return;
+  }
 
-  const preloaderLogo = document.querySelector('.preloader-logo');
-
-  const tl = gsap.timeline({
-    onComplete: () => {
-      gsap.to(preloader, {
-        opacity: 0,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          preloader.style.display = 'none';
-          document.body.classList.remove('is-loading');
-          initPageAnimations();
-        }
-      });
+  // Wait for inline JS to hide it, then init animations
+  const observer = new MutationObserver(() => {
+    if (preloader.style.display === 'none') {
+      observer.disconnect();
+      initPageAnimations();
     }
   });
+  observer.observe(preloader, { attributes: true, attributeFilter: ['style'] });
 
-  // Quick logo flash — keep preloader under 1s total to avoid hurting LCP
-  if (preloaderLogo) {
-    tl.to(preloaderLogo, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.4,
-      ease: 'power2.out',
-      delay: 0.1,
-    });
-
-    tl.to(preloaderLogo, {
-      opacity: 0,
-      scale: 1.05,
-      duration: 0.3,
-      ease: 'power2.in',
-    });
-  } else {
-    tl.to({}, { duration: 0.5 });
-  }
+  // Fallback: if preloader somehow sticks around for >2s, force-remove and init
+  setTimeout(() => {
+    observer.disconnect();
+    if (preloader.style.display !== 'none') {
+      preloader.style.display = 'none';
+      document.body.classList.remove('is-loading');
+    }
+    initPageAnimations();
+  }, 2000);
 }
 
 // ============================================
