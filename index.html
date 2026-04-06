@@ -5,12 +5,13 @@
   <script>document.documentElement.classList.remove('no-js');</script>
   <!-- Normalize page path for GA4 (strip .html, redirect to clean URL) -->
   <script>if(location.pathname.endsWith('.html')){var p=location.pathname.slice(0,-5);if(p==='/index')p='/';history.replaceState(null,'',p+location.search+location.hash)}</script>
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  <!-- Google Tag Manager (deferred — loads after page interactive to avoid blocking FCP) -->
+  <script>window.dataLayer=window.dataLayer||[];
+  window.addEventListener('load',function(){setTimeout(function(){(function(w,d,s,l,i){w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-WP27LKHN');</script>
+  })(window,document,'script','dataLayer','GTM-WP27LKHN')},100)});</script>
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -623,15 +624,15 @@
         <div class="about-bio">
           <div class="factory-video-wrap factory-video-wrap--autoplay">
             <video
-              autoplay
+              class="lazy-video"
               muted
               loop
               playsinline
               poster="images/factory1.webp"
-              preload="metadata"
+              preload="none"
+              data-src-webm="videos/factory_short.webm"
+              data-src-mp4="videos/factory_short.mp4"
             >
-              <source src="videos/factory_short.webm" type="video/webm">
-              <source src="videos/factory_short.mp4" type="video/mp4">
             </video>
           </div>
           <div class="about-bio-text">
@@ -1418,13 +1419,34 @@
   </button>
 
   <!-- Scripts -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
-  <script defer src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script defer src="vendor.bundle.js"></script>
   <script defer src="script.min.js"></script>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
+
+  <!-- Lazy-load autoplay videos: only load sources when scrolled into view -->
+  <script>
+  document.addEventListener('DOMContentLoaded',function(){
+    var videos=document.querySelectorAll('.lazy-video');
+    if(!videos.length)return;
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            var v=e.target;
+            var webm=v.dataset.srcWebm;
+            var mp4=v.dataset.srcMp4;
+            if(webm){var s=document.createElement('source');s.src=webm;s.type='video/webm';v.appendChild(s)}
+            if(mp4){var s2=document.createElement('source');s2.src=mp4;s2.type='video/mp4';v.appendChild(s2)}
+            v.load();v.play().catch(function(){});
+            io.unobserve(v);
+          }
+        });
+      },{rootMargin:'200px'});
+      videos.forEach(function(v){io.observe(v)});
+    }
+  });
+  </script>
 </body>
 
 </html>
