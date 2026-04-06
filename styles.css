@@ -4496,6 +4496,31 @@ body.is-loading {
   opacity: 0.85;
 }
 
+/* Light-background variant for promises section (areas-served on homepage) */
+.section--promises[data-section="areas-served"] {
+  color: var(--color-charcoal);
+}
+
+.section--promises[data-section="areas-served"] .promises-statement {
+  color: var(--color-charcoal);
+}
+
+.section--promises[data-section="areas-served"] .promise-card {
+  border-color: rgba(45, 43, 44, 0.12);
+}
+
+.section--promises[data-section="areas-served"] .promise-card:hover {
+  background: rgba(45, 43, 44, 0.04);
+}
+
+.section--promises[data-section="areas-served"] .promise-text {
+  color: var(--color-slate);
+}
+
+.section--promises[data-section="areas-served"] .divider {
+  background-color: rgba(45, 43, 44, 0.15);
+}
+
 /* ============================================
    EXPERIENCE CENTRE INVITATION
    ============================================ */
