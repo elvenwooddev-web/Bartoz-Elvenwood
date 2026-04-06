@@ -53,6 +53,17 @@ if (hasRealGsap && hasRealScrollTrigger) {
   // Prevent ScrollTrigger from auto-refreshing on every new trigger creation
   // We'll call refresh() once after all triggers are set up (reduces forced reflows)
   ScrollTrigger.config({ autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize' });
+  // Apply will-change only during scroll-triggered animations (not permanently)
+  ScrollTrigger.defaults({
+    onToggle: self => {
+      const targets = self.animation?.targets?.() || [];
+      targets.forEach(el => {
+        if (el instanceof HTMLElement) {
+          el.style.willChange = self.isActive ? 'transform, opacity' : '';
+        }
+      });
+    }
+  });
   if (typeof Draggable !== 'undefined') {
     gsap.registerPlugin(Draggable);
   }

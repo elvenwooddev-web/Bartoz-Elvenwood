@@ -8,7 +8,10 @@
   },
   "scripts": {
     "test": "node test_puppeteer.js",
-    "dev": "npx -y live-server ."
+    "dev": "npx -y live-server .",
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "npx -y clean-css-cli styles.css -o styles.min.css",
+    "build:js": "npx -y terser script.js -o script.min.js --compress --mangle"
   },
   "keywords": [],
   "author": "",
