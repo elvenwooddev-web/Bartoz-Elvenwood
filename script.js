@@ -2251,7 +2251,7 @@ function initEnhancedCursor() {
   }, { passive: true });
 
   // Dark section detection - use light cursor on dark backgrounds
-  const darkSections = document.querySelectorAll('.section--testimonials, .section--brand-cta, [data-theme="dark"]');
+  const darkSections = document.querySelectorAll('.bg-dark, .section--testimonials, .section--brand-cta, .terracotta-block, .section--featured-project, [data-theme="dark"]');
   darkSections.forEach(section => {
     section.addEventListener('mouseenter', () => {
       cursor.classList.add('cursor--light');
