@@ -245,8 +245,10 @@ html {
   /* Remove Safari tap overlay */
 }
 
-html.lenis,
-html.lenis body {
+/* Only apply Lenis height:auto when smooth scrolling is active.
+   Without lenis-smooth, native scroll needs html/body at default height. */
+html.lenis.lenis-smooth,
+html.lenis.lenis-smooth body {
   height: auto;
 }
 

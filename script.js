@@ -96,6 +96,13 @@ if (!prefersReducedMotion && hasRealLenis && !isMobilePhone) {
     wheelMultiplier: 1,
   });
 
+  // If Lenis isn't smooth (e.g. pointer:fine check failed), remove the
+  // html.lenis class so native scroll works — Lenis sets height:auto on
+  // html.lenis which breaks native scrolling when smooth mode is inactive
+  if (!lenis.isSmooth) {
+    document.documentElement.classList.remove('lenis');
+  }
+
   // Connect Lenis to GSAP ScrollTrigger
   lenis.on('scroll', ScrollTrigger.update);
 
