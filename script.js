@@ -52,7 +52,7 @@ if (hasRealGsap && hasRealScrollTrigger) {
   gsap.registerPlugin(ScrollTrigger);
   // Prevent ScrollTrigger from auto-refreshing on every new trigger creation
   // We'll call refresh() once after all triggers are set up (reduces forced reflows)
-  ScrollTrigger.config({ autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load' });
+  ScrollTrigger.config({ autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize' });
   if (typeof Draggable !== 'undefined') {
     gsap.registerPlugin(Draggable);
   }
@@ -3011,6 +3011,13 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
         return;
       }
 
+      // 6. Google Maps / Directions (before .btn-pill so map buttons get directions_click)
+      var mapsLink = target.closest && target.closest('a[href*="maps.app.goo.gl"], a[href*="google.com/maps"]');
+      if (mapsLink) {
+        trackEvent('directions_click', { event_category: 'lead_generation', event_label: 'google_maps', page_name: pageName });
+        return;
+      }
+
       // 5. CTA button
       var btn = target.closest && target.closest('.btn-pill');
       if (btn) {
@@ -3019,13 +3026,6 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
           var btnText = (btn.querySelector('span') || btn).textContent.trim();
           trackEvent('cta_click', { event_category: 'engagement', event_label: btnText, page_name: pageName, link_url: href });
         }
-        return;
-      }
-
-      // 6. Google Maps / Directions
-      var mapsLink = target.closest && target.closest('a[href*="maps.app.goo.gl"], a[href*="google.com/maps"]');
-      if (mapsLink) {
-        trackEvent('directions_click', { event_category: 'lead_generation', event_label: 'google_maps', page_name: pageName });
         return;
       }
 
