@@ -952,6 +952,7 @@ address {
 .fade-up {
   opacity: 0;
   transform: translateY(30px);
+  will-change: transform, opacity;
   transition:
     opacity var(--duration-slow) var(--ease-out),
     transform var(--duration-slow) var(--ease-out);
@@ -1459,6 +1460,7 @@ button:hover .arrow-icon {
 .value-item,
 .team-member {
   contain: layout style;
+  will-change: transform, opacity;
 }
 
 /* Images: isolate size and paint */
