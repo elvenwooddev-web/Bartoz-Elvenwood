@@ -62,13 +62,7 @@
     </image:image>
   </url>
 
-  <!-- Our Story Page -->
-  <url>
-    <loc>https://elvenwood.in/our-story</loc>
-    <lastmod>2026-04-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <!-- /our-story redirected to /about (301) -->
 
   <!-- Area Landing Pages -->
   <url>
