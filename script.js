@@ -110,6 +110,8 @@ if (!prefersReducedMotion && hasRealLenis && !isMobilePhone) {
       },
       raf: () => {},
     };
+    // ScrollTrigger still needs scroll events — use native scroll listener
+    window.addEventListener('scroll', () => ScrollTrigger.update(), { passive: true });
   } else {
     // Connect Lenis to GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
