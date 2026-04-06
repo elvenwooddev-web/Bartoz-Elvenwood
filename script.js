@@ -53,6 +53,17 @@ if (hasRealGsap && hasRealScrollTrigger) {
   // Prevent ScrollTrigger from auto-refreshing on every new trigger creation
   // We'll call refresh() once after all triggers are set up (reduces forced reflows)
   ScrollTrigger.config({ autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load,resize' });
+  // Apply will-change only during scroll-triggered animations (not permanently)
+  ScrollTrigger.defaults({
+    onToggle: self => {
+      const targets = self.animation?.targets?.() || [];
+      targets.forEach(el => {
+        if (el instanceof HTMLElement) {
+          el.style.willChange = self.isActive ? 'transform, opacity' : '';
+        }
+      });
+    }
+  });
   if (typeof Draggable !== 'undefined') {
     gsap.registerPlugin(Draggable);
   }
@@ -2754,8 +2765,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
   const form = document.getElementById('leadForm');
   if (!form) return;
 
-  const SUPABASE_URL = 'https://rtymxwthwwmbxkzgqqrc.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0eW14d3Rod3dtYnhremdxcXJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMDAxNDEsImV4cCI6MjA4OTU3NjE0MX0.2oVVPhnO12aqQK62aDS3kdeX_-y77DftR6GWr0Lvo_4';
+  const EDGE_FN_URL = 'https://rtymxwthwwmbxkzgqqrc.supabase.co/functions/v1/send-callback-email';
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -2768,15 +2778,10 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 
     if (!name || !phone) return;
 
-    // 1. Save to Supabase (fire & forget — don't block WhatsApp)
-    fetch(SUPABASE_URL + '/rest/v1/website_leads', {
+    // 1. Send to edge function → saves to DB + sends email to info@elvenwood.in
+    fetch(EDGE_FN_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-        'Prefer': 'return=minimal'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name: name,
         phone: phone,
