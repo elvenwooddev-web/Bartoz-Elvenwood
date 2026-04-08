@@ -2834,8 +2834,13 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
       '/interior-designers-bommasandra': 'area_bommasandra',
       '/interior-designers-sarjapur-road': 'area_sarjapur_road',
       '/interior-designers-hsr-layout': 'area_hsr_layout',
+      '/interior-designers-anantnagar': 'area_anantnagar',
+      '/interior-designers-anekal': 'area_anekal',
       '/modular-kitchen-cost-bangalore': 'pricing_kitchen',
-      '/interior-design-cost-bangalore': 'pricing_interior'
+      '/interior-design-cost-bangalore': 'pricing_interior',
+      '/interiors-abode-99': 'project_abode_99',
+      '/interiors-brigade-valencia': 'project_brigade_valencia',
+      '/interiors-mahendra-aarya': 'project_mahendra_aarya'
     };
     return names[path] || path;
   }
@@ -2861,6 +2866,7 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
         else if (waLink.closest('.service-card-center')) location = 'service_card';
         else if (waLink.closest('.brand-cta-content')) location = 'brand_cta';
         else if (waLink.closest('.ec-visit-form')) location = 'callback_form_redirect';
+        else if (waLink.closest('.sticky-cta-bar')) location = 'sticky_cta_bar';
         else if (waLink.closest('.section--footer')) location = 'footer';
         trackEvent('whatsapp_click', { event_category: 'lead_generation', event_label: location, page_name: pageName, link_url: waLink.href });
         return;
@@ -2869,7 +2875,11 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
       // 2. Phone call
       var telLink = target.closest && target.closest('a[href^="tel:"]');
       if (telLink) {
-        trackEvent('phone_call_click', { event_category: 'lead_generation', event_label: telLink.href.replace('tel:', ''), page_name: pageName });
+        var telLocation = 'page_body';
+        if (telLink.closest('.sticky-cta-bar')) telLocation = 'sticky_cta_bar';
+        else if (telLink.closest('.section--footer')) telLocation = 'footer';
+        else if (telLink.closest('.hero-ctas')) telLocation = 'hero_cta';
+        trackEvent('phone_call_click', { event_category: 'lead_generation', event_label: telLink.href.replace('tel:', ''), page_name: pageName, click_location: telLocation });
         return;
       }
 
@@ -2984,6 +2994,7 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
     page_name: getPageName(),
     page_type: getPageName().startsWith('area_') ? 'area_landing' :
                getPageName().startsWith('pricing_') ? 'pricing_guide' :
+               getPageName().startsWith('project_') ? 'project_case_study' :
                'core_page',
     page_url: window.location.href,
     referrer: document.referrer || 'direct'
