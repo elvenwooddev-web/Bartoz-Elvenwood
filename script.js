@@ -2845,7 +2845,6 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
       '/work': 'portfolio',
       '/about': 'about',
       '/experience-centre': 'experience_centre',
-      '/our-story': 'our_story',
       '/interior-designers-electronic-city': 'area_electronic_city',
       '/interior-designers-chandapura': 'area_chandapura',
       '/interior-designers-bommasandra': 'area_bommasandra',
