@@ -3168,7 +3168,6 @@ button:hover .arrow-icon {
   flex-direction: column;
   justify-content: space-between;
   gap: var(--space-md);
-  padding: var(--space-md) 0;
 }
 
 .service-card-center h3 {
@@ -3185,8 +3184,7 @@ button:hover .arrow-icon {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: var(--space-md);
-  padding: var(--space-md) 0;
+  gap: var(--gap-standard);
 }
 
 .service-card-detail p {
