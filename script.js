@@ -181,34 +181,6 @@ function initPreloader() {
   }, 2000);
 }
 
-// ============================================
-// 3. CUSTOM CURSOR (Position tracking only)
-// ============================================
-function initCursor() {
-  const cursor = document.getElementById('cursor');
-  if (!cursor || window.innerWidth < 768 || prefersReducedMotion || 'ontouchstart' in window) return;
-
-  let mouseX = 0, mouseY = 0;
-  let cursorX = 0, cursorY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animateCursor() {
-    const speed = 0.15;
-    cursorX += (mouseX - cursorX) * speed;
-    cursorY += (mouseY - cursorY) * speed;
-
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
-  // Note: Hover effects handled by initEnhancedCursor()
-}
 
 // ============================================
 // 4. PAGE ANIMATIONS (hub for all pages)
@@ -543,7 +515,7 @@ function initScrollAnimations() {
           const nextCard = serviceCards[i + 1];
           gsap.to(card, {
             scale: 0.95,
-            opacity: 0.6,
+            opacity: 1,
             ease: 'power1.in',
             scrollTrigger: {
               trigger: nextCard,
@@ -2156,111 +2128,6 @@ function initBlurUpImages() {
   });
 }
 
-// ============================================
-// ENHANCED CURSOR SYSTEM (like reference)
-// ============================================
-function initEnhancedCursor() {
-  const cursor = document.getElementById('cursor');
-  if (!cursor || window.innerWidth < 768 || prefersReducedMotion || 'ontouchstart' in window) return;
-
-  const cursorLabel = cursor.querySelector('.cursor-label');
-  let rotation = 0;
-  let lastX = 0;
-  let lastY = 0;
-
-  // Track mouse velocity for rotation (throttled via rAF)
-  let cursorRafPending = false;
-  let pendingDeltaX = 0;
-  document.addEventListener('mousemove', (e) => {
-    pendingDeltaX = e.clientX - lastX;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    if (cursorRafPending) return;
-    cursorRafPending = true;
-    requestAnimationFrame(() => {
-      const targetRotation = pendingDeltaX * 0.3;
-      rotation += (targetRotation - rotation) * 0.1;
-      cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
-      cursorRafPending = false;
-    });
-  });
-
-  // Different cursor states based on element type
-  const cursorStates = {
-    view: { text: 'VIEW', scale: 1.8 },
-    drag: { text: 'DRAG', scale: 1.5 },
-    link: { text: '', scale: 0.6 },
-    explore: { text: 'EXPLORE', scale: 2 },
-    play: { text: 'PLAY', scale: 2 },
-  };
-
-  // Apply cursor state
-  function setCursorState(state) {
-    if (cursorStates[state]) {
-      cursorLabel.textContent = cursorStates[state].text;
-      cursor.style.setProperty('--cursor-scale', cursorStates[state].scale);
-      cursor.classList.add('cursor--active');
-      cursor.classList.add(`cursor--${state}`);
-    }
-  }
-
-  function resetCursorState() {
-    cursorLabel.textContent = 'VIEW';
-    cursor.style.setProperty('--cursor-scale', 1);
-    cursor.classList.remove('cursor--active', 'cursor--view', 'cursor--drag', 'cursor--link', 'cursor--explore', 'cursor--play');
-  }
-
-  // Project cards - VIEW
-  document.querySelectorAll('.project-card, .project-grid-card, .featured-project-main, [data-cursor="view"]').forEach(el => {
-    el.addEventListener('mouseenter', () => setCursorState('view'));
-    el.addEventListener('mouseleave', resetCursorState);
-  });
-
-  // Carousels - DRAG
-  document.querySelectorAll('.types-carousel, .work-track, [data-cursor="drag"]').forEach(el => {
-    el.addEventListener('mouseenter', () => setCursorState('drag'));
-    el.addEventListener('mouseleave', resetCursorState);
-  });
-
-  // Videos - PLAY
-  document.querySelectorAll('video, [data-cursor="play"]').forEach(el => {
-    el.addEventListener('mouseenter', () => setCursorState('play'));
-    el.addEventListener('mouseleave', resetCursorState);
-  });
-
-  // Links and buttons - smaller cursor
-  document.querySelectorAll('a:not([data-cursor]), button:not([data-cursor])').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      if (!cursor.classList.contains('cursor--active')) {
-        cursor.classList.add('cursor--link');
-      }
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.classList.remove('cursor--link');
-    });
-  });
-
-  // Hide cursor on scroll (optional, for polish)
-  let scrollTimeout;
-  window.addEventListener('scroll', () => {
-    cursor.classList.add('cursor--scrolling');
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      cursor.classList.remove('cursor--scrolling');
-    }, 150);
-  }, { passive: true });
-
-  // Dark section detection - use light cursor on dark backgrounds
-  const darkSections = document.querySelectorAll('.bg-dark, .section--testimonials, .section--brand-cta, .terracotta-block, .section--featured-project, [data-theme="dark"]');
-  darkSections.forEach(section => {
-    section.addEventListener('mouseenter', () => {
-      cursor.classList.add('cursor--light');
-    });
-    section.addEventListener('mouseleave', () => {
-      cursor.classList.remove('cursor--light');
-    });
-  });
-}
 
 // ============================================
 // FACTORY VIDEO LOGIC
@@ -2450,7 +2317,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Deferred: below-fold animations + interactions (yield to main thread first)
   const deferInit = typeof requestIdleCallback === 'function' ? requestIdleCallback : (fn) => setTimeout(fn, 1);
   deferInit(() => {
-    initCursor();
     initMagneticButtons();
     initFactorySlider();
     initFactoryVideo();
@@ -2470,7 +2336,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initClipPathReveals();
     initDataDrivenAnimations();
     initScrubbedParallax();
-    initEnhancedCursor();
 
     // Single ScrollTrigger refresh after all triggers are created (prevents forced reflows)
     if (hasRealScrollTrigger) {

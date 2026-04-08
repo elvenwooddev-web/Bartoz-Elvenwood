@@ -219,7 +219,6 @@
   --z-modal: 1000;
   --z-popover: 1100;
   --z-tooltip: 1200;
-  --z-cursor: 10000;
 }
 
 /* Scroll lock when mobile nav is open */
@@ -265,7 +264,6 @@ body {
   background-color: var(--color-off-white);
   color: var(--color-charcoal);
   overflow-x: hidden;
-  cursor: none;
   font-weight: 400;
   /* Editorial legibility */
   letter-spacing: -0.01em;
@@ -294,10 +292,6 @@ body::before {
   opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   mix-blend-mode: soft-light;
-}
-
-a, button, input, select, textarea {
-  cursor: none;
 }
 
 a {
@@ -1185,49 +1179,6 @@ address {
   transform: translateY(0);
 }
 
-/* ---------- Custom Cursor (Enhanced like reference) ---------- */
-.cursor {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--color-charcoal);
-  pointer-events: none;
-  z-index: var(--z-cursor);
-  transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease, background-color 0.3s ease;
-  opacity: 0.6;
-}
-
-/* Cursor on dark backgrounds - use light color */
-.cursor.cursor--light {
-  background-color: var(--color-off-white);
-}
-
-.cursor-label {
-  display: none;
-}
-
-/* Subtle grow on interactive elements - no large overlay */
-.cursor.cursor--active,
-.cursor.cursor--view,
-.cursor.cursor--hover {
-  width: 12px;
-  height: 12px;
-  opacity: 0.8;
-}
-
-.cursor.cursor--link {
-  width: 10px;
-  height: 10px;
-  background-color: var(--color-terracotta);
-  opacity: 0.7;
-}
-
-/* Scrolling state */
-.cursor.cursor--scrolling {
-  opacity: 0.3;
-}
 
 /* ---------- Preloader (Light, minimal, elegant) ---------- */
 .preloader {
@@ -2105,6 +2056,7 @@ button:hover .arrow-icon {
   align-items: center;
   justify-content: center;
   opacity: 0;
+  cursor: default;
   transition: opacity 0.3s ease;
 }
 
@@ -5416,10 +5368,10 @@ body.is-loading {
   border-radius: clamp(0.75rem, 0.5rem + 0.5vw, 1.5rem);
   overflow: hidden;
   background: var(--color-white);
+  cursor: pointer;
   transition:
     transform 0.5s var(--ease-smooth),
     box-shadow 0.5s var(--ease-smooth);
-  cursor: none;
 }
 
 .project-grid-card:hover {
@@ -5490,6 +5442,7 @@ body.is-loading {
   align-items: center;
   justify-content: center;
   opacity: 0;
+  cursor: default;
   transition: opacity 0.3s ease;
 }
 
@@ -5961,14 +5914,6 @@ body.is-loading {
     --gap-huge: clamp(2rem, 1.5rem + 2vw, 3.5rem);
     --gap-large: clamp(1.5rem, 1rem + 1vw, 2.5rem);
     --gap-standard: clamp(1rem, 0.75rem + 1vw, 1.5rem);
-  }
-
-  body {
-    cursor: auto;
-  }
-
-  .cursor {
-    display: none;
   }
 
   .header-logo-img {
@@ -6907,15 +6852,6 @@ button:focus-visible {
   /* Disable parallax */
   .about-marquee-inner {
     transform: none !important;
-  }
-
-  /* Disable custom cursor */
-  .cursor {
-    display: none !important;
-  }
-
-  body {
-    cursor: auto !important;
   }
 
   /* Disable hover transforms */
