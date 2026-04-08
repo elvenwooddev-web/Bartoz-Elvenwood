@@ -161,11 +161,19 @@ function initPreloader() {
     return;
   }
 
+  // Guard against double-init (observer + setTimeout fallback can both fire)
+  let pageAnimationsStarted = false;
+  function startPageAnimations() {
+    if (pageAnimationsStarted) return;
+    pageAnimationsStarted = true;
+    initPageAnimations();
+  }
+
   // Wait for inline JS to hide it, then init animations
   const observer = new MutationObserver(() => {
     if (preloader.style.display === 'none') {
       observer.disconnect();
-      initPageAnimations();
+      startPageAnimations();
     }
   });
   observer.observe(preloader, { attributes: true, attributeFilter: ['style'] });
@@ -177,37 +185,8 @@ function initPreloader() {
       preloader.style.display = 'none';
       document.body.classList.remove('is-loading');
     }
-    initPageAnimations();
+    startPageAnimations();
   }, 2000);
-}
-
-// ============================================
-// 3. CUSTOM CURSOR (Position tracking only)
-// ============================================
-function initCursor() {
-  const cursor = document.getElementById('cursor');
-  if (!cursor || window.innerWidth < 768 || prefersReducedMotion || 'ontouchstart' in window) return;
-
-  let mouseX = 0, mouseY = 0;
-  let cursorX = 0, cursorY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animateCursor() {
-    const speed = 0.15;
-    cursorX += (mouseX - cursorX) * speed;
-    cursorY += (mouseY - cursorY) * speed;
-
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
-  // Note: Hover effects handled by initEnhancedCursor()
 }
 
 // ============================================
@@ -543,7 +522,7 @@ function initScrollAnimations() {
           const nextCard = serviceCards[i + 1];
           gsap.to(card, {
             scale: 0.95,
-            opacity: 0.6,
+            opacity: 1,
             ease: 'power1.in',
             scrollTrigger: {
               trigger: nextCard,
@@ -883,8 +862,12 @@ function initMagneticButtons() {
     const magneticRange = 100; // pixels around button that activates effect
 
     let cachedRect = null;
+    let scrollHandler = null;
     btn.addEventListener('mouseenter', () => {
-      cachedRect = btn.getBoundingClientRect(); // Cache rect once on enter
+      cachedRect = btn.getBoundingClientRect();
+      // Update cached rect on scroll so magnetic pull stays accurate
+      scrollHandler = () => { cachedRect = btn.getBoundingClientRect(); };
+      window.addEventListener('scroll', scrollHandler, { passive: true });
       gsap.to(btn, {
         scale: 1.05,
         duration: 0.3,
@@ -912,6 +895,11 @@ function initMagneticButtons() {
     });
 
     btn.addEventListener('mouseleave', () => {
+      if (scrollHandler) {
+        window.removeEventListener('scroll', scrollHandler);
+        scrollHandler = null;
+      }
+      cachedRect = null;
       gsap.to(btn, {
         x: 0,
         y: 0,
@@ -2157,112 +2145,6 @@ function initBlurUpImages() {
 }
 
 // ============================================
-// ENHANCED CURSOR SYSTEM (like reference)
-// ============================================
-function initEnhancedCursor() {
-  const cursor = document.getElementById('cursor');
-  if (!cursor || window.innerWidth < 768 || prefersReducedMotion || 'ontouchstart' in window) return;
-
-  const cursorLabel = cursor.querySelector('.cursor-label');
-  let rotation = 0;
-  let lastX = 0;
-  let lastY = 0;
-
-  // Track mouse velocity for rotation (throttled via rAF)
-  let cursorRafPending = false;
-  let pendingDeltaX = 0;
-  document.addEventListener('mousemove', (e) => {
-    pendingDeltaX = e.clientX - lastX;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    if (cursorRafPending) return;
-    cursorRafPending = true;
-    requestAnimationFrame(() => {
-      const targetRotation = pendingDeltaX * 0.3;
-      rotation += (targetRotation - rotation) * 0.1;
-      cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
-      cursorRafPending = false;
-    });
-  });
-
-  // Different cursor states based on element type
-  const cursorStates = {
-    view: { text: 'VIEW', scale: 1.8 },
-    drag: { text: 'DRAG', scale: 1.5 },
-    link: { text: '', scale: 0.6 },
-    explore: { text: 'EXPLORE', scale: 2 },
-    play: { text: 'PLAY', scale: 2 },
-  };
-
-  // Apply cursor state
-  function setCursorState(state) {
-    if (cursorStates[state]) {
-      cursorLabel.textContent = cursorStates[state].text;
-      cursor.style.setProperty('--cursor-scale', cursorStates[state].scale);
-      cursor.classList.add('cursor--active');
-      cursor.classList.add(`cursor--${state}`);
-    }
-  }
-
-  function resetCursorState() {
-    cursorLabel.textContent = 'VIEW';
-    cursor.style.setProperty('--cursor-scale', 1);
-    cursor.classList.remove('cursor--active', 'cursor--view', 'cursor--drag', 'cursor--link', 'cursor--explore', 'cursor--play');
-  }
-
-  // Project cards - VIEW
-  document.querySelectorAll('.project-card, .project-grid-card, .featured-project-main, [data-cursor="view"]').forEach(el => {
-    el.addEventListener('mouseenter', () => setCursorState('view'));
-    el.addEventListener('mouseleave', resetCursorState);
-  });
-
-  // Carousels - DRAG
-  document.querySelectorAll('.types-carousel, .work-track, [data-cursor="drag"]').forEach(el => {
-    el.addEventListener('mouseenter', () => setCursorState('drag'));
-    el.addEventListener('mouseleave', resetCursorState);
-  });
-
-  // Videos - PLAY
-  document.querySelectorAll('video, [data-cursor="play"]').forEach(el => {
-    el.addEventListener('mouseenter', () => setCursorState('play'));
-    el.addEventListener('mouseleave', resetCursorState);
-  });
-
-  // Links and buttons - smaller cursor
-  document.querySelectorAll('a:not([data-cursor]), button:not([data-cursor])').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      if (!cursor.classList.contains('cursor--active')) {
-        cursor.classList.add('cursor--link');
-      }
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.classList.remove('cursor--link');
-    });
-  });
-
-  // Hide cursor on scroll (optional, for polish)
-  let scrollTimeout;
-  window.addEventListener('scroll', () => {
-    cursor.classList.add('cursor--scrolling');
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      cursor.classList.remove('cursor--scrolling');
-    }, 150);
-  }, { passive: true });
-
-  // Dark section detection - use light cursor on dark backgrounds
-  const darkSections = document.querySelectorAll('.bg-dark, .section--testimonials, .section--brand-cta, .terracotta-block, .section--featured-project, [data-theme="dark"]');
-  darkSections.forEach(section => {
-    section.addEventListener('mouseenter', () => {
-      cursor.classList.add('cursor--light');
-    });
-    section.addEventListener('mouseleave', () => {
-      cursor.classList.remove('cursor--light');
-    });
-  });
-}
-
-// ============================================
 // FACTORY VIDEO LOGIC
 // ============================================
 function initFactoryVideo() {
@@ -2450,7 +2332,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Deferred: below-fold animations + interactions (yield to main thread first)
   const deferInit = typeof requestIdleCallback === 'function' ? requestIdleCallback : (fn) => setTimeout(fn, 1);
   deferInit(() => {
-    initCursor();
     initMagneticButtons();
     initFactorySlider();
     initFactoryVideo();
@@ -2470,7 +2351,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initClipPathReveals();
     initDataDrivenAnimations();
     initScrubbedParallax();
-    initEnhancedCursor();
 
     // Single ScrollTrigger refresh after all triggers are created (prevents forced reflows)
     if (hasRealScrollTrigger) {
@@ -2965,14 +2845,19 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
       '/work': 'portfolio',
       '/about': 'about',
       '/experience-centre': 'experience_centre',
-      '/our-story': 'our_story',
+      '/our-story': 'our_story', // 301→/about on Vercel; kept for non-Vercel environments
       '/interior-designers-electronic-city': 'area_electronic_city',
       '/interior-designers-chandapura': 'area_chandapura',
       '/interior-designers-bommasandra': 'area_bommasandra',
       '/interior-designers-sarjapur-road': 'area_sarjapur_road',
       '/interior-designers-hsr-layout': 'area_hsr_layout',
+      '/interior-designers-anantnagar': 'area_anantnagar',
+      '/interior-designers-anekal': 'area_anekal',
       '/modular-kitchen-cost-bangalore': 'pricing_kitchen',
-      '/interior-design-cost-bangalore': 'pricing_interior'
+      '/interior-design-cost-bangalore': 'pricing_interior',
+      '/interiors-abode-99': 'project_abode_99',
+      '/interiors-brigade-valencia': 'project_brigade_valencia',
+      '/interiors-mahendra-aarya': 'project_mahendra_aarya'
     };
     return names[path] || path;
   }
@@ -2998,6 +2883,7 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
         else if (waLink.closest('.service-card-center')) location = 'service_card';
         else if (waLink.closest('.brand-cta-content')) location = 'brand_cta';
         else if (waLink.closest('.ec-visit-form')) location = 'callback_form_redirect';
+        else if (waLink.closest('.sticky-cta-bar')) location = 'sticky_cta_bar';
         else if (waLink.closest('.section--footer')) location = 'footer';
         trackEvent('whatsapp_click', { event_category: 'lead_generation', event_label: location, page_name: pageName, link_url: waLink.href });
         return;
@@ -3006,7 +2892,11 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
       // 2. Phone call
       var telLink = target.closest && target.closest('a[href^="tel:"]');
       if (telLink) {
-        trackEvent('phone_call_click', { event_category: 'lead_generation', event_label: telLink.href.replace('tel:', ''), page_name: pageName });
+        var telLocation = 'page_body';
+        if (telLink.closest('.sticky-cta-bar')) telLocation = 'sticky_cta_bar';
+        else if (telLink.closest('.section--footer')) telLocation = 'footer';
+        else if (telLink.closest('.hero-ctas')) telLocation = 'hero_cta';
+        trackEvent('phone_call_click', { event_category: 'lead_generation', event_label: telLink.href.replace('tel:', ''), page_name: pageName, click_location: telLocation });
         return;
       }
 
@@ -3116,11 +3006,13 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
   });
 
   // ---- 13. PAGE VIEW ENHANCED (with page type) ----
+  var currentPage = getPageName();
   trackEvent('enhanced_page_view', {
     event_category: 'pageview',
-    page_name: getPageName(),
-    page_type: getPageName().startsWith('area_') ? 'area_landing' :
-               getPageName().startsWith('pricing_') ? 'pricing_guide' :
+    page_name: currentPage,
+    page_type: currentPage.startsWith('area_') ? 'area_landing' :
+               currentPage.startsWith('pricing_') ? 'pricing_guide' :
+               currentPage.startsWith('project_') ? 'project_case_study' :
                'core_page',
     page_url: window.location.href,
     referrer: document.referrer || 'direct'

@@ -55,6 +55,10 @@ The website now pushes these events to `dataLayer`. You need GTM tags to forward
    - Variable name: "DLV - link_url" → Data Layer Variable Name: `link_url`
    - Variable name: "DLV - scroll_percentage" → Data Layer Variable Name: `scroll_percentage`
    - Variable name: "DLV - time_seconds" → Data Layer Variable Name: `time_seconds`
+   - Variable name: "DLV - page_type" → Data Layer Variable Name: `page_type`
+   - Variable name: "DLV - page_url" → Data Layer Variable Name: `page_url`
+   - Variable name: "DLV - referrer" → Data Layer Variable Name: `referrer`
+   - Variable name: "DLV - click_location" → Data Layer Variable Name: `click_location`
 
 4. Repeat for engagement events:
    - Trigger: Custom Event → `cta_click|scroll_depth|time_on_page|faq_click|area_page_click|social_click|project_view|enhanced_page_view` (regex)
@@ -152,8 +156,14 @@ To see the custom parameters in reports:
 | Event Category | event_category | Event |
 | Page Type | page_type | Event |
 | Link URL | link_url | Event |
-| Scroll Percentage | scroll_percentage | Event |
-| Time on Page (seconds) | time_seconds | Event |
+| Click Location | click_location | Event |
+
+3. Create **Custom Metrics** (Admin → Custom Definitions → Custom Metrics):
+
+| Metric Name | Event Parameter | Scope | Unit |
+|---|---|---|---|
+| Scroll Percentage | scroll_percentage | Event | Standard |
+| Time on Page Seconds | time_seconds | Event | Seconds |
 
 ---
 
@@ -216,3 +226,63 @@ GA4 → **Admin** → **Custom Insights**
 | FAQ click rate | faq_click events / page views | Shows which questions matter |
 | Scroll to 75%+ | scroll_depth 75% events / page views | > 30% of visitors |
 | Time > 60s | time_on_page 60s events / page views | > 40% of visitors |
+
+---
+
+## Indian Market Best Practices
+
+### GA4 Property Settings (Critical)
+- **Time zone:** IST (GMT+5:30) — set this when creating the property, difficult to change later without data issues
+- **Currency:** INR (Indian Rupee)
+- **Link Google Search Console:** Admin → Search Console Links — essential for seeing which keywords drive organic traffic to area pages
+
+### Mobile-First Analytics (75-85% of Indian traffic is mobile)
+- Create a **"Mobile Users" comparison segment** in GA4 and use it as default in all explorations
+- Key mobile metrics:
+  - **Click-to-call rate** = `phone_call_click / mobile sessions` — mobile users tap phone numbers directly
+  - **WhatsApp click rate by device** — should be very high on mobile (WhatsApp app opens directly)
+  - **Page load time** — check Core Web Vitals in Search Console; Indian 4G can be variable, slow pages kill conversions
+  - **Scroll depth on mobile** — shorter screens mean fewer users reach bottom CTAs; sticky CTA bar compensates
+
+### WhatsApp as Primary Lead Channel
+- WhatsApp is the #1 lead channel for Indian service businesses — track `whatsapp_click` as your primary key event
+- The `event_label` (location) dimension is critical: compare `sticky_cta_bar` vs `hero_cta` vs `floating_button` performance
+- Track `page_name` on WhatsApp clicks to see which content pages drive the most inquiries
+- **Target:** Area landing pages should convert at 3-5% (WhatsApp clicks / page views)
+
+### CTA Location Performance (new tracking)
+- **Sticky CTA bar** (`sticky_cta_bar`) — always visible on scroll, tracks both WhatsApp and Call clicks
+- **Floating button** (`floating_button`) — bottom-right WhatsApp icon
+- **Hero CTA** (`hero_cta`) — above-the-fold call to action
+- Compare these in GA4 → Explore → Rows: `event_label`, Filter: `whatsapp_click`
+- This tells you which CTA placement drives the most leads
+
+### Peak Traffic Hours (Bangalore Homeowners)
+- **Weekday peaks:** 10 AM–1 PM IST (morning research) and 7 PM–10 PM IST (post-work browsing)
+- **Weekend spikes:** Saturday-Sunday see higher traffic as couples research interiors together
+- Schedule any paid campaigns around these windows
+- Use GA4 → Reports → Realtime to monitor live traffic during peak hours
+
+### Regional/Local SEO Tracking
+- Use `page_type: area_landing` dimension to segment all area pages collectively
+- Watch for organic traffic growth to area pages (Search Console data in GA4)
+- Monitor referral traffic from Indian directories: Justdial, Sulekha, Urban Company, HomeLane
+- Each area page (Sarjapur Road, Electronic City, HSR Layout, etc.) should be tracked independently via `page_name`
+
+### Weekly Review Checklist
+1. Total WhatsApp clicks this week vs last week (trending up?)
+2. Which area pages getting organic traffic (Search Console)
+3. Mobile conversion rate vs desktop
+4. Top 3 FAQ questions clicked (content demand signals)
+5. Sticky CTA bar vs floating button click share
+6. Callback form submissions
+7. Referral traffic from Indian directories
+8. New project case study page views (are portfolio pages engaging?)
+
+### Page Type Summary (for filtering)
+| page_type | Pages | Purpose |
+|---|---|---|
+| `core_page` | homepage, services, portfolio, about, experience centre, our story | Main site pages |
+| `area_landing` | electronic city, chandapura, bommasandra, sarjapur road, HSR layout, anantnagar, anekal | Local SEO landing pages |
+| `pricing_guide` | modular kitchen cost, interior design cost | Pricing/cost comparison pages |
+| `project_case_study` | abode 99, brigade valencia, mahendra aarya | Client project showcases |
