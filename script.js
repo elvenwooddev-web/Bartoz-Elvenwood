@@ -161,11 +161,19 @@ function initPreloader() {
     return;
   }
 
+  // Guard against double-init (observer + setTimeout fallback can both fire)
+  let pageAnimationsStarted = false;
+  function startPageAnimations() {
+    if (pageAnimationsStarted) return;
+    pageAnimationsStarted = true;
+    initPageAnimations();
+  }
+
   // Wait for inline JS to hide it, then init animations
   const observer = new MutationObserver(() => {
     if (preloader.style.display === 'none') {
       observer.disconnect();
-      initPageAnimations();
+      startPageAnimations();
     }
   });
   observer.observe(preloader, { attributes: true, attributeFilter: ['style'] });
@@ -177,7 +185,7 @@ function initPreloader() {
       preloader.style.display = 'none';
       document.body.classList.remove('is-loading');
     }
-    initPageAnimations();
+    startPageAnimations();
   }, 2000);
 }
 
@@ -854,8 +862,12 @@ function initMagneticButtons() {
     const magneticRange = 100; // pixels around button that activates effect
 
     let cachedRect = null;
+    let scrollHandler = null;
     btn.addEventListener('mouseenter', () => {
-      cachedRect = btn.getBoundingClientRect(); // Cache rect once on enter
+      cachedRect = btn.getBoundingClientRect();
+      // Update cached rect on scroll so magnetic pull stays accurate
+      scrollHandler = () => { cachedRect = btn.getBoundingClientRect(); };
+      window.addEventListener('scroll', scrollHandler, { passive: true });
       gsap.to(btn, {
         scale: 1.05,
         duration: 0.3,
@@ -883,6 +895,11 @@ function initMagneticButtons() {
     });
 
     btn.addEventListener('mouseleave', () => {
+      if (scrollHandler) {
+        window.removeEventListener('scroll', scrollHandler);
+        scrollHandler = null;
+      }
+      cachedRect = null;
       gsap.to(btn, {
         x: 0,
         y: 0,
@@ -2989,12 +3006,13 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
   });
 
   // ---- 13. PAGE VIEW ENHANCED (with page type) ----
+  var currentPage = getPageName();
   trackEvent('enhanced_page_view', {
     event_category: 'pageview',
-    page_name: getPageName(),
-    page_type: getPageName().startsWith('area_') ? 'area_landing' :
-               getPageName().startsWith('pricing_') ? 'pricing_guide' :
-               getPageName().startsWith('project_') ? 'project_case_study' :
+    page_name: currentPage,
+    page_type: currentPage.startsWith('area_') ? 'area_landing' :
+               currentPage.startsWith('pricing_') ? 'pricing_guide' :
+               currentPage.startsWith('project_') ? 'project_case_study' :
                'core_page',
     page_url: window.location.href,
     referrer: document.referrer || 'direct'
