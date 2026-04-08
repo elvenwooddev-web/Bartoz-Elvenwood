@@ -181,7 +181,6 @@ function initPreloader() {
   }, 2000);
 }
 
-
 // ============================================
 // 4. PAGE ANIMATIONS (hub for all pages)
 // ============================================
@@ -2127,7 +2126,6 @@ function initBlurUpImages() {
     lazyObserver.observe(img);
   });
 }
-
 
 // ============================================
 // FACTORY VIDEO LOGIC
