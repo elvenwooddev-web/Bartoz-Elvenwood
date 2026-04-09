@@ -199,4 +199,38 @@
     </image:image>
   </url>
 
+  <!-- New Area Landing Pages (Apr 2026) -->
+  <url>
+    <loc>https://elvenwood.in/interior-designers-attibele</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://elvenwood.in/images/service_kitchen.webp</image:loc>
+      <image:title>Interior Designers in Attibele - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://elvenwood.in/interior-designers-hosur-road</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://elvenwood.in/images/factory1.webp</image:loc>
+      <image:title>Interior Designers on Hosur Road - Elvenwood Factory</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://elvenwood.in/interior-designers-whitefield</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://elvenwood.in/images/complete_interiors.webp</image:loc>
+      <image:title>Interior Designers in Whitefield - Elvenwood Interiors</image:title>
+    </image:image>
+  </url>
+
 </urlset>
