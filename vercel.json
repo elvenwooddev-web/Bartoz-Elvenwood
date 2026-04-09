@@ -35,7 +35,7 @@
     { "source": "/services/modular-kitchens", "destination": "/modular-kitchen-cost-bangalore", "permanent": true },
     { "source": "/services/wardrobes", "destination": "/services", "permanent": true },
     { "source": "/blog/modern-kitchen-design-trends", "destination": "/modular-kitchen-cost-bangalore", "permanent": true },
-    { "source": "/quote", "destination": "/experience-centre", "permanent": false },
+    { "source": "/quote", "destination": "/experience-centre", "permanent": true },
     { "source": "/our-story", "destination": "/about", "permanent": true }
   ]
 }
