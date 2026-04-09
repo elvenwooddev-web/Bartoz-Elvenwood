@@ -2676,6 +2676,11 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 
     if (!name || !phone) return;
 
+    // Analytics: track lead form submission
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'lead_form_submit', event_category: 'lead_generation', event_label: requirement || 'not_specified', page_name: document.title });
+    if (typeof gtag === 'function') gtag('event', 'lead_form_submit', { event_category: 'lead_generation', event_label: requirement || 'not_specified', page_name: document.title });
+
     // 1. Send to edge function → saves to DB + sends email to info@elvenwood.in
     fetch(EDGE_FN_URL, {
       method: 'POST',
@@ -2834,6 +2839,9 @@ document.querySelectorAll('.ec-video-item video').forEach(video => {
       event: eventName,
       ...params
     });
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, params);
+    }
   }
 
   // Helper: get current page name from URL

@@ -2,4 +2,7 @@
 .env*.local
 node_modules/
 .DS_Store
-videos/factory_tour_original.webm
+.claude/worktrees/
+ffmpeg2pass-0.log
+videos/*_original.*
+videos/*_prev.*
